@@ -1,8 +1,4 @@
 #include <iostream>
-#include "ipp.h"
-#include <vector>
-#include <string>
-
 #include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
