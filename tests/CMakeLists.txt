@@ -9,9 +9,19 @@ project(ipp_ext_catch2_tests)
 find_package(Catch2 3 REQUIRED)
 include_directories(${Catch2_INCLUDE_DIRS})
 
+ # Do this to include all the IPP paths for headers, assumed to be done by the normal vars.bat provided by oneAPI
+include_directories($ENV{INCLUDE} ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
+
+# Define the library paths for IPP
+find_library(ippcorelib NAMES ippcore ENV LIBRARY_PATH)
+find_library(ippslib NAMES ipps ENV LIBRARY_PATH)
+message("Libpath: " ${ippcorelib})
+message("Libpath: " ${ippslib})
+
+
 # Define test executable
 add_executable(tests test_vectors.cpp)
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(tests PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
 
 include(CTest)
 include(Catch)

@@ -1,100 +1,139 @@
 #include <iostream>
-// #include "ipp.h"
+#include "ipp.h"
 #include <vector>
 #include <string>
-// #include "../include/ipp_ext.h" // extensions header-only templates
+
+#include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
+TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
+{
+    SECTION("instantiate 8u"){
+        ippe::vector<Ipp8u> v8u;
+    }
+
+    SECTION("instantiate 16u"){
+        ippe::vector<Ipp16u> v16u;
+    }
+
+    SECTION("instantiate 32u"){
+        ippe::vector<Ipp32u> v32u;
+    }
+
+    SECTION ("instantiate 64u"){
+        ippe::vector<Ipp64u> v64u;
+    }
+
+    SECTION ("instantiate 8s") {
+        ippe::vector<Ipp8s> v8s;
+    }
+
+    SECTION ("instantiate 16s") {
+        ippe::vector<Ipp16s> v16s;
+    }
+
+    SECTION ("instantiate 32s") {
+        ippe::vector<Ipp32s> v32s;
+    }
+
+    SECTION ("instantiate 64s"){
+        ippe::vector<Ipp64s> v64s;
+    }
+
+    SECTION ("instantiate 32f") {
+        ippe::vector<Ipp32f> v32f;
+    }
+
+    SECTION ("instantiate 64f"){
+        ippe::vector<Ipp64f> v64f;
+    }
+
+    SECTION ("instantiate 8sc"){
+        ippe::vector<Ipp8sc> v8sc;
+    }
+
+    SECTION ("instantiate 16sc"){
+        ippe::vector<Ipp16sc> v16sc;
+    }
+
+    SECTION ("instantiate 32sc"){
+        ippe::vector<Ipp32sc> v32sc;
+    }
+
+    SECTION ("instantiate 64sc"){
+        ippe::vector<Ipp64sc> v64sc;
+    }
+
+    SECTION ("instantiate 32fc") {
+        ippe::vector<Ipp32fc> v32fc;
+    }
+
+    SECTION ("instantiate 64fc"){
+        ippe::vector<Ipp64fc> v64fc;
+    }
+
 }
 
-TEST_CASE( "Factorials are computed", "[factorial]" ) {
-    REQUIRE( Factorial(1) == 1 );
-    REQUIRE( Factorial(2) == 2 );
-    REQUIRE( Factorial(3) == 6 );
-    REQUIRE( Factorial(10) == 3628800 );
+TEST_CASE("ippe vector capacity and resizes", "[vector],[resize]"){
+    ippe::vector<Ipp64fc> data;
+
+    SECTION("resize once"){
+        data.resize(256);
+        REQUIRE(data.size() == 256);
+    }
+
+    SECTION("resize twice, to a smaller value"){
+        data.resize(256); // this should have reserved to 256
+        data.resize(8); // this does not affect the reserved capacity
+        REQUIRE(data.size() == 8);
+        REQUIRE(data.capacity() == 256);
+    }
 }
 
-// int main()
-// {
-// 	std::cout << "This is a IPP vector test." << std::endl;
-	
-// 	// instantiate a standard vector and see characteristics?
-// 	std::vector<int> oldvector;
-// 	std::cout << "std vector capacity = " << oldvector.capacity() << " and size = " << oldvector.size() << std::endl;
-// 	for (int i = 0; i < 1024; i++){
-// 		oldvector.push_back(1);
-// 		if (oldvector.capacity() != oldvector.size())
-// 		{
-// 			std::cout << "std vector capacity = " << oldvector.capacity() << " and size = " << oldvector.size() << std::endl;
-// 			break;
-// 		}
-// 	}
-// 	// resize to the capacity and check
-// 	oldvector.resize(oldvector.capacity());
-// 	std::cout << "std vector capacity = " << oldvector.capacity() << " and size = " << oldvector.size() << std::endl;
-// 	std::cout << "std vector last element = " << oldvector.back() << std::endl;
-// 	oldvector.push_back(10);
-// 	std::cout << "std vector capacity = " << oldvector.capacity() << " and size = " << oldvector.size() << std::endl;
-// 	std::cout << "std vector last element = " << oldvector.back() << std::endl;
-// 	oldvector.resize(2);
-// 	std::cout << "std vector capacity = " << oldvector.capacity() << " and size = " << oldvector.size() << std::endl;
-	
-// 	// test wrong template?
-// 	try{
-// 		ippe::vector<int> wrongdata;
-// 	}
-// 	catch(int err)
-// 	{
-// 		std::cout<<"Caught error " << err << std::endl;
-// 	}
-	
-// 	// create ipp template vectors
-// 	ippe::vector<Ipp64fc> data;
-// 	std::cout<<"ipp vector capacity = " << data.capacity() << " and size = " << data.size() << std::endl;
+TEST_CASE("ippe vector writes", "[vector],[write]"){
+    ippe::vector<Ipp64fc> data(128);
 
-// 	// try a resize
-// 	data.resize(256);
-// 	data.resize(128);
-// 	data.resize(8);
-// 	std::cout<<"ipp vector capacity = " << data.capacity() << " and size = " << data.size() << std::endl;
-	
-// 	// pushback some data
-// 	Ipp64fc val = {1.0, 2.0};
-// 	data.push_back(val);
-// 	std::cout<<"ipp vector size after push back is " << data.size() << std::endl;
-// 	std::cout << "pushed back value is " << data.back().re << ", " << data.back().im << std::endl;
-// 	std::cout << "or directly, = " << data.at(8).re << ", " << data.at(8).im << std::endl;
-	
-// 	// assign to last value
-// 	data.at(data.size()-1) = {10.0, 20.0};
-// 	// print allocate
-// 	for (int i = 0; i < data.size(); i++){
-// 		std::cout << "ipp vector val at " << i << " = " << data.at(i).re << ", " << data.at(i).im << std::endl;
-// 	}
-// 	// test exceptions
-// 	try{
-// 		data.at(data.size()) = {100.0, 200.0};
-// 	}
-// 	catch(std::out_of_range &exc){
-// 		std::cout<<exc.what()<<std::endl;
-// 	}
-	
-// 	// test a variety of templates
-// 	ippe::vector<Ipp8u> v_8u;
-// 	ippe::vector<Ipp16u> v_16u;
-// 	ippe::vector<Ipp16sc> v_16sc;
-// 	ippe::vector<Ipp32f> v_32f;
-// 	ippe::vector<Ipp64f> v_64f;
-	
-// 	// test their resizes
-// 	v_8u.resize(256);
-// 	v_16u.resize(256);
-// 	v_16sc.resize(256);
-// 	v_32f.resize(256);
-// 	v_64f.resize(256);
+    SECTION("pushback and access"){
+        Ipp64fc val = {1.0, 0.0};
+        data.push_back(val);
+        REQUIRE(data.size() == 129);
+        REQUIRE(data.back().re == val.re);
+        REQUIRE(data.back().im == val.im);
+        REQUIRE(data.at(128).re == val.re);
+        REQUIRE(data.at(128).im == val.im);
+    }
+}
 
-// 	return 0;
-// }
+TEST_CASE("ippe vector throws on non-IPP types", "[vector],[exceptions]"){
+    SECTION("double"){
+        try{
+            ippe::vector<double> data(128);
+        }
+        catch(const std::exception& e){
+            REQUIRE_THROWS_AS(throw e, std::domain_error);
+        }
+    }
+
+    SECTION("float"){
+        try{
+            ippe::vector<float> data(128);
+        }
+        catch(const std::exception& e){
+            REQUIRE_THROWS_AS(throw e, std::domain_error);
+        }
+    }
+}
+
+TEST_CASE("ippe vector exceptions", "[vector],[exceptions]"){
+    ippe::vector<Ipp64fc> data(128);
+
+    SECTION("access out of range"){
+        REQUIRE_THROWS_AS(data.at(128), std::out_of_range);
+    }
+}
+
+	
+
+
+

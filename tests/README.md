@@ -11,6 +11,14 @@ mkdir build
 cd build
 cmake -DCMAKE_PREFIX_PATH=%VCPKG_DIR%\\installed\\x64-windows\\share ..
 msbuild ALL_BUILD.vcxproj
+```
+
+There are then two ways to run the tests:
+
+```bash
+# Run ctest directly
 ctest
+# Or run the executable produced
+Debug\tests.exe # For example, this is where msvc will compile to
 ```
 
