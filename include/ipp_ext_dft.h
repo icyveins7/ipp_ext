@@ -12,7 +12,7 @@ namespace ippe
         public:
             // Constructors
             DFTCToC()
-                : m_length(0), m_flags(IPP_FFT_DIV_INV_BY_N)
+                : m_length{0}, m_flag{IPP_FFT_DIV_INV_BY_N}
             {
 
             }
