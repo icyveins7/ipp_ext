@@ -19,10 +19,15 @@ message("Libpath: " ${ippcorelib})
 message("Libpath: " ${ippslib})
 
 
-# Define test executable
-add_executable(tests test_vectors.cpp)
-target_link_libraries(tests PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+# Define test executable for vectors
+add_executable(test_vecs test_vectors.cpp)
+target_link_libraries(test_vecs PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+
+# Define test executable for dfts
+add_executable(test_dfts test_dft.cpp)
+target_link_libraries(test_dfts PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
 
 include(CTest)
 include(Catch)
-catch_discover_tests(tests)
+catch_discover_tests(test_vecs)
+catch_discover_tests(test_dfts)
