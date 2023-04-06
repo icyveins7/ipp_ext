@@ -10,7 +10,13 @@ namespace ippe
     class DFTCToC
     {
         public:
-            // Constructor
+            // Constructors
+            DFTCToC()
+                : m_length(0), m_flags(IPP_FFT_DIV_INV_BY_N)
+            {
+
+            }
+
             DFTCToC(size_t length, int flag = IPP_FFT_DIV_INV_BY_N)
                 : m_length{length}, m_flag{flag}
             {
