@@ -21,6 +21,9 @@ namespace ippe
 			size_t cap = 0;
 			T *m_data = nullptr; // initialise as nullptr to prevent segfaults on first reserve
 		
+            // Helper functions
+            bool isZero(const T &value); // see specializations below
+
 		public:
 		    // Constructors
 
@@ -30,13 +33,24 @@ namespace ippe
 				// do nothing
 			}
 
-            // Construct with certain size, auto-zeroed (following std::vector 'default-insert')
+            // Construct with certain size (unlike std::vector, we will not zero out the memory,
+            // since it may not be inherently obvious what the default-insertable value for all Ipp types are)
+            // If zero-ing is required, the next constructor with the value should be used instead
 			explicit vector(size_t count)
 			{
 				numel = count;
 				reserve(numel); // even if count is 0, reserve() will do nothing
-				zero();
 			}
+
+            vector(size_t count, const T &value)
+            {
+                numel = count;
+                reserve(numel); // even if count is 0, reserve() will do nothing
+                if (isZero(value))
+                    zero(); // zero the entire vector
+                else
+                    set(value); // set the entire vector to value  
+            }
 
 			~vector()
 			{
@@ -55,7 +69,19 @@ namespace ippe
 
 			// These only have specializations, see below
 			void reserve(size_t new_cap);
-			void zero();
+			void zero(int start, int length);
+            void zero()
+            {
+                zero(0, numel); // simply call the other one to fill the whole vector with 0
+            }
+
+            void set(int start, int length, const T& value);
+            void set(const T& value)
+            {
+                set(0, numel, value); // simply call the other one to fill the whole vector
+            }
+            // end of specializations
+
 
 			// Everything else below is to do with read-only access
 			T* data(){
@@ -72,12 +98,10 @@ namespace ippe
 			
 			T& at(size_t pos)
 			{
-				if (pos < numel && pos >= 0){
+				if (pos < numel && pos >= 0)
 					return m_data[pos];
-				}
-				else{
+				else
 					throw std::out_of_range(std::string("ippe::vector::range_check: Size is ") + std::to_string(numel));
-				}
 			}
 
             // true to std::vector, this will not perform bounds checking
@@ -440,89 +464,380 @@ namespace ippe
 	GOAL IS TO USE ippsZero_..() ==================
 	============================================== */
 	template <typename T>
-	inline void vector<T>::zero()
+	inline void vector<T>::zero(int start, int length)
 	{
 		throw std::runtime_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
 	}
 
 	// Note that not all of them have zeros for their type, but we use the same word length ones to replace it.
 	// Ipp8u zero
-	template <> inline void vector<Ipp8u>::zero(){
-		if (m_data != nullptr) ippsZero_8u((Ipp8u*)m_data, (int)numel);
+	template <> inline void vector<Ipp8u>::zero(int start, int length){
+		if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_8u((Ipp8u*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp8u>::zero() - index out of range or nullptr found.");
 	}
 
 	// Ipp16u zero
-	template <> inline void vector<Ipp16u>::zero(){
-        if (m_data!= nullptr) ippsZero_16s((Ipp16s*)m_data, (int)numel);
+	template <> inline void vector<Ipp16u>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_16s((Ipp16s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp16u>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp32u zero
-    template <> inline void vector<Ipp32u>::zero(){
-        if (m_data!= nullptr) ippsZero_32s((Ipp32s*)m_data, (int)numel);
+    template <> inline void vector<Ipp32u>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_32s((Ipp32s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp32u>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp64u zero
-    template <> inline void vector<Ipp64u>::zero(){
-        if (m_data!= nullptr) ippsZero_64s((Ipp64s*)m_data, (int)numel);
+    template <> inline void vector<Ipp64u>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_64s((Ipp64s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp64u>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp8s zero
-	template <> inline void vector<Ipp8s>::zero(){
-        if (m_data!= nullptr) ippsZero_8u((Ipp8u*)m_data, (int)numel);
+	template <> inline void vector<Ipp8s>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_8u((Ipp8u*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp8s>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp16s zero
-    template <> inline void vector<Ipp16s>::zero(){
-        if (m_data!= nullptr) ippsZero_16s((Ipp16s*)m_data, (int)numel);
+    template <> inline void vector<Ipp16s>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_16s((Ipp16s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp16s>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp32s zero
-    template <> inline void vector<Ipp32s>::zero(){
-        if (m_data!= nullptr) ippsZero_32s((Ipp32s*)m_data, (int)numel);
+    template <> inline void vector<Ipp32s>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_32s((Ipp32s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp32s>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp64s zero
-	template <> inline void vector<Ipp64s>::zero(){
-		if (m_data!= nullptr) ippsZero_64s((Ipp64s*)m_data, (int)numel);
+	template <> inline void vector<Ipp64s>::zero(int start, int length){
+		if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_64s((Ipp64s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp64s>::zero() - index out of range or nullptr found.");
 	}
 	
     // Ipp32f zero
-	template <> inline void vector<Ipp32f>::zero(){
-        if (m_data!= nullptr) ippsZero_32f((Ipp32f*)m_data, (int)numel);
+	template <> inline void vector<Ipp32f>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_32f((Ipp32f*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp32f>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp64f zero
-    template <> inline void vector<Ipp64f>::zero(){
-        if (m_data!= nullptr) ippsZero_64f((Ipp64f*)m_data, (int)numel);
+    template <> inline void vector<Ipp64f>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_64f((Ipp64f*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp64f>::zero() - index out of range or nullptr found.");
     }
 
 	// Ipp8sc zero
-	template <> inline void vector<Ipp8sc>::zero(){
-        if (m_data!= nullptr) ippsZero_16s((Ipp16s*)m_data, (int)numel);
+	template <> inline void vector<Ipp8sc>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_16s((Ipp16s*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp8sc>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp16sc zero
-    template <> inline void vector<Ipp16sc>::zero(){
-        if (m_data!= nullptr) ippsZero_16sc((Ipp16sc*)m_data, (int)numel);
+    template <> inline void vector<Ipp16sc>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_16sc((Ipp16sc*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp16sc>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp32sc zero
-    template <> inline void vector<Ipp32sc>::zero(){
-        if (m_data!= nullptr) ippsZero_32sc((Ipp32sc*)m_data, (int)numel);
+    template <> inline void vector<Ipp32sc>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_32sc((Ipp32sc*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp32sc>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp64sc zero
-    template <> inline void vector<Ipp64sc>::zero(){
-        if (m_data!= nullptr) ippsZero_64sc((Ipp64sc*)m_data, (int)numel);
+    template <> inline void vector<Ipp64sc>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_64sc((Ipp64sc*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp64sc>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp32fc zero
-	template <> inline void vector<Ipp32fc>::zero(){
-        if (m_data!= nullptr) ippsZero_32fc((Ipp32fc*)m_data, (int)numel);
+	template <> inline void vector<Ipp32fc>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_32fc((Ipp32fc*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp32fc>::zero() - index out of range or nullptr found.");
     }
 
     // Ipp64fc zero
-    template <> inline void vector<Ipp64fc>::zero(){
-        if (m_data!= nullptr) ippsZero_64fc((Ipp64fc*)m_data, (int)numel);
+    template <> inline void vector<Ipp64fc>::zero(int start, int length){
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsZero_64fc((Ipp64fc*)&m_data[start], (int)(length < 0 ? numel - start : length));
+        else
+            throw std::out_of_range("vector<Ipp64fc>::zero() - index out of range or nullptr found.");
     }
+
+    /* ===============================================
+	============== isZero SPECIALIZATIONS ===========
+	============================================== */
+	template <typename T>
+	inline bool vector<T>::isZero(const T& value){ return value == 0; }
+    // Now just specialize the complex valued ones
+    template <> inline bool vector<Ipp8sc>::isZero(const Ipp8sc& value){ return (value.re == 0 && value.im == 0); }
+    template <> inline bool vector<Ipp16sc>::isZero(const Ipp16sc& value){ return (value.re == 0 && value.im == 0); }
+    template <> inline bool vector<Ipp32sc>::isZero(const Ipp32sc& value){ return (value.re == 0 && value.im == 0); }
+    template <> inline bool vector<Ipp64sc>::isZero(const Ipp64sc& value){ return (value.re == 0 && value.im == 0); }
+    template <> inline bool vector<Ipp32fc>::isZero(const Ipp32fc& value){ return (value.re == 0 && value.im == 0); }
+    template <> inline bool vector<Ipp64fc>::isZero(const Ipp64fc& value){ return (value.re == 0 && value.im == 0); }
+
+    /* ===============================================
+	============== set SPECIALIZATIONS ===========
+	GOAL IS TO USE ippsSet_..(), but must cast for those that have missing functions
+    Note that Set only has functions for:
+    8u, 16s, 16sc, 32s, 32f, 32sc, 32fc, 64s, 64f, 64sc, 64fc
+	============================================== */
+    template <typename T>
+    inline void vector<T>::set(int start, int length, const T& value)
+    {
+        throw std::runtime_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
+    }
+
+    // Ipp8u specialization
+    template <> inline void vector<Ipp8u>::set(int start, int length, const Ipp8u& value)
+    {
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_8u(
+                *reinterpret_cast<const Ipp8u*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp8u*)&m_data[start],
+                (int)(length < 0 ? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp8u>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp16u specialization
+    template <> inline void vector<Ipp16u>::set(int start, int length, const Ipp16u& value)
+    {
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_16s(
+                *reinterpret_cast<const Ipp16s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp16s*)&m_data[start],
+                (int)(length < 0 ? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp16u>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp32u specialization
+    template <> inline void vector<Ipp32u>::set(int start, int length, const Ipp32u& value)
+    {
+        if (m_data != nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_32s(
+                *reinterpret_cast<const Ipp32s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp32s*)&m_data[start],
+                (int)(length < 0 ? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp32u>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp64u specialization
+    template <> inline void vector<Ipp64u>::set(int start, int length, const Ipp64u& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_64s(
+                *reinterpret_cast<const Ipp64s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp64s*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp64u>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp8s specialization
+    template <> inline void vector<Ipp8s>::set(int start, int length, const Ipp8s& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_8u(
+                *reinterpret_cast<const Ipp8u*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp8u*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp8s>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp16s specialization
+    template <> inline void vector<Ipp16s>::set(int start, int length, const Ipp16s& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_16s(
+                *reinterpret_cast<const Ipp16s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp16s*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp16s>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp32s specialization
+    template <> inline void vector<Ipp32s>::set(int start, int length, const Ipp32s& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_32s(
+                *reinterpret_cast<const Ipp32s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp32s*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp32s>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp64s specialization
+    template <> inline void vector<Ipp64s>::set(int start, int length, const Ipp64s& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_64s(
+                *reinterpret_cast<const Ipp64s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp64s*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp64s>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp32f specialization
+    template <> inline void vector<Ipp32f>::set(int start, int length, const Ipp32f& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_32f(
+                *reinterpret_cast<const Ipp32f*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp32f*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp32f>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp64f specialization
+    template <> inline void vector<Ipp64f>::set(int start, int length, const Ipp64f& value)
+    {
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_64f(
+                *reinterpret_cast<const Ipp64f*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp64f*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp64f>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp8sc specialization
+    template <> inline void vector<Ipp8sc>::set(int start, int length, const Ipp8sc& value)
+    {
+        // 8sc doesn't have a set, we ASSUME it is packed well into 16bits, so invoke accordingly
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_16s(
+                *reinterpret_cast<const Ipp16s*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp16s*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        // if this causes problems next time we'll fix it...
+        else
+            throw std::out_of_range("vector<Ipp8sc>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp16sc specialization
+    template <> inline void vector<Ipp16sc>::set(int start, int length, const Ipp16sc& value)
+    {
+        // 16sc does have a set
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_16sc(
+                *reinterpret_cast<const Ipp16sc*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp16sc*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp16sc>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp32sc specialization
+    template <> inline void vector<Ipp32sc>::set(int start, int length, const Ipp32sc& value)
+    {
+        // 32sc does have a set
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_32sc(
+                *reinterpret_cast<const Ipp32sc*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp32sc*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp32sc>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp64sc specialization
+    template <> inline void vector<Ipp64sc>::set(int start, int length, const Ipp64sc& value)
+    {
+        // 64sc does have a set
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_64sc(
+                *reinterpret_cast<const Ipp64sc*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp64sc*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp64sc>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp32fc specialization
+    template <> inline void vector<Ipp32fc>::set(int start, int length, const Ipp32fc& value)
+    {
+        // 32fc does have a set
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_32fc(
+                *reinterpret_cast<const Ipp32fc*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp32fc*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp32fc>::set() - index out of range or nullptr found.");
+    }
+
+    // Ipp64fc specialization
+    template <> inline void vector<Ipp64fc>::set(int start, int length, const Ipp64fc& value)
+    {
+        // 64fc does have a set
+        if (m_data!= nullptr && start >= 0 && start + length <= numel) 
+            ippsSet_64fc(
+                *reinterpret_cast<const Ipp64fc*>(&value), // note that we have reinterpreted the value as a similar sized word, in order to call Set
+                (Ipp64fc*)&m_data[start],
+                (int)(length < 0? numel - start : length)
+            );
+        else
+            throw std::out_of_range("vector<Ipp64fc>::set() - index out of range or nullptr found.");
+    }
+
+
+
 }

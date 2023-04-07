@@ -18,7 +18,7 @@ git clone https://github.com/icyveins7/ipp_ext.git
 cl mysource1.cpp mysource2.cpp ... -I"path/to/ipp_ext/include" ...
 ```
 
-
+### Description
 Individual header is contained in ```ipp_ext_vec.h```, but ```ipp_ext``` contains it.
 
 The ```ippe::vector<>``` container is meant as a drop-in replacement for the ```std::vector<>``` container. It doesn't have all the features of the latter, but probably enough to get you going for most cases. 
@@ -28,3 +28,10 @@ This vector has templates for all the IPP types (```Ipp64fc``` all the way to ``
 Importantly, it utilises the ```ippsMalloc``` and ```ippsCopy``` functions to deal with memory allocation, so that IPP can properly utilise the 64-byte boundary of the arrays allocated.
 
 See ```examples/vector_example.cpp``` for a simple example.
+
+### Comparison with std::vector
+The ```ippe::vector<>``` container was designed primarily as a memory management container, and as such does not replicate all of the ```std::vector<>``` features.
+
+1. Constructor does not set values to 'default-insertable'. This means that the underlying array elements for ```ippe::vector<>``` are undefined by default, whereas ```std::vector<>``` instead usually sets this to 0.
+2. We bridge over this zero-ing functionality to the other constructor which ```std::vector<>``` also has, of the form ```vector(count, value)```, and invoke the ```ippsSet``` and ```ippsZero``` functions appropriately. Hence, to achieve the same 0-valued array, use ```ippe::vector<>(count, zeroval)``` (where ```zeroval``` may need to be defined beforehand for complex IPP types).
+3. Instead of ```std::vector```'s ```assign```, we instead have ```set``` (and ```zero```), which does not mutate the array size. The call structure uses integers to mark the index of the element to start, and the length of the array to use, which corresponds to the IPP function structure. There is also a convenience overload with no arguments for both, which will simply ```set```/```zero``` the entire vector.

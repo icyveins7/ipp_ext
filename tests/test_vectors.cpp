@@ -16,8 +16,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp8u> v8u_size(2);
         REQUIRE(v8u_size.size() == 2);
         REQUIRE(v8u_size.capacity() == 2);
-        REQUIRE(v8u_size.at(0) == 0); // both values should be 0
-        REQUIRE(v8u_size.at(1) == 0);
+
+        ippe::vector<Ipp8u> v8u_size_zeroed(2, 0);
+        REQUIRE(v8u_size_zeroed.size() == 2);
+        REQUIRE(v8u_size_zeroed.capacity() == 2);
+        Ipp8u z = 0;
+        REQUIRE(v8u_size_zeroed.at(0) == z);
+        REQUIRE(v8u_size_zeroed.at(1) == z);
+
+        Ipp8u v = 10;
+        ippe::vector<Ipp8u> v8u_size_valued(2, v);
+        REQUIRE(v8u_size_valued.size() == 2);
+        REQUIRE(v8u_size_valued.capacity() == 2);
+        REQUIRE(v8u_size_valued.at(0) == v);
+        REQUIRE(v8u_size_valued.at(1) == v);
     }
 
     SECTION("instantiate 16u"){
@@ -28,8 +40,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp16u> v16u_size(2);
         REQUIRE(v16u_size.size() == 2);
         REQUIRE(v16u_size.capacity() == 2);
-        REQUIRE(v16u_size.at(0) == 0); // both values should be 0
-        REQUIRE(v16u_size.at(1) == 0);
+        
+        ippe::vector<Ipp16u> v16u_size_zeroed(2, 0);
+        REQUIRE(v16u_size_zeroed.size() == 2);
+        REQUIRE(v16u_size_zeroed.capacity() == 2);
+        Ipp16u z = 0;
+        REQUIRE(v16u_size_zeroed.at(0) == z);
+        REQUIRE(v16u_size_zeroed.at(1) == z);
+
+        Ipp16u v = 10;
+        ippe::vector<Ipp16u> v16u_size_valued(2, v);
+        REQUIRE(v16u_size_valued.size() == 2);
+        REQUIRE(v16u_size_valued.capacity() == 2);
+        REQUIRE(v16u_size_valued.at(0) == v);
+        REQUIRE(v16u_size_valued.at(1) == v);
     }
 
     SECTION("instantiate 32u"){
@@ -40,8 +64,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp32u> v32u_size(2);
         REQUIRE(v32u_size.size() == 2);
         REQUIRE(v32u_size.capacity() == 2);
-        REQUIRE(v32u_size.at(0) == 0); // both values should be 0
-        REQUIRE(v32u_size.at(1) == 0);
+
+        ippe::vector<Ipp32u> v32u_size_zeroed(2, 0);
+        REQUIRE(v32u_size_zeroed.size() == 2);
+        REQUIRE(v32u_size_zeroed.capacity() == 2);
+        Ipp32u z = 0;
+        REQUIRE(v32u_size_zeroed.at(0) == z);
+        REQUIRE(v32u_size_zeroed.at(1) == z);
+
+        Ipp32u v = 10;
+        ippe::vector<Ipp32u> v32u_size_valued(2, v);
+        REQUIRE(v32u_size_valued.size() == 2);
+        REQUIRE(v32u_size_valued.capacity() == 2);
+        REQUIRE(v32u_size_valued.at(0) == v);
+        REQUIRE(v32u_size_valued.at(1) == v);
     }
 
     SECTION ("instantiate 64u"){
@@ -52,8 +88,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp64u> v64u_size(2);
         REQUIRE(v64u_size.size() == 2);
         REQUIRE(v64u_size.capacity() == 2);
-        REQUIRE(v64u_size.at(0) == 0); // both values should be 0
-        REQUIRE(v64u_size.at(1) == 0);
+
+        ippe::vector<Ipp64u> v64u_size_zeroed(2, 0);
+        REQUIRE(v64u_size_zeroed.size() == 2);
+        REQUIRE(v64u_size_zeroed.capacity() == 2);
+        Ipp64u z = 0;
+        REQUIRE(v64u_size_zeroed.at(0) == z);
+        REQUIRE(v64u_size_zeroed.at(1) == z);
+
+        Ipp64u v = 10;
+        ippe::vector<Ipp64u> v64u_size_valued(2, v);
+        REQUIRE(v64u_size_valued.size() == 2);
+        REQUIRE(v64u_size_valued.capacity() == 2);
+        REQUIRE(v64u_size_valued.at(0) == v);
+        REQUIRE(v64u_size_valued.at(1) == v);
     }
 
     SECTION ("instantiate 8s") {
@@ -64,8 +112,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp8s> v8s_size(2);
         REQUIRE(v8s_size.size() == 2);
         REQUIRE(v8s_size.capacity() == 2);
-        REQUIRE(v8s_size.at(0) == 0); // both values should be 0
-        REQUIRE(v8s_size.at(1) == 0);
+
+        ippe::vector<Ipp8s> v8s_size_zeroed(2, 0);
+        REQUIRE(v8s_size_zeroed.size() == 2);
+        REQUIRE(v8s_size_zeroed.capacity() == 2);
+        Ipp8s z = 0;
+        REQUIRE(v8s_size_zeroed.at(0) == z);
+        REQUIRE(v8s_size_zeroed.at(1) == z);
+
+        Ipp8s v = 10;
+        ippe::vector<Ipp8s> v8s_size_valued(2, v);
+        REQUIRE(v8s_size_valued.size() == 2);
+        REQUIRE(v8s_size_valued.capacity() == 2);
+        REQUIRE(v8s_size_valued.at(0) == v);
+        REQUIRE(v8s_size_valued.at(1) == v);
     }
 
     SECTION ("instantiate 16s") {
@@ -76,8 +136,21 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp16s> v16s_size(2);
         REQUIRE(v16s_size.size() == 2);
         REQUIRE(v16s_size.capacity() == 2);
-        REQUIRE(v16s_size.at(0) == 0); // both values should be 0
-        REQUIRE(v16s_size.at(1) == 0);
+        
+        ippe::vector<Ipp16s> v16s_size_zeroed(2, 0);
+        REQUIRE(v16s_size_zeroed.size() == 2);
+        REQUIRE(v16s_size_zeroed.capacity() == 2);
+        Ipp16s z = 0;
+        REQUIRE(v16s_size_zeroed.at(0) == z);
+        REQUIRE(v16s_size_zeroed.at(1) == z);
+
+        Ipp16s v = 10;
+        ippe::vector<Ipp16s> v16s_size_valued(2, v);
+        REQUIRE(v16s_size_valued.size() == 2);
+        REQUIRE(v16s_size_valued.capacity() == 2);
+        REQUIRE(v16s_size_valued.at(0) == v);
+        REQUIRE(v16s_size_valued.at(1) == v);
+
     }
 
     SECTION ("instantiate 32s") {
@@ -88,8 +161,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp32s> v32s_size(2);
         REQUIRE(v32s_size.size() == 2);
         REQUIRE(v32s_size.capacity() == 2);
-        REQUIRE(v32s_size.at(0) == 0); // both values should be 0
-        REQUIRE(v32s_size.at(1) == 0);
+        
+        ippe::vector<Ipp32s> v32s_size_zeroed(2, 0);
+        REQUIRE(v32s_size_zeroed.size() == 2);
+        REQUIRE(v32s_size_zeroed.capacity() == 2);
+        Ipp32s z = 0;
+        REQUIRE(v32s_size_zeroed.at(0) == z);
+        REQUIRE(v32s_size_zeroed.at(1) == z);
+
+        Ipp32s v = 10;
+        ippe::vector<Ipp32s> v32s_size_valued(2, v);
+        REQUIRE(v32s_size_valued.size() == 2);
+        REQUIRE(v32s_size_valued.capacity() == 2);
+        REQUIRE(v32s_size_valued.at(0) == v);
+        REQUIRE(v32s_size_valued.at(1) == v);
     }
 
     SECTION ("instantiate 64s"){
@@ -100,8 +185,21 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp64s> v64s_size(2);
         REQUIRE(v64s_size.size() == 2);
         REQUIRE(v64s_size.capacity() == 2);
-        REQUIRE(v64s_size.at(0) == 0); // both values should be 0
-        REQUIRE(v64s_size.at(1) == 0);
+        
+        ippe::vector<Ipp64s> v64s_size_zeroed(2, 0);
+        REQUIRE(v64s_size_zeroed.size() == 2);
+        REQUIRE(v64s_size_zeroed.capacity() == 2);
+        Ipp64s z = 0;
+        REQUIRE(v64s_size_zeroed.at(0) == z);
+        REQUIRE(v64s_size_zeroed.at(1) == z);
+
+        Ipp64s v = 10;
+        ippe::vector<Ipp64s> v64s_size_valued(2, v);
+        REQUIRE(v64s_size_valued.size() == 2);
+        REQUIRE(v64s_size_valued.capacity() == 2);
+        REQUIRE(v64s_size_valued.at(0) == v);
+        REQUIRE(v64s_size_valued.at(1) == v);
+
     }
 
     SECTION ("instantiate 32f") {
@@ -112,8 +210,21 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp32f> v32f_size(2);
         REQUIRE(v32f_size.size() == 2);
         REQUIRE(v32f_size.capacity() == 2);
-        REQUIRE(v32f_size.at(0) == 0); // both values should be 0
-        REQUIRE(v32f_size.at(1) == 0);
+        
+        ippe::vector<Ipp32f> v32f_size_zeroed(2, 0);
+        REQUIRE(v32f_size_zeroed.size() == 2);
+        REQUIRE(v32f_size_zeroed.capacity() == 2);
+        Ipp32f z = 0;
+        REQUIRE(v32f_size_zeroed.at(0) == z);
+        REQUIRE(v32f_size_zeroed.at(1) == z);
+
+        Ipp32f v = 10.0;
+        ippe::vector<Ipp32f> v32f_size_valued(2, v);
+        REQUIRE(v32f_size_valued.size() == 2);
+        REQUIRE(v32f_size_valued.capacity() == 2);
+        REQUIRE(v32f_size_valued.at(0) == v);
+        REQUIRE(v32f_size_valued.at(1) == v);
+
     }
 
     SECTION ("instantiate 64f"){
@@ -124,8 +235,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp64f> v64f_size(2);
         REQUIRE(v64f_size.size() == 2);
         REQUIRE(v64f_size.capacity() == 2);
-        REQUIRE(v64f_size.at(0) == 0); // both values should be 0
-        REQUIRE(v64f_size.at(1) == 0);
+        
+        ippe::vector<Ipp64f> v64f_size_zeroed(2, 0);
+        REQUIRE(v64f_size_zeroed.size() == 2);
+        REQUIRE(v64f_size_zeroed.capacity() == 2);
+        Ipp64f z = 0;
+        REQUIRE(v64f_size_zeroed.at(0) == z);
+        REQUIRE(v64f_size_zeroed.at(1) == z);
+
+        Ipp64f v = 10.0;
+        ippe::vector<Ipp64f> v64f_size_valued(2, v);
+        REQUIRE(v64f_size_valued.size() == 2);
+        REQUIRE(v64f_size_valued.capacity() == 2);
+        REQUIRE(v64f_size_valued.at(0) == v);
+        REQUIRE(v64f_size_valued.at(1) == v);
     }
 
     SECTION ("instantiate 8sc"){
@@ -136,8 +259,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp8sc> v8sc_size(2);
         REQUIRE(v8sc_size.size() == 2);
         REQUIRE(v8sc_size.capacity() == 2);
-        REQUIRE((v8sc_size.at(0).re == 0 && v8sc_size.at(0).im == 0)); // both values should be 0
-        REQUIRE((v8sc_size.at(1).re == 0 && v8sc_size.at(1).im == 0));
+        
+        Ipp8sc z = {0,0};
+        ippe::vector<Ipp8sc> v8sc_size_zeroed(2, z);
+        REQUIRE(v8sc_size_zeroed.size() == 2);
+        REQUIRE(v8sc_size_zeroed.capacity() == 2);
+        REQUIRE((v8sc_size_zeroed.at(0).re == z.re && v8sc_size_zeroed.at(0).im == z.im));
+        REQUIRE((v8sc_size_zeroed.at(1).re == z.re && v8sc_size_zeroed.at(1).im == z.im));
+
+        Ipp8sc v = {-10,-10};
+        ippe::vector<Ipp8sc> v8sc_size_valued(2, v);
+        REQUIRE(v8sc_size_valued.size() == 2);
+        REQUIRE(v8sc_size_valued.capacity() == 2);
+        REQUIRE((v8sc_size_valued.at(0).re == v.re && v8sc_size_valued.at(0).im == v.im));
+        REQUIRE((v8sc_size_valued.at(1).re == v.re && v8sc_size_valued.at(1).im == v.im));
     }
 
     SECTION ("instantiate 16sc"){
@@ -148,8 +283,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp16sc> v16sc_size(2);
         REQUIRE(v16sc_size.size() == 2);
         REQUIRE(v16sc_size.capacity() == 2);
-        REQUIRE((v16sc_size.at(0).re == 0 && v16sc_size.at(0).im == 0)); // both values should be 0
-        REQUIRE((v16sc_size.at(1).re == 0 && v16sc_size.at(1).im == 0));
+
+        Ipp16sc z = {0,0};
+        ippe::vector<Ipp16sc> v16sc_size_zeroed(2, z);
+        REQUIRE(v16sc_size_zeroed.size() == 2);
+        REQUIRE(v16sc_size_zeroed.capacity() == 2);
+        REQUIRE((v16sc_size_zeroed.at(0).re == z.re && v16sc_size_zeroed.at(0).im == z.im));
+        REQUIRE((v16sc_size_zeroed.at(1).re == z.re && v16sc_size_zeroed.at(1).im == z.im));
+
+        Ipp16sc v = {10,10};
+        ippe::vector<Ipp16sc> v16sc_size_valued(2, v);
+        REQUIRE(v16sc_size_valued.size() == 2);
+        REQUIRE(v16sc_size_valued.capacity() == 2);
+        REQUIRE((v16sc_size_valued.at(0).re == v.re && v16sc_size_valued.at(0).im == v.im));
+        REQUIRE((v16sc_size_valued.at(1).re == v.re && v16sc_size_valued.at(1).im == v.im));
     }
 
     SECTION ("instantiate 32sc"){
@@ -160,8 +307,21 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp32sc> v32sc_size(2);
         REQUIRE(v32sc_size.size() == 2);
         REQUIRE(v32sc_size.capacity() == 2);
-        REQUIRE((v32sc_size.at(0).re == 0 && v32sc_size.at(0).im == 0)); // both values should be 0
-        REQUIRE((v32sc_size.at(1).re == 0 && v32sc_size.at(1).im == 0));
+        
+        Ipp32sc z = {0,0};
+        ippe::vector<Ipp32sc> v32sc_size_zeroed(2, z);
+        REQUIRE(v32sc_size_zeroed.size() == 2);
+        REQUIRE(v32sc_size_zeroed.capacity() == 2);
+        REQUIRE((v32sc_size_zeroed.at(0).re == z.re && v32sc_size_zeroed.at(0).im == z.im));
+        REQUIRE((v32sc_size_zeroed.at(1).re == z.re && v32sc_size_zeroed.at(1).im == z.im));
+
+        Ipp32sc v = {10,10};
+        ippe::vector<Ipp32sc> v32sc_size_valued(2, v);
+        REQUIRE(v32sc_size_valued.size() == 2);
+        REQUIRE(v32sc_size_valued.capacity() == 2);
+        REQUIRE((v32sc_size_valued.at(0).re == v.re && v32sc_size_valued.at(0).im == v.im));
+        REQUIRE((v32sc_size_valued.at(1).re == v.re && v32sc_size_valued.at(1).im == v.im));
+
     }
 
     SECTION ("instantiate 64sc"){
@@ -172,8 +332,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp64sc> v64sc_size(2);
         REQUIRE(v64sc_size.size() == 2);
         REQUIRE(v64sc_size.capacity() == 2);
-        REQUIRE((v64sc_size.at(0).re == 0 && v64sc_size.at(0).im == 0)); // both values should be 0
-        REQUIRE((v64sc_size.at(1).re == 0 && v64sc_size.at(1).im == 0));
+        
+        Ipp64sc z = {0,0};
+        ippe::vector<Ipp64sc> v64sc_size_zeroed(2, z);
+        REQUIRE(v64sc_size_zeroed.size() == 2);
+        REQUIRE(v64sc_size_zeroed.capacity() == 2);
+        REQUIRE((v64sc_size_zeroed.at(0).re == z.re && v64sc_size_zeroed.at(0).im == z.im));
+        REQUIRE((v64sc_size_zeroed.at(1).re == z.re && v64sc_size_zeroed.at(1).im == z.im));
+
+        Ipp64sc v = {10,10};
+        ippe::vector<Ipp64sc> v64sc_size_valued(2, v);
+        REQUIRE(v64sc_size_valued.size() == 2);
+        REQUIRE(v64sc_size_valued.capacity() == 2);
+        REQUIRE((v64sc_size_valued.at(0).re == v.re && v64sc_size_valued.at(0).im == v.im));
+        REQUIRE((v64sc_size_valued.at(1).re == v.re && v64sc_size_valued.at(1).im == v.im));
     }
 
     SECTION ("instantiate 32fc") {
@@ -184,8 +356,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp32fc> v32fc_size(2);
         REQUIRE(v32fc_size.size() == 2);
         REQUIRE(v32fc_size.capacity() == 2);
-        REQUIRE((v32fc_size.at(0).re == 0 && v32fc_size.at(0).im == 0)); // both values should be 0
-        REQUIRE((v32fc_size.at(1).re == 0 && v32fc_size.at(1).im == 0));
+
+        Ipp32fc z = {0,0};
+        ippe::vector<Ipp32fc> v32fc_size_zeroed(2, z);
+        REQUIRE(v32fc_size_zeroed.size() == 2);
+        REQUIRE(v32fc_size_zeroed.capacity() == 2);
+        REQUIRE((v32fc_size_zeroed.at(0).re == z.re && v32fc_size_zeroed.at(0).im == z.im));
+        REQUIRE((v32fc_size_zeroed.at(1).re == z.re && v32fc_size_zeroed.at(1).im == z.im));
+
+        Ipp32fc v = {10,10};
+        ippe::vector<Ipp32fc> v32fc_size_valued(2, v);
+        REQUIRE(v32fc_size_valued.size() == 2);
+        REQUIRE(v32fc_size_valued.capacity() == 2);
+        REQUIRE((v32fc_size_valued.at(0).re == v.re && v32fc_size_valued.at(0).im == v.im));
+        REQUIRE((v32fc_size_valued.at(1).re == v.re && v32fc_size_valued.at(1).im == v.im));
     }
 
     SECTION ("instantiate 64fc"){
@@ -196,8 +380,20 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         ippe::vector<Ipp64fc> v64fc_size(2);
         REQUIRE(v64fc_size.size() == 2);
         REQUIRE(v64fc_size.capacity() == 2);
-        REQUIRE((v64fc_size.at(0).re == 0 && v64fc_size.at(0).im == 0)); // both values should be 0
-        REQUIRE((v64fc_size.at(1).re == 0 && v64fc_size.at(1).im == 0));
+
+        Ipp64fc z = {0,0};
+        ippe::vector<Ipp64fc> v64fc_size_zeroed(2, z);
+        REQUIRE(v64fc_size_zeroed.size() == 2);
+        REQUIRE(v64fc_size_zeroed.capacity() == 2);
+        REQUIRE((v64fc_size_zeroed.at(0).re == z.re && v64fc_size_zeroed.at(0).im == z.im));
+        REQUIRE((v64fc_size_zeroed.at(1).re == z.re && v64fc_size_zeroed.at(1).im == z.im));
+
+        Ipp64fc v = {10,10};
+        ippe::vector<Ipp64fc> v64fc_size_valued(2, v);
+        REQUIRE(v64fc_size_valued.size() == 2);
+        REQUIRE(v64fc_size_valued.capacity() == 2);
+        REQUIRE((v64fc_size_valued.at(0).re == v.re && v64fc_size_valued.at(0).im == v.im));
+        REQUIRE((v64fc_size_valued.at(1).re == v.re && v64fc_size_valued.at(1).im == v.im));
     }
 
 }
@@ -257,6 +453,17 @@ TEST_CASE("ippe vector exceptions", "[vector],[exceptions]"){
 
     SECTION("access out of range"){
         REQUIRE_THROWS_AS(data.at(128), std::out_of_range);
+    }
+
+    SECTION("zero out of range"){
+        REQUIRE_THROWS_AS(data.zero(-1, 10), std::out_of_range);
+        REQUIRE_THROWS_AS(data.zero(127, 10), std::out_of_range);
+    }
+
+    SECTION("set out of range"){
+        Ipp64fc v = {1.0, 0.0};
+        REQUIRE_THROWS_AS(data.set(-1, 10, v), std::out_of_range);
+        REQUIRE_THROWS_AS(data.set(127, 10, v), std::out_of_range);
     }
 }
 
