@@ -1,3 +1,8 @@
+/*
+Note that all specializations are inlined in order to ensure that
+multiply defined symbols errors do not occur.
+*/
+
 #pragma once
 
 #include "ipp.h"
@@ -75,14 +80,14 @@ namespace ippe
     ==================== SPECIALIZATIONS FOR PREPARE ====================================
     */
     template <typename T>
-    void DFTCToC<T>::prepare_dft()
+    inline void DFTCToC<T>::prepare_dft()
     {
         throw std::domain_error("No constructor for this type. DFTCToC currently only supports 32f, 64f, 32fc and 64fc.");
     }
 
     // specialization for Ipp32f
     template <>
-    void DFTCToC<Ipp32f>::prepare_dft()
+    inline void DFTCToC<Ipp32f>::prepare_dft()
     {
         // First get the size of the structure required
         IppStatus status = ippsDFTGetSize_C_32f(
@@ -117,7 +122,7 @@ namespace ippe
 
     // specialization for Ipp64f
     template <>
-    void DFTCToC<Ipp64f>::prepare_dft()
+    inline void DFTCToC<Ipp64f>::prepare_dft()
     {
         // First get the size of the structure required
         IppStatus status = ippsDFTGetSize_C_64f(
@@ -152,7 +157,7 @@ namespace ippe
 
     // specialization for Ipp32fc
     template <>
-    void DFTCToC<Ipp32fc>::prepare_dft()
+    inline void DFTCToC<Ipp32fc>::prepare_dft()
     {
         // First get the size of the structure required
         IppStatus status = ippsDFTGetSize_C_32fc(
@@ -188,7 +193,7 @@ namespace ippe
 
     // specialization for Ipp64fc
     template <>
-    void DFTCToC<Ipp64fc>::prepare_dft()
+    inline void DFTCToC<Ipp64fc>::prepare_dft()
     {
         // First get the size of the structure required
         IppStatus status = ippsDFTGetSize_C_64fc(
@@ -225,14 +230,14 @@ namespace ippe
     ======================= SPECIALIZATIONS FOR FORWARD ====================================
     */
     template <typename T>
-    void DFTCToC<T>::fwd(const T* src, T* dst, const T* srcIm, T* dstIm)
+    inline void DFTCToC<T>::fwd(const T* src, T* dst, const T* srcIm, T* dstIm)
     {
         throw std::domain_error("We should never hit this error. DFTCToC currently only supports 32f, 64f, 32fc and 64fc.");
     }
 
     // specialization for Ipp32f
     template <>
-    void DFTCToC<Ipp32f>::fwd(const Ipp32f* src, Ipp32f* dst, const Ipp32f* srcIm, Ipp32f* dstIm)
+    inline void DFTCToC<Ipp32f>::fwd(const Ipp32f* src, Ipp32f* dst, const Ipp32f* srcIm, Ipp32f* dstIm)
     {
         // call the IPP specific fwd function for Ipp32f
         IppStatus status = ippsDFTFwd_CToC_32f(
@@ -250,7 +255,7 @@ namespace ippe
 
     // specialization for Ipp64f
     template <>
-    void DFTCToC<Ipp64f>::fwd(const Ipp64f* src, Ipp64f* dst, const Ipp64f* srcIm, Ipp64f* dstIm)
+    inline void DFTCToC<Ipp64f>::fwd(const Ipp64f* src, Ipp64f* dst, const Ipp64f* srcIm, Ipp64f* dstIm)
     {
         // call the IPP specific fwd function for Ipp64f
         IppStatus status = ippsDFTFwd_CToC_64f(
@@ -268,7 +273,7 @@ namespace ippe
 
     // specialization for Ipp32fc
     template <>
-    void DFTCToC<Ipp32fc>::fwd(const Ipp32fc* src, Ipp32fc* dst, const Ipp32fc* srcIm, Ipp32fc* dstIm)
+    inline void DFTCToC<Ipp32fc>::fwd(const Ipp32fc* src, Ipp32fc* dst, const Ipp32fc* srcIm, Ipp32fc* dstIm)
     {
         // call the IPP specific fwd function for Ipp32fc
         IppStatus status = ippsDFTFwd_CToC_32fc(
@@ -284,7 +289,7 @@ namespace ippe
 
     // specialization for Ipp64fc
     template <>
-    void DFTCToC<Ipp64fc>::fwd(const Ipp64fc* src, Ipp64fc* dst, const Ipp64fc* srcIm, Ipp64fc* dstIm)
+    inline void DFTCToC<Ipp64fc>::fwd(const Ipp64fc* src, Ipp64fc* dst, const Ipp64fc* srcIm, Ipp64fc* dstIm)
     {
         // call the IPP specific fwd function for Ipp64fc
         IppStatus status = ippsDFTFwd_CToC_64fc(
@@ -302,14 +307,14 @@ namespace ippe
     ======================= SPECIALIZATIONS FOR BACKWARD ====================================
     */
     template <typename T>
-    void DFTCToC<T>::bwd(const T* src, T* dst, const T* srcIm, T* dstIm)
+    inline void DFTCToC<T>::bwd(const T* src, T* dst, const T* srcIm, T* dstIm)
     {
         throw std::domain_error("We should never hit this error. DFTCToC currently only supports 32f, 64f, 32fc and 64fc.");
     }
 
     // specialization for Ipp32f
     template <>
-    void DFTCToC<Ipp32f>::bwd(const Ipp32f* src, Ipp32f* dst, const Ipp32f* srcIm, Ipp32f* dstIm)
+    inline void DFTCToC<Ipp32f>::bwd(const Ipp32f* src, Ipp32f* dst, const Ipp32f* srcIm, Ipp32f* dstIm)
     {
         // call the IPP specific bwd function for Ipp32f
         IppStatus status = ippsDFTInv_CToC_32f(
@@ -327,7 +332,7 @@ namespace ippe
 
     // specialization for Ipp64f
     template <>
-    void DFTCToC<Ipp64f>::bwd(const Ipp64f* src, Ipp64f* dst, const Ipp64f* srcIm, Ipp64f* dstIm)
+    inline void DFTCToC<Ipp64f>::bwd(const Ipp64f* src, Ipp64f* dst, const Ipp64f* srcIm, Ipp64f* dstIm)
     {
         // call the IPP specific bwd function for Ipp64f
         IppStatus status = ippsDFTInv_CToC_64f(
@@ -345,7 +350,7 @@ namespace ippe
 
     // specialization for Ipp32fc
     template <>
-    void DFTCToC<Ipp32fc>::bwd(const Ipp32fc* src, Ipp32fc* dst, const Ipp32fc* srcIm, Ipp32fc* dstIm)
+    inline void DFTCToC<Ipp32fc>::bwd(const Ipp32fc* src, Ipp32fc* dst, const Ipp32fc* srcIm, Ipp32fc* dstIm)
     {
         // call the IPP specific bwd function for Ipp32fc
         IppStatus status = ippsDFTInv_CToC_32fc(
@@ -361,7 +366,7 @@ namespace ippe
 
     // specialization for Ipp64fc
     template <>
-    void DFTCToC<Ipp64fc>::bwd(const Ipp64fc* src, Ipp64fc* dst, const Ipp64fc* srcIm, Ipp64fc* dstIm)
+    inline void DFTCToC<Ipp64fc>::bwd(const Ipp64fc* src, Ipp64fc* dst, const Ipp64fc* srcIm, Ipp64fc* dstIm)
     {
         // call the IPP specific bwd function for Ipp64fc
         IppStatus status = ippsDFTInv_CToC_64fc(

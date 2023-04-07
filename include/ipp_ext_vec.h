@@ -1,3 +1,8 @@
+/*
+Note that all specializations are inlined in order to ensure that
+multiply defined symbols errors do not occur.
+*/
+
 #pragma once
 
 #include "ipp.h"
@@ -117,14 +122,14 @@ namespace ippe
 	============================================== */
 	// default reserve
 	template <typename T>
-    void vector<T>::reserve(size_t new_cap)
+    inline void vector<T>::reserve(size_t new_cap)
 	{
 		throw std::domain_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
 	}
 
 	// Ipp8u reserve
 	template <>
-    void vector<Ipp8u>::reserve(size_t new_cap)
+    inline void vector<Ipp8u>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
 		{
@@ -143,7 +148,7 @@ namespace ippe
 
 	// Ipp16u reserve
 	template <>
-    void vector<Ipp16u>::reserve(size_t new_cap)
+    inline void vector<Ipp16u>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -162,7 +167,7 @@ namespace ippe
 
 	// Ipp32u reserve
 	template <>
-    void vector<Ipp32u>::reserve(size_t new_cap)
+    inline void vector<Ipp32u>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -181,7 +186,7 @@ namespace ippe
 
 	// Ipp64u reserve
 	template <>
-    void vector<Ipp64u>::reserve(size_t new_cap)
+    inline void vector<Ipp64u>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -200,7 +205,7 @@ namespace ippe
 
 	// Ipp8s reserve
 	template <>
-    void vector<Ipp8s>::reserve(size_t new_cap)
+    inline void vector<Ipp8s>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -219,7 +224,7 @@ namespace ippe
 
 	// Ipp16s reserve
 	template <>
-    void vector<Ipp16s>::reserve(size_t new_cap)
+    inline void vector<Ipp16s>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -238,7 +243,7 @@ namespace ippe
 
 	// Ipp32s reserve
 	template <>
-    void vector<Ipp32s>::reserve(size_t new_cap)
+    inline void vector<Ipp32s>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -257,7 +262,7 @@ namespace ippe
 
 	// Ipp64s reserve
 	template <>
-    void vector<Ipp64s>::reserve(size_t new_cap)
+    inline void vector<Ipp64s>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -276,7 +281,7 @@ namespace ippe
 
 	// Ipp32f reserve
 	template <>
-    void vector<Ipp32f>::reserve(size_t new_cap)
+    inline void vector<Ipp32f>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -295,7 +300,7 @@ namespace ippe
 
 	// Ipp64f reserve
 	template <>
-    void vector<Ipp64f>::reserve(size_t new_cap)
+    inline void vector<Ipp64f>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -314,7 +319,7 @@ namespace ippe
 
 	// Ipp8sc reserve
 	template <>
-    void vector<Ipp8sc>::reserve(size_t new_cap)
+    inline void vector<Ipp8sc>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -333,7 +338,7 @@ namespace ippe
 
 	// Ipp16sc reserve
 	template <>
-    void vector<Ipp16sc>::reserve(size_t new_cap)
+    inline void vector<Ipp16sc>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -352,7 +357,7 @@ namespace ippe
 
 	// Ipp32sc reserve
 	template <>
-    void vector<Ipp32sc>::reserve(size_t new_cap)
+    inline void vector<Ipp32sc>::reserve(size_t new_cap)
 	{
 		if (new_cap > cap)
         {
@@ -371,7 +376,7 @@ namespace ippe
 
 	// Ipp64sc reserve
 	template <>
-    void vector<Ipp64sc>::reserve(size_t new_cap)
+    inline void vector<Ipp64sc>::reserve(size_t new_cap)
     {
         if (new_cap > cap)
         {
@@ -390,7 +395,7 @@ namespace ippe
 
 	// Ipp32fc reserve
 	template <>
-    void vector<Ipp32fc>::reserve(size_t new_cap)
+    inline void vector<Ipp32fc>::reserve(size_t new_cap)
     {
         if (new_cap > cap)
         {
@@ -409,7 +414,7 @@ namespace ippe
 
 	// Ipp64fc reserve
 	template <>
-    void vector<Ipp64fc>::reserve(size_t new_cap)
+    inline void vector<Ipp64fc>::reserve(size_t new_cap)
     {
         if (new_cap > cap)
         {

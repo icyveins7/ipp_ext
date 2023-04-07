@@ -3,6 +3,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "test_vectors_encapsulation.h"
+
 TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
 {
     SECTION("instantiate 8u"){
@@ -127,6 +129,12 @@ TEST_CASE("ippe vector exceptions", "[vector],[exceptions]"){
     SECTION("access out of range"){
         REQUIRE_THROWS_AS(data.at(128), std::out_of_range);
     }
+}
+
+// this test is mainly here to ensure that compilation still works
+// when the header is included and used in several cpp files
+TEST_CASE("ippe vector encapsulation compile test", "[vector],[compile]"){
+    EncapsulateVector ev;
 }
 
 	
