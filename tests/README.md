@@ -5,12 +5,26 @@ We will be using Catch2 for the unit tests. Install it by following the link [he
 vcpkg install catch2:x64-windows
 ```
 
+# Easy Testing
+
+Set up your environment variable to point ```VCPKG_DIR``` to your vcpkg directory.
+CMake should automatically detect and set the necessary prefixes to find Catch2 installed there.
+
+Then just run 
+
+```bash
+mkdir build
+cd build
+cmake ..
+msbuild ALL_BUILD.vcxproj # you can add /m:4 for multithread building
+```
+
 # Running with CMake (as an example on a Windows machine using vcpkg)
 ```bash
 mkdir build
 cd build
 cmake -DCMAKE_PREFIX_PATH=%VCPKG_DIR%\\installed\\x64-windows\\share ..
-msbuild ALL_BUILD.vcxproj
+msbuild ALL_BUILD.vcxproj # you can add /m:4 for multithread building
 ```
 
 There are then two ways to run the tests:

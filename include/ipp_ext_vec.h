@@ -22,20 +22,24 @@ namespace ippe
 			T *m_data = nullptr; // initialise as nullptr to prevent segfaults on first reserve
 		
 		public:
-		    // Constructor only has specializations, see below
-			vector(size_t count = 0)
+		    // Constructors
+
+			// Default constructor
+			vector()
 			{
-				// std::cout << "Base ctor for all specialized types." << std::endl;
+				// do nothing
+			}
+
+            // Construct with certain size, auto-zeroed (following std::vector 'default-insert')
+			explicit vector(size_t count)
+			{
 				numel = count;
-				// define cap to be same as numel if less than the default
-				// this prevents capacity from being set to 0, which prevents the array from being a nullptr
-				// reserve this capacity right now
-				reserve(numel > INITIAL_CAP ? numel : INITIAL_CAP);
+				reserve(numel); // even if count is 0, reserve() will do nothing
+				zero();
 			}
 
 			~vector()
 			{
-				// std::cout<<"Destructing base ipp vector."<<std::endl;
 				ippsFree(m_data);
 			}
 
@@ -49,9 +53,9 @@ namespace ippe
 				numel = new_count; 
 			}
 
-			// This only has specializations, see below
+			// These only have specializations, see below
 			void reserve(size_t new_cap);
-
+			void zero();
 
 			// Everything else below is to do with read-only access
 			T* data(){
@@ -429,5 +433,96 @@ namespace ippe
 			// set the new capacity
 			cap = new_cap;
         }
+    }
+
+	/* ===============================================
+	============== ZERO SPECIALIZATIONS ===========
+	GOAL IS TO USE ippsZero_..() ==================
+	============================================== */
+	template <typename T>
+	inline void vector<T>::zero()
+	{
+		throw std::runtime_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
+	}
+
+	// Note that not all of them have zeros for their type, but we use the same word length ones to replace it.
+	// Ipp8u zero
+	template <> inline void vector<Ipp8u>::zero(){
+		if (m_data != nullptr) ippsZero_8u((Ipp8u*)m_data, (int)numel);
+	}
+
+	// Ipp16u zero
+	template <> inline void vector<Ipp16u>::zero(){
+        if (m_data!= nullptr) ippsZero_16s((Ipp16s*)m_data, (int)numel);
+    }
+
+    // Ipp32u zero
+    template <> inline void vector<Ipp32u>::zero(){
+        if (m_data!= nullptr) ippsZero_32s((Ipp32s*)m_data, (int)numel);
+    }
+
+    // Ipp64u zero
+    template <> inline void vector<Ipp64u>::zero(){
+        if (m_data!= nullptr) ippsZero_64s((Ipp64s*)m_data, (int)numel);
+    }
+
+    // Ipp8s zero
+	template <> inline void vector<Ipp8s>::zero(){
+        if (m_data!= nullptr) ippsZero_8u((Ipp8u*)m_data, (int)numel);
+    }
+
+    // Ipp16s zero
+    template <> inline void vector<Ipp16s>::zero(){
+        if (m_data!= nullptr) ippsZero_16s((Ipp16s*)m_data, (int)numel);
+    }
+
+    // Ipp32s zero
+    template <> inline void vector<Ipp32s>::zero(){
+        if (m_data!= nullptr) ippsZero_32s((Ipp32s*)m_data, (int)numel);
+    }
+
+    // Ipp64s zero
+	template <> inline void vector<Ipp64s>::zero(){
+		if (m_data!= nullptr) ippsZero_64s((Ipp64s*)m_data, (int)numel);
+	}
+	
+    // Ipp32f zero
+	template <> inline void vector<Ipp32f>::zero(){
+        if (m_data!= nullptr) ippsZero_32f((Ipp32f*)m_data, (int)numel);
+    }
+
+    // Ipp64f zero
+    template <> inline void vector<Ipp64f>::zero(){
+        if (m_data!= nullptr) ippsZero_64f((Ipp64f*)m_data, (int)numel);
+    }
+
+	// Ipp8sc zero
+	template <> inline void vector<Ipp8sc>::zero(){
+        if (m_data!= nullptr) ippsZero_16s((Ipp16s*)m_data, (int)numel);
+    }
+
+    // Ipp16sc zero
+    template <> inline void vector<Ipp16sc>::zero(){
+        if (m_data!= nullptr) ippsZero_16sc((Ipp16sc*)m_data, (int)numel);
+    }
+
+    // Ipp32sc zero
+    template <> inline void vector<Ipp32sc>::zero(){
+        if (m_data!= nullptr) ippsZero_32sc((Ipp32sc*)m_data, (int)numel);
+    }
+
+    // Ipp64sc zero
+    template <> inline void vector<Ipp64sc>::zero(){
+        if (m_data!= nullptr) ippsZero_64sc((Ipp64sc*)m_data, (int)numel);
+    }
+
+    // Ipp32fc zero
+	template <> inline void vector<Ipp32fc>::zero(){
+        if (m_data!= nullptr) ippsZero_32fc((Ipp32fc*)m_data, (int)numel);
+    }
+
+    // Ipp64fc zero
+    template <> inline void vector<Ipp64fc>::zero(){
+        if (m_data!= nullptr) ippsZero_64fc((Ipp64fc*)m_data, (int)numel);
     }
 }
