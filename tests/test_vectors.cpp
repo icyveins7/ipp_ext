@@ -412,6 +412,17 @@ TEST_CASE("ippe vector capacity and resizes", "[vector],[resize]"){
         REQUIRE(data.size() == 8);
         REQUIRE(data.capacity() == 256);
     }
+
+    SECTION("resize with value"){
+        Ipp64fc a = {0, 0};
+        Ipp64fc b = {1, 1};
+        data.resize(1, a);
+        data.resize(2, b);
+
+        REQUIRE(data.size() == 2);
+        REQUIRE((data.at(0).re == a.re && data.at(0).im == a.im));
+        REQUIRE((data.at(1).re == b.re && data.at(1).im == b.im));
+    }
 }
 
 TEST_CASE("ippe vector writes", "[vector],[write]"){

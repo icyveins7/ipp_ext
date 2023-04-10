@@ -67,6 +67,25 @@ namespace ippe
 				numel = new_count; 
 			}
 
+            void resize(size_t new_count, const T& value)
+            {
+                // keep the old size
+                size_t oldsize = numel;
+
+                // resize as per normal
+                resize(new_count);
+
+                // write the values from the old to the new (strictly if its larger)
+                if (numel > oldsize)
+                {
+                    if (isZero(value))
+                        zero(oldsize, numel-oldsize); // zero up to the new count
+                    else
+                        set(oldsize, numel-oldsize, value); // set the value up to the new count
+
+                }
+            }
+
 			// These only have specializations, see below
 			void reserve(size_t new_cap);
 			void zero(int start, int length);
