@@ -31,14 +31,23 @@ find_package(Catch2 3 REQUIRED)
 include_directories(${Catch2_INCLUDE_DIRS})
 
  # Do this to include all the IPP paths for headers, assumed to be done by the normal vars.bat provided by oneAPI
-include_directories($ENV{INCLUDE} ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
+include_directories($ENV{INCLUDE} $ENV{CPATH} ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
+# On linux it's CPATH, on win it's INCLUDE
 
 # Define the library paths for IPP
-find_library(ippcorelib NAMES ippcore ENV LIBRARY_PATH)
-find_library(ippslib NAMES ipps ENV LIBRARY_PATH)
-message("Libpath: " ${ippcorelib})
-message("Libpath: " ${ippslib})
-
+if (WIN32)
+    message("Finding IPP libraries for Windows...")
+    find_library(ippcorelib NAMES ippcore ENV LIBRARY_PATH)
+    find_library(ippslib NAMES ipps ENV LIBRARY_PATH) # Did i actually need HINTS here too?
+    message("Libpath: " ${ippcorelib})
+    message("Libpath: " ${ippslib})
+else ()
+    message("Finding IPP libraries for Linux...")
+    find_library(ippcorelib NAMES libippcore ippcore HINTS ENV LD_LIBRARY_PATH)
+    find_library(ippslib NAMES libipps ipps HINTS ENV LD_LIBRARY_PATH)
+    message("Libpath: " ${ippcorelib})
+    message("Libpath: " ${ippslib})
+endif()
 
 # Define test executable for vectors
 add_executable(test_vecs test_vectors.cpp test_vectors_encapsulation.cpp)
