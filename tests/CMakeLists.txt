@@ -57,7 +57,12 @@ target_link_libraries(test_vecs PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2Wi
 add_executable(test_dfts test_dft.cpp)
 target_link_libraries(test_dfts PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
 
+# Define test executable for filters
+add_executable(test_filters test_filters.cpp)
+target_link_libraries(test_filters PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 catch_discover_tests(test_vecs)
 catch_discover_tests(test_dfts)
+catch_discover_tests(test_filters)
