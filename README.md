@@ -42,3 +42,10 @@ Individual header is contained in ```ipp_ext_dft.h```. This ```ippe::DFTCToC``` 
 
 The class takes care of internal workspace allocation and deallocation, and allows you to simply call ```fwd()``` or ```bwd()``` which are the equivalent of FFT/IFFT functions. See the ```dft_example.cpp``` for the simplest example.
 
+## Extension 3: FIRSR
+### Description
+Individual header is contained in ```ipp_ext_filter.h```. The parent class ```ippe::FIRSR``` is not meant to be instantiated directly; instead, use the derived classes with the below currently implemented flavours:
+
+1. ```ippe::FIRSRLowpass``` creates a lowpass filter.
+
+These classes take care of internal taps generation, memory allocation and de-allocation, and all workspace requirements, including a delay vector that properly accounts for repeated ```filter()``` invocations. See ```filter_example.cpp``` for a simple example.
