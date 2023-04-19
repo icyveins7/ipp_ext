@@ -44,6 +44,9 @@ namespace ippe
         /// @return Pointer to the filter taps
         T* getTaps(){ return m_taps; }
 
+        /// @brief Resets the delay buffer to zeroes, see template specializations.
+        void reset();
+
     protected:
         // Constructor and destructor are protected to prevent direct instantiation.
         FIRSR(int tapsLen)
@@ -142,6 +145,55 @@ namespace ippe
     }
 
     /*
+    Template specializations for reset()
+    */
+    template <typename T>
+    inline void FIRSR<T>::reset()
+    {
+        throw std::runtime_error("FIRSR::reset() not implemented for generic types.");
+    }
+
+    // Ipp32f specialization
+    template <>
+    inline void FIRSR<Ipp32f>::reset()
+    {
+        // Simply zero the correct length
+        IppStatus sts;
+        if ((sts = ippsZero_32f(m_delay, m_tapsLen-1))!= ippStsNoErr)
+            throw std::runtime_error("ippsZero_32f() failed with error code " + std::to_string(sts));
+    }
+
+    // Ipp64f specialization
+    template <>
+    inline void FIRSR<Ipp64f>::reset()
+    {
+        // Simply zero the correct length
+        IppStatus sts;
+        if ((sts = ippsZero_64f(m_delay, m_tapsLen-1))!= ippStsNoErr)
+            throw std::runtime_error("ippsZero_64f() failed with error code " + std::to_string(sts));
+    }
+
+    // Ipp32fc specialization
+    template <>
+    inline void FIRSR<Ipp32fc>::reset()
+    {
+        // Simply zero the correct length
+        IppStatus sts;
+        if ((sts = ippsZero_32fc(m_delay, m_tapsLen-1))!= ippStsNoErr)
+            throw std::runtime_error("ippsZero_32fc() failed with error code " + std::to_string(sts));
+    }
+
+    // Ipp64fc specialization
+    template <>
+    inline void FIRSR<Ipp64fc>::reset()
+    {
+        // Simply zero the correct length
+        IppStatus sts;
+        if ((sts = ippsZero_64fc(m_delay, m_tapsLen-1))!= ippStsNoErr)
+            throw std::runtime_error("ippsZero_64fc() failed with error code " + std::to_string(sts));
+    }
+
+    /*
     Template specializations for setup()
     */
     template <typename T>
@@ -161,6 +213,8 @@ namespace ippe
 
         // Allocate the delay buffer
         m_delay = ippsMalloc_32f_L(m_tapsLen-1);
+        // Zero the delay buffer
+        reset();
 
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
@@ -188,6 +242,8 @@ namespace ippe
 
         // Allocate the delay buffer
         m_delay = ippsMalloc_64f_L(m_tapsLen-1);
+        // Zero the delay buffer
+        reset();
 
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
@@ -214,7 +270,9 @@ namespace ippe
             
         // Allocate the delay buffer
         m_delay = ippsMalloc_32fc_L(m_tapsLen-1);
-        
+        // Zero the delay buffer
+        reset();
+
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
         if((sts = ippsFIRSRGetSize(m_tapsLen, ipp32fc, &specSize, &bufSize))!= ippStsNoErr)
@@ -240,6 +298,8 @@ namespace ippe
             
         // Allocate the delay buffer
         m_delay = ippsMalloc_64fc_L(m_tapsLen-1);
+        // Zero the delay buffer
+        reset();
         
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
