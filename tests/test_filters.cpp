@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
@@ -132,8 +133,8 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
 
         // Check the results
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i].re - out2[i].re) < tolerance);
-            REQUIRE(abs(out1[i].im - out2[i].im) < tolerance);
+            REQUIRE(fabs(out1[i].re - out2[i].re) < tolerance);
+            REQUIRE(fabs(out1[i].im - out2[i].im) < tolerance);
         }
 
         // reset the filter and run the filter again, to show that it's identical
@@ -141,16 +142,16 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         lowpass.filter(data.data(), out1.data(), out1.size());
 
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i].re - out2[i].re) < tolerance);
-            REQUIRE(abs(out1[i].im - out2[i].im) < tolerance);
+            REQUIRE(fabs(out1[i].re - out2[i].re) < tolerance);
+            REQUIRE(fabs(out1[i].im - out2[i].im) < tolerance);
         }
 
         // Show that not resetting and running it will cause the first few to be wrong
         lowpass.filter(data.data(), out1.data(), out1.size());
 
         for (int i = 0; i < tapsLen - 1; i++){
-            REQUIRE(abs(out1[i].re - out2[i].re) > tolerance);
-            REQUIRE(abs(out1[i].im - out2[i].im) > tolerance);
+            REQUIRE(fabs(out1[i].re - out2[i].re) > tolerance);
+            REQUIRE(fabs(out1[i].im - out2[i].im) > tolerance);
         }
     }
 
@@ -173,8 +174,8 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         
         // Check the results
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i].re - out2[i].re) < tolerance);
-            REQUIRE(abs(out1[i].im - out2[i].im) < tolerance);
+            REQUIRE(fabs(out1[i].re - out2[i].re) < tolerance);
+            REQUIRE(fabs(out1[i].im - out2[i].im) < tolerance);
         }
         
         // reset the filter and run the filter again, to show that it's identical
@@ -182,16 +183,16 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         lowpass.filter(data.data(), out1.data(), out1.size());
         
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i].re - out2[i].re) < tolerance);
-            REQUIRE(abs(out1[i].im - out2[i].im) < tolerance);
+            REQUIRE(fabs(out1[i].re - out2[i].re) < tolerance);
+            REQUIRE(fabs(out1[i].im - out2[i].im) < tolerance);
         }
         
         // Show that not resetting and running it will cause the first few to be wrong
         lowpass.filter(data.data(), out1.data(), out1.size());
         
         for (int i = 0; i < tapsLen - 1; i++){
-            REQUIRE(abs(out1[i].re - out2[i].re) > tolerance);
-            REQUIRE(abs(out1[i].im - out2[i].im) > tolerance);
+            REQUIRE(fabs(out1[i].re - out2[i].re) > tolerance);
+            REQUIRE(fabs(out1[i].im - out2[i].im) > tolerance);
         }
     }
 
@@ -214,7 +215,7 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         
         // Check the results
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i] - out2[i]) < tolerance);
+            REQUIRE(fabs(out1[i] - out2[i]) < tolerance);
         }
         
         // reset the filter and run the filter again, to show that it's identical
@@ -222,14 +223,14 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         lowpass.filter(data.data(), out1.data(), out1.size());
 
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i] - out2[i]) < tolerance);
+            REQUIRE(fabs(out1[i] - out2[i]) < tolerance);
         }
         
         // Show that not resetting and running it will cause the first few to be wrong
         lowpass.filter(data.data(), out1.data(), out1.size());
         
         for (int i = 0; i < tapsLen - 1; i++){
-            REQUIRE(abs(out1[i] - out2[i]) > tolerance);
+            REQUIRE(fabs(out1[i] - out2[i]) > tolerance);
         }
     }
 
@@ -252,7 +253,7 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         
         // Check the results
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i] - out2[i]) < tolerance);
+            REQUIRE(fabs(out1[i] - out2[i]) < tolerance);
         }
         
         // reset the filter and run the filter again, to show that it's identical
@@ -260,14 +261,14 @@ TEST_CASE("ippe filter filter execution", "[filter],[execution]")
         lowpass.filter(data.data(), out1.data(), out1.size());
         
         for (int i = 0; i < dataLen; i++){
-            REQUIRE(abs(out1[i] - out2[i]) < tolerance);
+            REQUIRE(fabs(out1[i] - out2[i]) < tolerance);
         }
         
         // Show that not resetting and running it will cause the first few to be wrong
         lowpass.filter(data.data(), out1.data(), out1.size());
         
         for (int i = 0; i < tapsLen - 1; i++){
-            REQUIRE(abs(out1[i] - out2[i]) > tolerance);
+            REQUIRE(fabs(out1[i] - out2[i]) > tolerance);
         }
     }
 }
