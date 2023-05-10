@@ -60,7 +60,7 @@ TEST_CASE("ippe filter taps generation", "[filter],[taps]")
 
         // check with threshold
         for (int i = 0; i < tapsLen; i++){
-            REQUIRE(abs(taps[i].re - taps_ref[i]) < tolerance);
+            REQUIRE(fabs(taps[i].re - taps_ref[i]) < tolerance);
             REQUIRE(taps[i].im == 0);
         }
     }
@@ -74,7 +74,7 @@ TEST_CASE("ippe filter taps generation", "[filter],[taps]")
         
         // check with threshold
         for (int i = 0; i < tapsLen; i++){
-            REQUIRE(abs(taps[i].re - taps_ref[i]) < tolerance);
+            REQUIRE(fabs(taps[i].re - taps_ref[i]) < tolerance);
             REQUIRE(taps[i].im == 0);
         }
     }
@@ -88,7 +88,7 @@ TEST_CASE("ippe filter taps generation", "[filter],[taps]")
         
         // check with threshold
         for (int i = 0; i < tapsLen; i++){
-            REQUIRE(abs(taps[i] - taps_ref[i]) < tolerance);
+            REQUIRE(fabs(taps[i] - taps_ref[i]) < tolerance);
         }
     }
 
@@ -101,7 +101,7 @@ TEST_CASE("ippe filter taps generation", "[filter],[taps]")
         
         // check with threshold
         for (int i = 0; i < tapsLen; i++){
-            REQUIRE(abs(taps[i] - taps_ref[i]) < tolerance);
+            REQUIRE(fabs(taps[i] - taps_ref[i]) < tolerance);
         }
     }
 }
