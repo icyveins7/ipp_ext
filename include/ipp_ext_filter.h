@@ -341,7 +341,7 @@ namespace ippe
             : FIRSR<T>{tapsLen}
         {
             generate(rFreq, tapsLen, winType, doNormal);
-            setup();
+            this->setup();
         }
         ~FIRSRLowpass()
         {
