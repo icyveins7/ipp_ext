@@ -486,10 +486,10 @@ TEST_CASE("ippe vector encapsulation compile test", "[vector],[compile]"){
 
 // Test copy constructors
 TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
-    // reference vector
-    ippe::vector<Ipp8u> a(100, 1.0);
-
     SECTION("ipp8u copy constructor"){
+        // reference vector
+        ippe::vector<Ipp8u> a(100, 1);
+        // std vector of vectors
         std::vector<ippe::vector<Ipp8u>> v;
         v.push_back(a);
 
@@ -507,17 +507,472 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
         // assign to the std vector of ippe vectors
         for (int i = 0; i < v.size(); i++){
-            v.at(i) = ippe::vector<Ipp8u>(a.size(), a.at(0));
+            v.at(i) = ippe::vector<Ipp8u>(100, 1);
 
-            // should not be same pointer
-            REQUIRE(a.data()!= v.at(i).data());
             // should be same size
-            REQUIRE(a.size() == v.at(i).size());
+            REQUIRE(100 == v.at(i).size());
             // should be same data
-            for (int j = 0; j < a.size(); j++)
-                REQUIRE(a.at(j) == v.at(i).at(j));
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
         }
     }
+
+    SECTION("ipp16u copy constructor"){
+        // reference vector
+        ippe::vector<Ipp16u> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp16u>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp16u assignment operator"){
+        std::vector<ippe::vector<Ipp16u>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp16u>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp32u copy constructor"){
+        // reference vector
+        ippe::vector<Ipp32u> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp32u>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp32u assignment operator"){
+        std::vector<ippe::vector<Ipp32u>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp32u>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp64u copy constructor"){
+        // reference vector
+        ippe::vector<Ipp64u> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp64u>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp64u assignment operator"){
+        std::vector<ippe::vector<Ipp64u>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp64u>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp32f copy constructor"){
+        // reference vector
+        ippe::vector<Ipp32f> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp32f>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp32f assignment operator"){
+        std::vector<ippe::vector<Ipp32f>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp32f>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp64f copy constructor"){
+        // reference vector
+        ippe::vector<Ipp64f> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp64f>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp64f assignment operator"){
+        std::vector<ippe::vector<Ipp64f>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp64f>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp8s copy constructor"){
+        // reference vector
+        ippe::vector<Ipp8s> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp8s>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp8s assignment operator"){
+        std::vector<ippe::vector<Ipp8s>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp8s>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp16s copy constructor"){
+        // reference vector
+        ippe::vector<Ipp16s> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp16s>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp32s copy constructor"){
+        // reference vector
+        ippe::vector<Ipp32s> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp32s>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp32s assignment operator"){
+        std::vector<ippe::vector<Ipp32s>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp32s>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp64s copy constructor"){
+        // reference vector
+        ippe::vector<Ipp64s> a(100, 1);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp64s>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp64s assignment operator"){
+        std::vector<ippe::vector<Ipp64s>> v(4);
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp64s>(100, 1);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+                REQUIRE(1 == v.at(i).at(j));
+        }
+    }
+
+    SECTION("ipp8sc copy constructor"){
+        // reference vector
+        Ipp8sc c = {1, 1};
+        ippe::vector<Ipp8sc> a(100, c);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp8sc>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+        {
+            REQUIRE(a.at(i).re == v.at(0).at(i).re);
+            REQUIRE(a.at(i).im == v.at(0).at(i).im);
+        }
+    }
+
+    SECTION("ipp8sc assignment operator"){
+        std::vector<ippe::vector<Ipp8sc>> v(4);
+        // assign to the std vector of ippe vectors
+        Ipp8sc c = {1, 1};
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp8sc>(100, c);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+            {
+                REQUIRE(c.re == v.at(0).at(j).re);
+                REQUIRE(c.im == v.at(0).at(j).im);
+            }
+        }
+    }
+
+    SECTION("ipp16sc copy constructor"){
+        // reference vector
+        Ipp16sc c = {1, 1};
+        ippe::vector<Ipp16sc> a(100, c);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp16sc>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+        {
+            REQUIRE(a.at(i).re == v.at(0).at(i).re);
+            REQUIRE(a.at(i).im == v.at(0).at(i).im);
+        }
+    }
+
+    SECTION("ipp16sc assignment operator"){
+        std::vector<ippe::vector<Ipp16sc>> v(4);
+        // assign to the std vector of ippe vectors
+        Ipp16sc c = {1, 1};
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp16sc>(100, c);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+            {
+                REQUIRE(c.re == v.at(0).at(j).re);
+                REQUIRE(c.im == v.at(0).at(j).im);
+            }
+        }
+    }
+
+    SECTION("ipp32sc copy constructor"){
+        // reference vector
+        Ipp32sc c = {1, 1};
+        ippe::vector<Ipp32sc> a(100, c);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp32sc>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+        {
+            REQUIRE(a.at(i).re == v.at(0).at(i).re);
+            REQUIRE(a.at(i).im == v.at(0).at(i).im);
+        }
+    }
+
+    SECTION("ipp32sc assignment operator"){
+        std::vector<ippe::vector<Ipp32sc>> v(4);
+        // assign to the std vector of ippe vectors
+        Ipp32sc c = {1, 1};
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp32sc>(100, c);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+            {
+                REQUIRE(c.re == v.at(0).at(j).re);
+                REQUIRE(c.im == v.at(0).at(j).im);
+            }
+        }
+    }
+
+    SECTION("ipp64sc copy constructor"){
+        // reference vector
+        Ipp64sc c = {1, 1};
+        ippe::vector<Ipp64sc> a(100, c);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp64sc>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+        {
+            REQUIRE(a.at(i).re == v.at(0).at(i).re);
+            REQUIRE(a.at(i).im == v.at(0).at(i).im);
+        }
+    }
+
+    SECTION("ipp64sc assignment operator"){
+        std::vector<ippe::vector<Ipp64sc>> v(4);
+        // assign to the std vector of ippe vectors
+        Ipp64sc c = {1, 1};
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp64sc>(100, c);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+            {
+                REQUIRE(c.re == v.at(0).at(j).re);
+                REQUIRE(c.im == v.at(0).at(j).im);
+            }
+        }
+    }
+
+    SECTION("ipp32fc copy constructor"){
+        // reference vector
+        Ipp32fc c = {1.0, 1.0};
+        ippe::vector<Ipp32fc> a(100, c);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp32fc>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+        {
+            REQUIRE(a.at(i).re == v.at(0).at(i).re);
+            REQUIRE(a.at(i).im == v.at(0).at(i).im);
+        }
+    }
+
+    SECTION("ipp32fc assignment operator"){
+        std::vector<ippe::vector<Ipp32fc>> v(4);
+        // assign to the std vector of ippe vectors
+        Ipp32fc c = {1.0, 1.0};
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp32fc>(100, c);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+            {
+                REQUIRE(c.re == v.at(0).at(j).re);
+                REQUIRE(c.im == v.at(0).at(j).im);
+            }
+        }
+    }
+
+    SECTION("ipp64fc copy constructor"){
+        // reference vector
+        Ipp64fc c = {1.0, 1.0};
+        ippe::vector<Ipp64fc> a(100, c);
+        // std vector of vectors
+        std::vector<ippe::vector<Ipp64fc>> v;
+        v.push_back(a);
+        // should not be the same pointer
+        REQUIRE(a.data()!= v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+        {
+            REQUIRE(a.at(i).re == v.at(0).at(i).re);
+            REQUIRE(a.at(i).im == v.at(0).at(i).im);
+        }
+    }
+
+    SECTION("ipp64fc assignment operator"){
+        std::vector<ippe::vector<Ipp64fc>> v(4);
+        // assign to the std vector of ippe vectors
+        Ipp64fc c = {1.0, 1.0};
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp64fc>(100, c);
+            // should be same size
+            REQUIRE(100 == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < 100; j++)
+            {
+                REQUIRE(c.re == v.at(0).at(j).re);
+                REQUIRE(c.im == v.at(0).at(j).im);
+            }
+        }
+    }
+
+    
 }
 
 	
