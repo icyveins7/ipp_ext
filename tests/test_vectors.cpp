@@ -484,6 +484,42 @@ TEST_CASE("ippe vector encapsulation compile test", "[vector],[compile]"){
     EncapsulateVector ev;
 }
 
+// Test copy constructors
+TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
+    // reference vector
+    ippe::vector<Ipp8u> a(100, 1.0);
+
+    SECTION("ipp8u copy constructor"){
+        std::vector<ippe::vector<Ipp8u>> v;
+        v.push_back(a);
+
+        // should not be the same pointer
+        REQUIRE(a.data() != v.at(0).data());
+        // should be same size
+        REQUIRE(a.size() == v.at(0).size());
+        // should be same data
+        for (int i = 0; i < a.size(); i++)
+            REQUIRE(a.at(i) == v.at(0).at(i));
+    }
+
+    SECTION("ipp8u assignment operator"){
+        std::vector<ippe::vector<Ipp8u>> v(4);
+
+        // assign to the std vector of ippe vectors
+        for (int i = 0; i < v.size(); i++){
+            v.at(i) = ippe::vector<Ipp8u>(a.size(), a.at(0));
+
+            // should not be same pointer
+            REQUIRE(a.data()!= v.at(i).data());
+            // should be same size
+            REQUIRE(a.size() == v.at(i).size());
+            // should be same data
+            for (int j = 0; j < a.size(); j++)
+                REQUIRE(a.at(j) == v.at(i).at(j));
+        }
+    }
+}
+
 	
 
 

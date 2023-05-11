@@ -52,6 +52,31 @@ namespace ippe
                     set(value); // set the entire vector to value  
             }
 
+            // Copy constructor
+            vector(const vector &other)
+            {
+                // set size
+                numel = other.numel;
+                // set cap
+                reserve(numel); // even if count is 0, reserve() will do nothing
+                // copy data
+                for (size_t i = 0; i < numel; i++)
+                    m_data[i] = other.m_data[i]; // TODO: write using ippsCopy? would require template specializations
+            }
+
+            // Assignment operator
+            vector& operator=(const vector &other)
+            {
+                // set size
+                numel = other.numel;
+                // set cap
+                reserve(numel); // even if count is 0, reserve() will do nothing
+                // copy data
+                for (size_t i = 0; i < numel; i++)
+                    m_data[i] = other.m_data[i]; // TODO: write using ippsCopy? would require template specializations
+                return *this;
+            }
+
 			~vector()
 			{
 				ippsFree(m_data);
