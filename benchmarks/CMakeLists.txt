@@ -51,7 +51,13 @@ endif()
 
 # Define benchmarks executable for dfts
 add_executable(benchmark_dft benchmark_dft.cpp)
-target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} pthread Catch2::Catch2WithMain)
+
+# We only need pthreads for unix-based OSes
+if (WIN32)
+    target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+else()
+    target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} pthread Catch2::Catch2WithMain)
+endif()
 
 include(CTest)
 include(Catch)
