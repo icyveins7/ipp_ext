@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <chrono>
+
 #include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
@@ -14,7 +16,12 @@ TEST_CASE("Benchmark DFT single-threaded", "[dftCToC],[singlethread]") {
         ippe::vector<Ipp32fc> in(10000);
         ippe::vector<Ipp32fc> out(10000);
         BENCHMARK("fwd()"){
-            return dft.fwd(in.data(), out.data());
+            try{
+                return dft.fwd(in.data(), out.data());
+            }
+            catch(const std::exception& e){
+                std::cerr << e.what() << std::endl;
+            }
         };
     }
 
@@ -24,7 +31,12 @@ TEST_CASE("Benchmark DFT single-threaded", "[dftCToC],[singlethread]") {
         ippe::vector<Ipp32fc> in(100000);
         ippe::vector<Ipp32fc> out(100000);
         BENCHMARK("fwd()"){
-            return dft.fwd(in.data(), out.data());
+            try{
+                return dft.fwd(in.data(), out.data());
+            }
+            catch(const std::exception& e){
+                std::cerr << e.what() << std::endl;
+            }
         };
     }
 
@@ -34,7 +46,12 @@ TEST_CASE("Benchmark DFT single-threaded", "[dftCToC],[singlethread]") {
         ippe::vector<Ipp32fc> in(1000000);
         ippe::vector<Ipp32fc> out(1000000);
         BENCHMARK("fwd()"){
-            return dft.fwd(in.data(), out.data());
+            try{
+                return dft.fwd(in.data(), out.data());
+            }
+            catch(const std::exception& e){
+                std::cerr << e.what() << std::endl;
+            }
         };
     }
 
@@ -44,7 +61,12 @@ TEST_CASE("Benchmark DFT single-threaded", "[dftCToC],[singlethread]") {
         ippe::vector<Ipp32fc> in(10000000);
         ippe::vector<Ipp32fc> out(10000000);
         BENCHMARK("fwd()"){
-            return dft.fwd(in.data(), out.data());
+            try{
+                return dft.fwd(in.data(), out.data());
+            }
+            catch(const std::exception& e){
+                std::cerr << e.what() << std::endl;
+            }
         };
     }
 }
@@ -52,12 +74,21 @@ TEST_CASE("Benchmark DFT single-threaded", "[dftCToC],[singlethread]") {
 
 
 void thread_work(
-        ippe::DFTCToC<Ipp32fc> *dft,
-        ippe::vector<Ipp32fc> *in,
-        ippe::vector<Ipp32fc> *out
+        // ippe::DFTCToC<Ipp32fc> *dft,
+        Ipp32fc *indata,
+        Ipp32fc *outdata
 ){
-    dft->fwd(in->data(), out->data());
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    
+    // try{
+    //     dft->fwd(in->data(), out->data());
+    // }
+    // catch(std::exception &e){
+    //     std::cerr << e.what() << std::endl;
+    // }    
 }
+
+
 TEST_CASE("Benchmark DFT, 4 threads", "[dftCToC],[multithread]") {
     SECTION("ipp32fc, length 10000"){
         // Setup 4 objects, 1 per thread
@@ -68,19 +99,26 @@ TEST_CASE("Benchmark DFT, 4 threads", "[dftCToC],[multithread]") {
             dft[i] = ippe::DFTCToC<Ipp32fc>(10000);
             in[i] = ippe::vector<Ipp32fc>(10000);
             out[i] = ippe::vector<Ipp32fc>(10000);
+
+            // REQUIRE(dft[i].getLength() == 10000);
         }
 
-        BENCHMARK("fwd()"){
+
+        std::thread thd[4];
+        
             // Create threads and time until joined
-            std::thread thd[4];
             for (int i = 0; i < 4; i++){
-                thd[i] = std::thread(thread_work, &dft[i], &in[i], &out[i]);
+                // thd[i] = std::thread(thread_work, &dft[i], in[i].data(), out[i].data());
+                thd[i] = std::thread(thread_work, in[i].data(), out[i].data());
             }
+
+        // BENCHMARK("fwd()"){
             for (int i = 0; i < 4; i++){
                 thd[i].join();
+                // printf("Thread %d joined\n", i);
             }
     
-        };
+        // };
     }
 }
 
