@@ -25,7 +25,28 @@ namespace ippe
             DFTCToC(size_t length, int flag = IPP_FFT_DIV_INV_BY_N)
                 : m_length{length}, m_flag{flag}
             {
+                if (m_length == 0)
+                {
+                    throw std::invalid_argument("DFTCToC: length cannot be 0");
+                }
                 prepare_dft();
+            }
+
+            // Copy constructor
+            DFTCToC(const DFTCToC& other)
+            {
+                m_length = other.m_length;
+                m_flag = other.m_flag;
+                prepare_dft();
+            }
+
+            // Assignment operator
+            DFTCToC& operator=(const DFTCToC& other)
+            {
+                m_length = other.m_length;
+                m_flag = other.m_flag;
+                prepare_dft();
+                return *this;
             }
 
             // Destructor
@@ -61,6 +82,9 @@ namespace ippe
             // Some getters
             size_t getLength() { return m_length; }
             int getFlag() { return m_flag; }
+            Ipp8u *getDFTSpec() { return m_pDFTSpec; }
+            Ipp8u *getDFTBuf() { return m_pDFTBuf; }
+            Ipp8u *getMemInit() { return m_pMemInit; }
 
         private:
             size_t m_length;

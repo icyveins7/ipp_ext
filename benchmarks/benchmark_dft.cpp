@@ -74,7 +74,7 @@ TEST_CASE("Benchmark DFT single-threaded", "[dftCToC],[singlethread]") {
 
 
 void thread_work(
-        // ippe::DFTCToC<Ipp32fc> *dft,
+        ippe::DFTCToC<Ipp32fc> *dft,
         Ipp32fc *indata,
         Ipp32fc *outdata
 ){
@@ -90,24 +90,23 @@ void thread_work(
 
 
 TEST_CASE("Benchmark DFT, 4 threads", "[dftCToC],[multithread]") {
-    // std::vector<std::thread> thd;
-    // thd.resize(4);
+    std::vector<std::thread> thd(4);
 
     // Setup 4 objects, 1 per thread
     // ippe::DFTCToC<Ipp32fc> dft[4];
-    // ippe::vector<Ipp32fc> in[4];
-    // ippe::vector<Ipp32fc> out[4];
+    ippe::vector<Ipp32fc> in[4];
+    ippe::vector<Ipp32fc> out[4];
 
     // std::vector<ippe::DFTCToC<Ipp32fc>> dft(4);
-    std::vector<ippe::vector<Ipp32fc>> in(4);
+    // std::vector<ippe::vector<Ipp32fc>> in(4);
     // std::vector<ippe::vector<Ipp32fc>> out(4);
 
     SECTION("ipp32fc, length 10000"){
         
         for (int i = 0; i < 4; i++){
-        //     dft[i] = ippe::DFTCToC<Ipp32fc>(10000);
+            // dft[i] = ippe::DFTCToC<Ipp32fc>(10000);
             in[i] = ippe::vector<Ipp32fc>(10000);
-        //     out[i] = ippe::vector<Ipp32fc>(10000);
+            out[i] = ippe::vector<Ipp32fc>(10000);
 
         //     REQUIRE(dft[i].getLength() == 10000);
         //     REQUIRE(in[i].size() == 10000);
