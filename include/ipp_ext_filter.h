@@ -54,6 +54,10 @@ namespace ippe
         {
         }
 
+        // TODO: handle copy/assignment constructors, for now explicitly remove them
+        FIRSR(const FIRSR&) = delete;
+        FIRSR& operator=(const FIRSR&) = delete;
+
         ~FIRSR()
         {
             ippsFree(m_taps);
