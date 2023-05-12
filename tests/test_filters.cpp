@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
@@ -102,6 +103,201 @@ TEST_CASE("ippe filter taps generation", "[filter],[taps]")
         // check with threshold
         for (int i = 0; i < tapsLen; i++){
             REQUIRE(fabs(taps[i] - taps_ref[i]) < tolerance);
+        }
+    }
+}
+
+TEST_CASE("ippe filter copy/assignment", "[filter],[copy],[assignment]")
+{
+    SECTION("Ipp32fc lowpass copy"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp32fc> lowpass(0.5, 8, ippWinHamming, ippTrue);
+
+        // Copy by pushing it into a vector
+        std::vector<ippe::FIRSRLowpass<Ipp32fc>> lowpass_vec;
+        lowpass_vec.push_back(lowpass);
+
+        // Check that the copy is correct
+
+        // taps values should be the same
+        for (int i = 0; i < lowpass.getNumTaps(); i++){
+            REQUIRE(lowpass_vec.at(0).getTaps()[i].re == lowpass.getTaps()[i].re);
+            REQUIRE(lowpass_vec.at(0).getTaps()[i].im == lowpass.getTaps()[i].im);
+        } 
+        // taps pointer should be distinct
+        REQUIRE(lowpass_vec.at(0).getTaps()!= lowpass.getTaps());
+        // check that all the other pointers are also distinct
+        REQUIRE(lowpass_vec.at(0).getDelayBuffer() != lowpass.getDelayBuffer());
+        REQUIRE(lowpass_vec.at(0).getFilterSpec()!= lowpass.getFilterSpec());
+        REQUIRE(lowpass_vec.at(0).getWorkBuffer() != lowpass.getWorkBuffer());
+    }
+
+    SECTION("Ipp64fc lowpass copy"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp64fc> lowpass(0.5, 8, ippWinHamming, ippTrue);
+        
+        // Copy by pushing it into a vector
+        std::vector<ippe::FIRSRLowpass<Ipp64fc>> lowpass_vec;
+        lowpass_vec.push_back(lowpass);
+        
+        // Check that the copy is correct
+        
+        // taps values should be the same
+        for (int i = 0; i < lowpass.getNumTaps(); i++){
+            REQUIRE(lowpass_vec.at(0).getTaps()[i].re == lowpass.getTaps()[i].re);
+            REQUIRE(lowpass_vec.at(0).getTaps()[i].im == lowpass.getTaps()[i].im);
+        } 
+        // taps pointer should be distinct
+        REQUIRE(lowpass_vec.at(0).getTaps()!= lowpass.getTaps());
+        // check that all the other pointers are also distinct
+        REQUIRE(lowpass_vec.at(0).getDelayBuffer()!= lowpass.getDelayBuffer());
+        REQUIRE(lowpass_vec.at(0).getFilterSpec()!= lowpass.getFilterSpec());
+        REQUIRE(lowpass_vec.at(0).getWorkBuffer()!= lowpass.getWorkBuffer());
+    }
+
+    SECTION("Ipp32f lowpass copy"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp32f> lowpass(0.5, 8, ippWinHamming, ippTrue);
+        
+        // Copy by pushing it into a vector
+        std::vector<ippe::FIRSRLowpass<Ipp32f>> lowpass_vec;
+        lowpass_vec.push_back(lowpass);
+        
+        // Check that the copy is correct
+        
+        // taps values should be the same
+        for (int i = 0; i < lowpass.getNumTaps(); i++){
+            REQUIRE(lowpass_vec.at(0).getTaps()[i] == lowpass.getTaps()[i]);
+        } 
+        // taps pointer should be distinct
+        REQUIRE(lowpass_vec.at(0).getTaps()!= lowpass.getTaps());
+        // check that all the other pointers are also distinct
+        REQUIRE(lowpass_vec.at(0).getDelayBuffer()!= lowpass.getDelayBuffer());
+        REQUIRE(lowpass_vec.at(0).getFilterSpec()!= lowpass.getFilterSpec());
+        REQUIRE(lowpass_vec.at(0).getWorkBuffer()!= lowpass.getWorkBuffer());
+    }
+
+    SECTION("Ipp64f lowpass copy"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp64f> lowpass(0.5, 8, ippWinHamming, ippTrue);
+        
+        // Copy by pushing it into a vector
+        std::vector<ippe::FIRSRLowpass<Ipp64f>> lowpass_vec;
+        lowpass_vec.push_back(lowpass);
+        
+        // Check that the copy is correct
+        
+        // taps values should be the same
+        for (int i = 0; i < lowpass.getNumTaps(); i++){
+            REQUIRE(lowpass_vec.at(0).getTaps()[i] == lowpass.getTaps()[i]);
+        } 
+        // taps pointer should be distinct
+        REQUIRE(lowpass_vec.at(0).getTaps()!= lowpass.getTaps());
+        // check that all the other pointers are also distinct
+        REQUIRE(lowpass_vec.at(0).getDelayBuffer()!= lowpass.getDelayBuffer());
+        REQUIRE(lowpass_vec.at(0).getFilterSpec()!= lowpass.getFilterSpec());
+        REQUIRE(lowpass_vec.at(0).getWorkBuffer()!= lowpass.getWorkBuffer());
+    }
+
+    SECTION("Ipp32fc lowpass assignment"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp32fc> lowpass(0.5, 8, ippWinHamming, ippTrue);
+
+        // create vector of filters
+        std::vector<ippe::FIRSRLowpass<Ipp32fc>> lowpass_vec(2);
+
+        // assign to vector
+        for (int i = 0; i < lowpass_vec.size(); i++){
+            lowpass_vec.at(i) = lowpass;
+
+            // Check that the assignment is correct
+            // taps values should be the same
+            for (int j = 0; j < lowpass.getNumTaps(); j++){
+                REQUIRE(lowpass_vec.at(i).getTaps()[j].re == lowpass.getTaps()[j].re);
+                REQUIRE(lowpass_vec.at(i).getTaps()[j].im == lowpass.getTaps()[j].im);
+            } 
+            // taps pointer should be distinct
+            REQUIRE(lowpass_vec.at(i).getTaps()!= lowpass.getTaps());
+            // check that all the other pointers are also distinct
+            REQUIRE(lowpass_vec.at(i).getDelayBuffer()!= lowpass.getDelayBuffer());
+            REQUIRE(lowpass_vec.at(i).getFilterSpec()!= lowpass.getFilterSpec());
+            REQUIRE(lowpass_vec.at(i).getWorkBuffer()!= lowpass.getWorkBuffer());
+        }
+    }
+
+    SECTION("Ipp64fc lowpass assignment"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp64fc> lowpass(0.5, 8, ippWinHamming, ippTrue);
+        
+        // create vector of filters
+        std::vector<ippe::FIRSRLowpass<Ipp64fc>> lowpass_vec(2);
+        
+        // assign to vector
+        for (int i = 0; i < lowpass_vec.size(); i++){
+            lowpass_vec.at(i) = lowpass;
+            
+            // Check that the assignment is correct
+            // taps values should be the same
+            for (int j = 0; j < lowpass.getNumTaps(); j++){
+                REQUIRE(lowpass_vec.at(i).getTaps()[j].re == lowpass.getTaps()[j].re);
+                REQUIRE(lowpass_vec.at(i).getTaps()[j].im == lowpass.getTaps()[j].im);
+            } 
+            // taps pointer should be distinct
+            REQUIRE(lowpass_vec.at(i).getTaps()!= lowpass.getTaps());
+            // check that all the other pointers are also distinct
+            REQUIRE(lowpass_vec.at(i).getDelayBuffer()!= lowpass.getDelayBuffer());
+            REQUIRE(lowpass_vec.at(i).getFilterSpec()!= lowpass.getFilterSpec());
+            REQUIRE(lowpass_vec.at(i).getWorkBuffer()!= lowpass.getWorkBuffer());
+        }
+    }
+
+    SECTION("Ipp32f lowpass assignment"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp32f> lowpass(0.5, 8, ippWinHamming, ippTrue);
+        
+        // create vector of filters
+        std::vector<ippe::FIRSRLowpass<Ipp32f>> lowpass_vec(2);
+        
+        // assign to vector
+        for (int i = 0; i < lowpass_vec.size(); i++){
+            lowpass_vec.at(i) = lowpass;
+            
+            // Check that the assignment is correct
+            // taps values should be the same
+            for (int j = 0; j < lowpass.getNumTaps(); j++){
+                REQUIRE(lowpass_vec.at(i).getTaps()[j] == lowpass.getTaps()[j]);
+            } 
+            // taps pointer should be distinct
+            REQUIRE(lowpass_vec.at(i).getTaps()!= lowpass.getTaps());
+            // check that all the other pointers are also distinct
+            REQUIRE(lowpass_vec.at(i).getDelayBuffer()!= lowpass.getDelayBuffer());
+            REQUIRE(lowpass_vec.at(i).getFilterSpec()!= lowpass.getFilterSpec());
+            REQUIRE(lowpass_vec.at(i).getWorkBuffer()!= lowpass.getWorkBuffer());
+        }
+    }
+
+    SECTION("Ipp64f lowpass assignment"){
+        // Make a filter object
+        ippe::FIRSRLowpass<Ipp64f> lowpass(0.5, 8, ippWinHamming, ippTrue);
+        
+        // create vector of filters
+        std::vector<ippe::FIRSRLowpass<Ipp64f>> lowpass_vec(2);
+        
+        // assign to vector
+        for (int i = 0; i < lowpass_vec.size(); i++){
+            lowpass_vec.at(i) = lowpass;
+            
+            // Check that the assignment is correct
+            // taps values should be the same
+            for (int j = 0; j < lowpass.getNumTaps(); j++){
+                REQUIRE(lowpass_vec.at(i).getTaps()[j] == lowpass.getTaps()[j]);
+            } 
+            // taps pointer should be distinct
+            REQUIRE(lowpass_vec.at(i).getTaps()!= lowpass.getTaps());
+            // check that all the other pointers are also distinct
+            REQUIRE(lowpass_vec.at(i).getDelayBuffer()!= lowpass.getDelayBuffer());
+            REQUIRE(lowpass_vec.at(i).getFilterSpec()!= lowpass.getFilterSpec());
+            REQUIRE(lowpass_vec.at(i).getWorkBuffer()!= lowpass.getWorkBuffer());
         }
     }
 }

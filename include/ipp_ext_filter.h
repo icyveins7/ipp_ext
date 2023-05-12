@@ -7,12 +7,15 @@ and complex conversion is also required.
 
 The way this is structured is as follows:
 
-1. We create the base class FIRSR, which contains the pointers to the necessary buffers.
-2. The derived classes implement the taps generators, e.g. Lowpass, Highpass, Bandpass, Bandstop.
-3. The base class is not meant to be instantiated directly, instead it provides a setup() method
-which should be called by the derived classes. This is meant to be called after the taps have been generated.
-4. The derived class is in charge of allocating memory for the taps, but nothing else.
-5. The base class will allocate everything else that is required, in setup().
+1. The base class FIRSR takes care of allocations for taps and delay in its constructor.
+The constructor is not public, so the base class cannot be instantiated directly.
+2. The filter spec and buffers are allocated in setup(), which are postponed til after the taps values have been set.
+3a. In a new object, the derived class generates taps, e.g. Lowpass/Highpass, into the taps buffer.
+It then calls setup() so the filter spec/buffers can use the taps.
+3b. In copied/assigned objects, the taps values are assumed to already be in the taps array,
+since there is no public constructor for FIRSR, the base class. Hence all logic is contained in the base
+class and setup() is called there after the required allocations. Derived classes need only call the
+base class copy constructor/assignment operator.
 
 Note that the convention for the window is to use (0.0, 1.0), which is NOT
 the range expected by the IPP functions. Hence internally we divide by 2 from the user's input.
@@ -44,19 +47,70 @@ namespace ippe
         /// @return Pointer to the filter taps
         T* getTaps(){ return m_taps; }
 
+        /// @brief Getter for length of filter taps
+        /// @return Length of filter taps
+        int getNumTaps(){ return m_tapsLen; }
+
+        /// @brief Getter for the delay buffer
+        /// @return Pointer to the delay buffer
+        T* getDelayBuffer(){ return m_delay; }
+
+        /// @brief Getter for the filter spec
+        /// @return Pointer to the filter spec
+        Ipp8u* getFilterSpec(){ return m_pSpec; }
+
+        /// @brief Getter for the work buffer
+        /// @return Pointer to the work buffer
+        Ipp8u* getWorkBuffer(){ return m_pBuf; }
+
         /// @brief Resets the delay buffer to zeroes, see template specializations.
         void reset();
 
     protected:
         // Constructor and destructor are protected to prevent direct instantiation.
+        FIRSR()
+        {}
+
         FIRSR(int tapsLen)
             : m_tapsLen{tapsLen}
         {
+            allocateTapsAndDelay();
         }
 
-        // TODO: handle copy/assignment constructors, for now explicitly remove them
-        FIRSR(const FIRSR&) = delete;
-        FIRSR& operator=(const FIRSR&) = delete;
+
+        // Implement copy constructor, only needs to copy the tapsLen
+        FIRSR(const FIRSR& other)
+            : m_tapsLen{other.m_tapsLen}
+        {
+            allocateTapsAndDelay();
+            // copy the taps and delay buffers
+            for (int i = 0; i < m_tapsLen; i++)
+                m_taps[i] = other.m_taps[i];
+            
+            for (int i = 0; i < m_tapsLen-1; i++)
+                m_delay[i] = other.m_delay[i];
+
+            // re-setup
+            setup(false);
+        }
+
+        // Similarly for assignment operator
+        FIRSR& operator=(const FIRSR& other)
+        {
+            m_tapsLen = other.m_tapsLen;
+            allocateTapsAndDelay();
+            // copy the taps and delay buffers
+            for (int i = 0; i < m_tapsLen; i++)
+                m_taps[i] = other.m_taps[i];
+            
+            for (int i = 0; i < m_tapsLen-1; i++)
+                m_delay[i] = other.m_delay[i];
+
+            // re-setup
+            setup();
+
+            return *this;
+        }
 
         ~FIRSR()
         {
@@ -73,11 +127,78 @@ namespace ippe
         Ipp8u* m_pSpec = nullptr; // for the specification structure
         Ipp8u* m_pBuf = nullptr; // work buffer during invocations
 
+        /// @brief Allocates memory for the filter taps and delay.
+        /// See template specializations below.
+        void allocateTapsAndDelay();
+
         /// @brief Setup method (see template specializations below).
         /// This should be called in child class constructors
         /// after the taps have been generated.
-        void setup();
+        /// @param resetNow If true, the delay buffer is reset to zeroes.
+        /// Useful during copies in order to maintain the delay buffer.
+        void setup(bool resetNow=true);
     };
+
+    /*
+    Template specializations for allocateTaps
+    */
+    template <typename T>
+    inline void FIRSR<T>::allocateTapsAndDelay()
+    {
+        throw std::runtime_error("FIRSR::allocateTapsAndDelay() is not implemented for generic types.");
+    }
+
+    // Ipp32f specialization
+    template <>
+    inline void FIRSR<Ipp32f>::allocateTapsAndDelay()
+    {
+        m_taps = ippsMalloc_32f_L(m_tapsLen);
+        if (m_taps == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+
+        m_delay = ippsMalloc_32f_L(m_tapsLen-1);
+        if (m_delay == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+    }
+
+    // Ipp64f specialization
+    template <>
+    inline void FIRSR<Ipp64f>::allocateTapsAndDelay()
+    {
+        m_taps = ippsMalloc_64f_L(m_tapsLen);
+        if (m_taps == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+
+        m_delay = ippsMalloc_64f_L(m_tapsLen-1);
+        if (m_delay == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+    }
+
+    // Ipp32fc specialization
+    template <>
+    inline void FIRSR<Ipp32fc>::allocateTapsAndDelay()
+    {
+        m_taps = ippsMalloc_32fc_L(m_tapsLen);
+        if (m_taps == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+        
+        m_delay = ippsMalloc_32fc_L(m_tapsLen-1);
+        if (m_delay == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+    }
+
+    // Ipp64fc specialization
+    template <>
+    inline void FIRSR<Ipp64fc>::allocateTapsAndDelay()
+    {
+        m_taps = ippsMalloc_64fc_L(m_tapsLen);
+        if (m_taps == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+
+        m_delay = ippsMalloc_64fc_L(m_tapsLen-1);
+        if (m_delay == nullptr)
+            throw std::runtime_error("FIRSR::allocateTapsAndDelay() failed to allocate memory.");
+    }
 
     /*
     Template specializations for filter()
@@ -201,24 +322,20 @@ namespace ippe
     Template specializations for setup()
     */
     template <typename T>
-    inline void FIRSR<T>::setup()
+    inline void FIRSR<T>::setup(bool resetNow)
     {
-        throw std::runtime_error("FIRSR::setup() not implemented for generic types.");
+        throw std::runtime_error("FIRSR::setup(bool resetNow) not implemented for generic types.");
     }
 
     // Ipp32f specialization
     template <>
-    inline void FIRSR<Ipp32f>::setup()
+    inline void FIRSR<Ipp32f>::setup(bool resetNow)
     {
         IppStatus sts;
-        // Check that the taps are no longer null
-        if (m_taps == nullptr)
-            throw std::runtime_error("FIRSR::setup() - m_taps is null.");
 
-        // Allocate the delay buffer
-        m_delay = ippsMalloc_32f_L(m_tapsLen-1);
         // Zero the delay buffer
-        reset();
+        if (resetNow)
+            reset();
 
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
@@ -237,17 +354,13 @@ namespace ippe
 
     // Ipp64f specialization
     template <>
-    inline void FIRSR<Ipp64f>::setup()
+    inline void FIRSR<Ipp64f>::setup(bool resetNow)
     {
         IppStatus sts;
-        // Check that the taps are no longer null
-        if (m_taps == nullptr)
-            throw std::runtime_error("FIRSR::setup() - m_taps is null.");
 
-        // Allocate the delay buffer
-        m_delay = ippsMalloc_64f_L(m_tapsLen-1);
         // Zero the delay buffer
-        reset();
+        if (resetNow)
+            reset();
 
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
@@ -265,17 +378,13 @@ namespace ippe
 
     // Ipp32fc specialization
     template <>
-    inline void FIRSR<Ipp32fc>::setup()
+    inline void FIRSR<Ipp32fc>::setup(bool resetNow)
     {
         IppStatus sts;
-        // Check that the taps are no longer null
-        if (m_taps == nullptr)
-            throw std::runtime_error("FIRSR::setup() - m_taps is null.");
             
-        // Allocate the delay buffer
-        m_delay = ippsMalloc_32fc_L(m_tapsLen-1);
         // Zero the delay buffer
-        reset();
+        if (resetNow)
+            reset();
 
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
@@ -293,17 +402,13 @@ namespace ippe
 
     // Ipp64fc specialization
     template <>
-    inline void FIRSR<Ipp64fc>::setup()
+    inline void FIRSR<Ipp64fc>::setup(bool resetNow)
     {
         IppStatus sts;
-        // Check that the taps are no longer null
-        if (m_taps == nullptr)
-            throw std::runtime_error("FIRSR::setup() - m_taps is null.");
             
-        // Allocate the delay buffer
-        m_delay = ippsMalloc_64fc_L(m_tapsLen-1);
         // Zero the delay buffer
-        reset();
+        if (resetNow)
+            reset();
         
         // Get sizes of spec structure and work buffer
         int specSize, bufSize;
@@ -341,17 +446,40 @@ namespace ippe
     class FIRSRLowpass : public FIRSR<T>
     {
     public:
+        FIRSRLowpass()
+            : FIRSR<T>()
+        {}
+
         FIRSRLowpass(Ipp64f rFreq, int tapsLen, IppWinType winType, IppBool doNormal)
             : FIRSR<T>{tapsLen}
         {
             generate(rFreq, tapsLen, winType, doNormal);
             this->setup();
         }
+
+        // Copy constructor, just need to perform the base copy
+        FIRSRLowpass(const FIRSRLowpass& other)
+            : FIRSR<T>(other)
+        {
+        }
+
+        // Assignment operator, just need to perform the base assignment
+        FIRSRLowpass& operator=(const FIRSRLowpass& other)
+        {
+            FIRSR<T>::operator=(other);
+            return *this;
+        }
+
         ~FIRSRLowpass()
         {
         }
 
     private:
+        /// @brief Allocates and generates lowpass filter taps.
+        /// @param rFreq Normalised frequency, [0.0, 1.0)
+        /// @param tapsLen Number of taps to generate
+        /// @param winType Type of window to use, e.g. ippWinHamming
+        /// @param doNormal Indicate whether to normalise the filter
         void generate(Ipp64f rFreq, int tapsLen, IppWinType winType, IppBool doNormal);
     };
 
@@ -380,9 +508,6 @@ namespace ippe
         // Generate the filter in 64f
         if((sts = ippsFIRGenLowpass_64f(rFreq/2.0, tmp, tapsLen, winType, doNormal, buffer)) != ippStsNoErr)
             throw std::runtime_error("ippsFIRGenLowpass_64f() failed with " + std::to_string(sts));
-        
-        // Allocate the taps memory
-        m_taps = ippsMalloc_32f_L(tapsLen);
 
         // Convert to 32f
         if((sts = ippsConvert_64f32f(tmp, m_taps, tapsLen)) != ippStsNoErr)
@@ -404,9 +529,6 @@ namespace ippe
         if((sts = ippsFIRGenGetBufferSize(tapsLen, &bufferSize))!= ippStsNoErr)
             throw std::runtime_error("ippsFIRGenGetBufferSize() failed with " + std::to_string(sts));
         Ipp8u *buffer = ippsMalloc_8u_L(bufferSize);
-
-        // Allocate the taps memory
-        m_taps = ippsMalloc_64f_L(tapsLen);
 
         // Generate the filter directly into m_taps
         if((sts = ippsFIRGenLowpass_64f(rFreq/2.0, m_taps, tapsLen, winType, doNormal, buffer))!= ippStsNoErr)
@@ -432,9 +554,6 @@ namespace ippe
         // Generate the filter in 64f
         if((sts = ippsFIRGenLowpass_64f(rFreq/2.0, tmp, tapsLen, winType, doNormal, buffer))!= ippStsNoErr)
             throw std::runtime_error("ippsFIRGenLowpass_64f() failed with " + std::to_string(sts));
-
-        // Allocate the taps memory
-        m_taps = ippsMalloc_32fc_L(tapsLen);
 
         // Convert to 32f first
         Ipp32f *tmp32f = ippsMalloc_32f_L(tapsLen);
@@ -463,9 +582,6 @@ namespace ippe
         if((sts = ippsFIRGenGetBufferSize(tapsLen, &bufferSize))!= ippStsNoErr)
             throw std::runtime_error("ippsFIRGenGetBufferSize() failed with " + std::to_string(sts));
         Ipp8u *buffer = ippsMalloc_8u_L(bufferSize);
-
-        // Allocate the taps memory
-        m_taps = ippsMalloc_64fc_L(tapsLen);
 
         // Write to a temporary buffer to prepare to convert to complex
         Ipp64f *tmp = ippsMalloc_64f_L(tapsLen);
