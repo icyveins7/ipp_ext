@@ -13,6 +13,10 @@ and then just run each benchmark individually.
 ./benchmark_dft
 ```
 
+# Eigen Comparisons
+
+There is a special benchmark that contains some comparisons between IPP function calls and the Eigen library. This benchmark will only be compiled if the environment variable ```EIGEN_DIR``` is set to the directory containing Eigen. 
+
 # Sample Benchmarks
 
 ## DFTs
@@ -159,5 +163,70 @@ fwd(), should take benchmark time/4            100             1     28.1646 s
 
 ===============================================================================
 test cases: 2 | 2 passed
+assertions: - none -
+```
+
+
+## Eigen Benchmark
+
+### Intel i9-11950H
+
+```
+Randomness seeded to: 1491570372
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compare_eigen.exe is a Catch2 v3.3.2 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+Benchmark with Eigen Vector
+  Add, length 100000
+-------------------------------------------------------------------------------
+D:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(19)
+...............................................................................
+
+benchmark name                       samples       iterations    estimated
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+Eigen Vector Add                               100             1    245.282 ms
+                                        2.34986 ms     2.3433 ms    2.35853 ms
+                                        38.0265 us    29.8028 us    56.3125 us
+
+IPP Vector Add                                 100            13    10.6665 ms
+                                        8.33677 us    8.27415 us    8.44477 us
+                                        408.516 ns    276.633 ns    697.609 ns
+
+Raw Loop                                       100             1    77.0566 ms
+                                        906.772 us    901.944 us    912.817 us
+                                        27.3211 us    22.4737 us     34.522 us
+
+
+-------------------------------------------------------------------------------
+Benchmark with Eigen Vector
+  Add, length 1000000
+-------------------------------------------------------------------------------
+D:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(59)
+...............................................................................
+
+benchmark name                       samples       iterations    estimated
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+Eigen Vector Add                               100             1     2.49921 s
+                                        24.6048 ms    24.5281 ms    24.7315 ms
+                                        490.659 us    332.368 us    755.481 us
+
+IPP Vector Add                                 100             1    21.5314 ms
+                                        225.367 us    219.189 us    240.845 us
+                                        45.9843 us    13.7939 us    82.0527 us
+
+Raw Loop                                       100             1    722.587 ms
+                                        7.28364 ms    7.24763 ms    7.36697 ms
+                                        264.494 us    120.448 us    512.889 us
+
+
+===============================================================================
+test cases: 1 | 1 passed
 assertions: - none -
 ```
