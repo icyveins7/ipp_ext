@@ -16,7 +16,7 @@ namespace ippe
 	template <typename T>
 	class vector
 	{
-		private:
+		protected:
 			size_t numel = 0;
 			size_t cap = 0;
 			T *m_data = nullptr; // initialise as nullptr to prevent segfaults on first reserve

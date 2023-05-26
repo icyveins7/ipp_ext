@@ -16,7 +16,7 @@ namespace ippe
             }
 
             // Standard constructor
-            explicit matrix(size_t rows, size_t columns)
+            matrix(size_t rows, size_t columns)
                 : vector<T>(rows * columns), m_rows(rows), m_columns(columns)
             {
                 
@@ -70,7 +70,9 @@ namespace ippe
                     throw std::out_of_range("Row index out of range");
                 }
                 else
-                    return m_data[m_columns * rowIdx];
+                    return this->m_data[m_columns * rowIdx]; 
+                // you need this->, otherwise it fails compilation
+                // see https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-members
             }
 
             // Access a row and column
@@ -79,7 +81,7 @@ namespace ippe
                 if (rowIdx >= m_rows || columnIdx >= m_columns)
                     throw std::out_of_range("Index out of range");
                 else
-                    return m_data[rowIdx * m_columns + columnIdx];
+                    return this->m_data[rowIdx * m_columns + columnIdx];
             }
 
             // Remove size adjustment methods (for now?)
@@ -88,7 +90,7 @@ namespace ippe
             void resize(size_t new_count, const T& value) = delete;
 
         private:
-            size_t m_rows;
-            size_t m_columns;
-    }
+            size_t m_rows = 0;
+            size_t m_columns = 0;
+    };
 }

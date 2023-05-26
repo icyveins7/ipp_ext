@@ -61,8 +61,13 @@ target_link_libraries(test_dfts PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2Wi
 add_executable(test_filters test_filters.cpp)
 target_link_libraries(test_filters PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
 
+# Define test executable for matrices
+add_executable(test_matrices test_matrices.cpp)
+target_link_libraries(test_matrices PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 catch_discover_tests(test_vecs)
 catch_discover_tests(test_dfts)
 catch_discover_tests(test_filters)
+catch_discover_tests(test_matrices)
