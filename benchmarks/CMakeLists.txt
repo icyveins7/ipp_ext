@@ -59,6 +59,14 @@ else()
     target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} pthread Catch2::Catch2WithMain)
 endif()
 
+# We check if Eigen exists
+if (DEFINED ENV{EIGEN_DIR})
+    message("Found Eigen. Compiling benchmark against Eigen...")
+    include_directories($ENV{EIGEN_DIR})
+    add_executable(compare_eigen compare_eigen.cpp)
+    target_link_libraries(compare_eigen PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+endif()
+
 include(CTest)
 include(Catch)
 catch_discover_tests(benchmark_dft)
