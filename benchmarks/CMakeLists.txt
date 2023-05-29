@@ -7,7 +7,7 @@ project(ipp_ext_catch2_benchmarks)
 
 # Add compile options so instruction sets are explicitly enabled
 if (MSVC)
-    add_compile_options(/arch:AVX2 /O2)
+    add_compile_options(/arch:AVX2)
 else()
     add_compile_options(-mavx2 -O3)
 endif()

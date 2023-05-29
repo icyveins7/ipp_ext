@@ -3,8 +3,15 @@
 Similar to tests, compile with the following
 
 ```
+# Linux
 mkdir build && cd build
 cmake ..
+make
+
+# Windows
+mkdir build && cd build
+cmake ..
+msbuild ALL_BUILD.vcproj -p:Configuration=Release # This is to enable optimisations like /O2
 ```
 
 and then just run each benchmark individually.
