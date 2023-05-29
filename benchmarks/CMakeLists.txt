@@ -5,6 +5,13 @@ project(ipp_ext_catch2_benchmarks)
 # # Set C++ standard
 # set(CMAKE_CXX_STANDARD 11)
 
+# Add compile options so instruction sets are explicitly enabled
+if (MSVC)
+    add_compile_options(/arch:AVX2 /O2)
+else()
+    add_compile_options(-mavx2 -O3)
+endif()
+
 # Check for user-specified CMAKE_PREFIX_PATH, otherwise generate it from VCPKG_DIR environment variable
 if (NOT DEFINED CMAKE_PREFIX_PATH)
     message("CMAKE_PREFIX_PATH not defined. Searching for env var VCPKG_DIR..")
