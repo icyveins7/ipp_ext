@@ -16,6 +16,16 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
         REQUIRE(m8u.capacity() == 0);
         REQUIRE(m8u.data() == nullptr);
 
+        // construct with only columns
+        ippe::matrix<Ipp8u> m8u_cols(2);
+        // Matrix-specific
+        REQUIRE(m8u_cols.rows() == 1);
+        REQUIRE(m8u_cols.columns() == 2);
+        // Inherited from vector
+        REQUIRE(m8u_cols.size() == 2);
+        REQUIRE(m8u_cols.capacity() == 2);
+        REQUIRE(m8u_cols.data() != nullptr);
+
         // construct with rows/columns
         ippe::matrix<Ipp8u> m8rc(2,2);
         // Matrix-specific
