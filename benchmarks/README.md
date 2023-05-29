@@ -169,64 +169,59 @@ assertions: - none -
 
 ## Eigen Benchmark
 
-### Intel i9-11950H
+### GCC, i7-8565UC, -O3 -mavx2
 
 ```
-Randomness seeded to: 1491570372
+Randomness seeded to: 1502030075
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compare_eigen.exe is a Catch2 v3.3.2 host application.
+compare_eigen is a Catch2 v3.3.2 host application.
 Run with -? for options
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen Vector
   Add, length 100000
 -------------------------------------------------------------------------------
-D:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(19)
+/home/seoxubuntu/gitrepos/ipp_ext/benchmarks/compare_eigen.cpp:19
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Vector Add                               100             1    245.282 ms
-                                        2.34986 ms     2.3433 ms    2.35853 ms
-                                        38.0265 us    29.8028 us    56.3125 us
-
-IPP Vector Add                                 100            13    10.6665 ms
-                                        8.33677 us    8.27415 us    8.44477 us
-                                        408.516 ns    276.633 ns    697.609 ns
-
-Raw Loop                                       100             1    77.0566 ms
-                                        906.772 us    901.944 us    912.817 us
-                                        27.3211 us    22.4737 us     34.522 us
-
+Eigen Vector Add                               100             1     3.0578 ms 
+                                        30.7693 us     29.465 us    36.1006 us 
+                                        10.9814 us    255.573 ns    25.6479 us 
+                                                                               
+IPP Vector Add                                 100             1     1.8323 ms 
+                                        18.0329 us    17.9409 us     18.331 us 
+                                        721.605 ns     53.565 ns    1.60573 us 
+                                                                               
+Raw Loop                                       100             1     3.3399 ms 
+                                        32.7682 us    32.1941 us    34.1398 us 
+                                        4.30973 us    2.15422 us    7.99879 us 
+                                                                               
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen Vector
   Add, length 1000000
 -------------------------------------------------------------------------------
-D:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(59)
+/home/seoxubuntu/gitrepos/ipp_ext/benchmarks/compare_eigen.cpp:59
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Vector Add                               100             1     2.49921 s
-                                        24.6048 ms    24.5281 ms    24.7315 ms
-                                        490.659 us    332.368 us    755.481 us
-
-IPP Vector Add                                 100             1    21.5314 ms
-                                        225.367 us    219.189 us    240.845 us
-                                        45.9843 us    13.7939 us    82.0527 us
-
-Raw Loop                                       100             1    722.587 ms
-                                        7.28364 ms    7.24763 ms    7.36697 ms
-                                        264.494 us    120.448 us    512.889 us
-
-
-===============================================================================
-test cases: 1 | 1 passed
-assertions: - none -
+Eigen Vector Add                               100             1    86.4121 ms 
+                                        860.113 us    840.069 us    921.139 us 
+                                        161.027 us    58.6004 us    350.828 us 
+                                                                               
+IPP Vector Add                                 100             1    58.1658 ms 
+                                        594.183 us    577.401 us    628.644 us 
+                                        117.893 us    69.6488 us    226.894 us 
+                                                                               
+Raw Loop                                       100             1    114.686 ms 
+                                        1.16465 ms    1.14504 ms    1.20911 ms 
+                                        142.938 us    72.3016 us     276.94 us
 ```
