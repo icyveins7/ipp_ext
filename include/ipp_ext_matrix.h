@@ -22,6 +22,13 @@ namespace ippe
                 
             }
 
+            // Explicit constructor which only specifies columns
+            explicit matrix(size_t columns)
+                : vector<T>(columns), m_rows(1), m_columns(columns)
+            {
+
+            }
+
             // Construct with certain value
             matrix(size_t rows, size_t columns, const T& value)
                 : vector<T>(rows * columns, value), m_rows(rows), m_columns(columns)
