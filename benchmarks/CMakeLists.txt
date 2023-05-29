@@ -69,6 +69,8 @@ endif()
 # We check if Eigen exists
 if (DEFINED ENV{EIGEN_DIR})
     message("Found Eigen. Compiling benchmark against Eigen...")
+    add_compile_definitions(EIGEN_NO_MALLOC) # Ensure run time errors if benchmark allocates memory
+
     include_directories($ENV{EIGEN_DIR})
     add_executable(compare_eigen compare_eigen.cpp)
     target_link_libraries(compare_eigen PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
@@ -76,4 +78,4 @@ endif()
 
 include(CTest)
 include(Catch)
-catch_discover_tests(benchmark_dft)
+# catch_discover_tests(benchmark_dft) # don't need to add this because we running each individually
