@@ -96,8 +96,94 @@ namespace ippe
             void resize(size_t new_count) = delete;
             void resize(size_t new_count, const T& value) = delete;
 
+            // Mathematical operations (these generally require specializations)
+
+            template <typename T, typename U>
+            void add(matrix<T>& other, matrix<U>& result);
+
         private:
             size_t m_rows = 0;
             size_t m_columns = 0;
+
+            bool sameDimensions(matrix& other)
+            {
+                return m_rows == other.m_rows && m_columns == other.m_columns;
+            }
     };
+
+
+    // Add Specializations
+    template <typename T, typename U>
+    inline void matrix<T>::add(matrix<T>& other, matrix<U>& result)
+    {
+        throw std::runtime_error("Matrix addition only implemented for specific types.");
+    }
+
+    // Ipp16s
+    template <>
+    inline void matrix<Ipp16s>::add(matrix<Ipp16s>& other, matrix<Ipp16s>& result)
+    {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
+        // Perform out-of-place addition
+        ippsAdd_16s(this->data(), other.data(), result.data(), this->size());
+    }
+
+    // Ipp32f
+    template <>
+    inline void matrix<Ipp32f>::add(matrix<Ipp32f>& other, matrix<Ipp32f>& result)
+    {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
+        // Perform out-of-place addition
+        ippsAdd_32f(this->data(), other.data(), result.data(), this->size());
+    }
+
+    // Ipp64f
+    template <>
+    inline void matrix<Ipp64f>::add(matrix<Ipp64f>& other, matrix<Ipp64f>& result)
+    {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
+        // Perform out-of-place addition
+        ippsAdd_64f(this->data(), other.data(), result.data(), this->size());
+    }
+
+    // Ipp32fc
+    template <>
+    inline void matrix<Ipp32fc>::add(matrix<Ipp32fc>& other, matrix<Ipp32fc>& result)
+    {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
+        // Perform out-of-place addition
+        ippsAdd_32fc(this->data(), other.data(), result.data(), this->size());
+    }
+
+    // Ipp64fc
+    template <>
+    inline void matrix<Ipp64fc>::add(matrix<Ipp64fc>& other, matrix<Ipp64fc>& result)
+    {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
+        // Perform out-of-place addition
+        ippsAdd_64fc(this->data(), other.data(), result.data(), this->size());
+    }
+
+    // Ipp8u to Ipp16u
+    template <>
+    inline void matrix<Ipp8u>::add(matrix<Ipp8u>& other, matrix<Ipp16u>& result)
+    {
+
+    }
 }
+

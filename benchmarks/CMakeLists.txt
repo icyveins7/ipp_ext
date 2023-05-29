@@ -10,6 +10,7 @@ if (MSVC)
     add_compile_options(/arch:AVX2)
 else()
     add_compile_options(-mavx2 -O3)
+    add_compile_definitions(NDEBUG)
 endif()
 
 # Check for user-specified CMAKE_PREFIX_PATH, otherwise generate it from VCPKG_DIR environment variable
