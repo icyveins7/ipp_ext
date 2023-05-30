@@ -89,3 +89,56 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
     }
 }
 
+TEST_CASE("ippe matrix adds", "[matrix],[adds]")
+{
+    SECTION("add out-of-place 32f")
+    {
+        ippe::matrix<Ipp32f> m32f(3,5);
+        ippe::matrix<Ipp32f> m32f2(3,5);
+        ippe::matrix<Ipp32f> m32f3(3,5);
+
+        // Fill some values
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            m32f.at(i) = (Ipp32f)i;
+            m32f2.at(i) = (Ipp32f)(i*2 + 1.1);
+        }
+
+        // Call the add
+        m32f.add(m32f2, m32f3);
+        
+        // Check the results
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            REQUIRE(m32f3.at(i) == m32f.at(i) + m32f2.at(i));
+        }
+    }
+
+    SECTION("add in-place 32f")
+    {
+        ippe::matrix<Ipp32f> m32f(3,5);
+        ippe::matrix<Ipp32f> m32f2(3,5);
+        ippe::matrix<Ipp32f> m32f3(3,5);
+
+        // Fill some values
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            m32f.at(i) = (Ipp32f)i;
+            m32f2.at(i) = (Ipp32f)(i*2 + 1.1);
+            // We use the last one to check
+            m32f3.at(i) = m32f.at(i);
+        }
+
+        // Call the add in place
+        m32f.add_I(m32f2);
+
+        // Check the results
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            REQUIRE(m32f.at(i) == m32f2.at(i) + m32f3.at(i));
+        }
+    }
+    
+
+}
+
