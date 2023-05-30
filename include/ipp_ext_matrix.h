@@ -903,6 +903,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp16s>::mul(matrix<Ipp16s>& other, matrix<Ipp16s>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_16s(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -915,6 +919,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp32f>::mul(matrix<Ipp32f>& other, matrix<Ipp32f>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_32f(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -927,6 +935,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp64f>::mul(matrix<Ipp64f>& other, matrix<Ipp64f>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_64f(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -939,6 +951,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp32fc>::mul(matrix<Ipp32fc>& other, matrix<Ipp32fc>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_32fc(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -951,6 +967,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp64fc>::mul(matrix<Ipp64fc>& other, matrix<Ipp64fc>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_64fc(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -963,6 +983,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp8u>::mul(matrix<Ipp8u>& other, matrix<Ipp16u>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_8u16u(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -975,6 +999,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp32f>::mul(matrix<Ipp32fc>& other, matrix<Ipp32fc>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_32f32fc(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
@@ -987,6 +1015,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp32fc>::mul(matrix<Ipp32f>& other, matrix<Ipp32fc>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_32f32fc(other.data(), this->data(), result.data(), this->size())) != ippStsNoErr)
@@ -999,6 +1031,10 @@ namespace ippe
     template <>
     inline void matrix<Ipp16s>::mul(matrix<Ipp16s>& other, matrix<Ipp32f>& result)
     {
+        // Check dimensions
+        if (!sameDimensions(other) || !sameDimensions(result))
+            throw std::runtime_error("Dimensions must all be identical.");
+
         IppStatus sts;
         // Perform out-of-place multiplication
         if ((sts = ippsMul_16s32f(this->data(), other.data(), result.data(), this->size())) != ippStsNoErr)
