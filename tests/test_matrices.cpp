@@ -138,6 +138,52 @@ TEST_CASE("ippe matrix adds", "[matrix],[adds]")
             REQUIRE(m32f.at(i) == m32f2.at(i) + m32f3.at(i));
         }
     }
+
+    SECTION("add constant 32f")
+    {
+        ippe::matrix<Ipp32f> m32f(3,5);
+        ippe::matrix<Ipp32f> m32f2(3,5);
+        Ipp32f v = 2.2;
+
+        // Fill some values
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            m32f.at(i) = (Ipp32f)i;
+        }
+
+        // Call the add
+        m32f.addC(v, m32f2);
+
+        // Check the results
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            REQUIRE(m32f2.at(i) == v + m32f.at(i));
+        }
+    }
+
+    SECTION("add constant in-place 32f")
+    {
+        ippe::matrix<Ipp32f> m32f(3,5);
+        Ipp32f v = 2.2;
+        ippe::matrix<Ipp32f> m32f2(3,5);
+
+        // Fill some values
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            m32f.at(i) = (Ipp32f)i;
+            // We use the last one to check
+            m32f2.at(i) = m32f.at(i);
+        }
+
+        // Call the add
+        m32f.addC_I(v);
+
+        // Check the results
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            REQUIRE(m32f.at(i) == v + m32f2.at(i));
+        }
+    }
     
 
 }
@@ -189,6 +235,52 @@ TEST_CASE("ippe matrix multiplies", "[matrix],[multiplies]")
         for (int i = 0; i < m32f.size(); ++i)
         {
             REQUIRE(m32f.at(i) == m32f2.at(i) * m32f3.at(i));
+        }
+    }
+
+    SECTION("multiply by a const 32f")
+    {
+        ippe::matrix<Ipp32f> m32f(3,5);
+        Ipp32f val = 4.5;
+        ippe::matrix<Ipp32f> m32f2(3,5);
+
+        // Fill some values
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            m32f.at(i) = (Ipp32f)i;
+        }
+
+        // Call the multiply
+        m32f.mulC(val, m32f2);
+        
+        // Check the results
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            REQUIRE(m32f2.at(i) == m32f.at(i) * val);
+        }
+    }
+
+    SECTION("multiply by a const in-place 32f")
+    {
+        ippe::matrix<Ipp32f> m32f(3,5);
+        Ipp32f val = 4.5;
+        ippe::matrix<Ipp32f> m32f2(3,5);
+
+        // Fill some values
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            m32f.at(i) = (Ipp32f)i;
+            // We use the last one to check
+            m32f2.at(i) = m32f.at(i);
+        }
+
+        // Call the multiply in place
+        m32f.mulC_I(val);
+
+        // Check the results
+        for (int i = 0; i < m32f.size(); ++i)
+        {
+            REQUIRE(m32f.at(i) == m32f2.at(i) * val);
         }
     }
     
