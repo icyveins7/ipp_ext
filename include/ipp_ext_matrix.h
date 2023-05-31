@@ -199,6 +199,14 @@ namespace ippe
             template <typename U>
             void mulC_ISfs(U val, int scaleFactor);
 
+            // /// @brief Performs matrix multiplication using ippsDotProd calls.
+            // /// @tparam U Type of the other matrix. In most cases this is the same type.
+            // /// @tparam V Type of the output matrix. In most cases this is the same type.
+            // /// @param other The second matrix to matrix multiply.
+            // /// @param result The pre-allocated matrix to write the result to.
+            // template <typename U, typename V>
+            // void matmul(matrix<U>& other, matrix<V>& result);
+
         private:
             size_t m_rows = 0;
             size_t m_columns = 0;
@@ -1747,6 +1755,47 @@ namespace ippe
         if ((sts = ippsMulC_64s_ISfs(value, this->data(), this->size(), scaleFactor)) != ippStsNoErr)
             throw std::runtime_error("ippsMulC_64s_ISfs failed with error " + std::to_string(sts));
     }
+
+    // ============================
+    // ============================ 
+    // Matmul Specializations
+    // ============================
+    // ============================
+
+    // template <typename T>
+    // template <typename U, typename V>
+    // inline void matrix<T>::matmul(matrix<U>& other, matrix<V>& result)
+    // {
+    //     throw std::runtime_error("Matrix multiplication only implemented for specific types.");
+    // }
+
+    // // Ipp32f
+
+    // template <>
+    // template <>
+    // inline void matrix<Ipp32f>::matmul(matrix<Ipp32f>& other, matrix<Ipp32f>& result)
+    // {
+    //     // Check dimensions
+    //     if (other.rows() != this->columns())
+    //         throw std::runtime_error("Matrix 'other' rows incompatible.");
+    //     if (other.columns() != result.columns() || this->rows() != result.rows())
+    //         throw std::runtime_error("Matrix 'result' dimensions incompatible.");
+
+    //     // Perform the chain of dot products
+    //     IppStatus sts;
+    //     vector<Ipp32f> column(other.rows()); // this is a temporary vector
+    //     for (int j = 0; j < other.columns(); j++)
+    //     {
+    //         // We iterate over columns on the outer loop because we need to create a temporary
+            
+
+
+    //         for (int i = 0; i < this->rows(); i++)
+    //         {
+
+    //         }
+    //     }
+    // }
 
 
 }
