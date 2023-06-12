@@ -17,12 +17,15 @@ namespace ippe{
         template <typename T, typename U>
         void Add(T* x, T* y, U* result, int length);
 
-        // /// @brief Adds current matrix to another with integer scaling, writing result to a final matrix.
-        // /// @param other The second matrix to add.
-        // /// @param result The pre-allocated matrix to write the result to.
-        // /// @param scaleFactor The integer scaling factor. Output is multiplied by
-        // /// 2^(-scaleFactor).
-        // void add_Sfs(matrix& other, matrix& result, int scaleFactor);
+        /// @brief Templated function to call ippsAdd_Sfs.
+        /// @tparam T Input/output type.
+        /// @param x First input pointer.
+        /// @param y Second input pointer.
+        /// @param result Output pointer.
+        /// @param length Length of all arrays.
+        /// @param scaleFactor 2^(-scaleFactor) is applied.
+        template <typename T>
+        void Add_Sfs(T* x, T* y, T* result, int length, int scaleFactor);
 
         // /// @brief Adds current matrix to another, writing the result in-place.
         // /// @tparam U Type of the other matrix. In most cases this is the same type.
@@ -214,108 +217,87 @@ namespace ippe{
             IPP_NO_ERROR(sts, "ippsAdd_16s32f");
         }
 
-        // // ============================
-        // // ============================ 
-        // //     Add_Sfs Specializations
-        // // ============================
-        // // ============================
+        // ============================
+        // ============================ 
+        //     Add_Sfs Specializations
+        // ============================
+        // ============================
 
-        // template <typename T>
-        // inline void add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     throw std::runtime_error("Matrix addition only implemented for specific types.");
-        // }
+        template <typename T>
+        inline void Add_Sfs(T* x, T* y, T* result, int length, int scaleFactor)
+        {
+            throw std::runtime_error("ippsAdd_Sfs only implemented for specific types.");
+        }
 
-        // // Ipp8u
+        // Ipp8u
 
-        // template <>
-        // inline void matrix<Ipp8u>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        template <>
+        inline void Add_Sfs(Ipp8u* x, Ipp8u* y, Ipp8u* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_8u_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_8u_Sfs");
+        }
 
-        //     // Perform out-of-place addition
-        //     ippsAdd_8u_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
+        // Ipp16u
 
-        // // Ipp16u
+        template <>
+        inline void Add_Sfs(Ipp16u* x, Ipp16u* y, Ipp16u* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_16u_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_16u_Sfs");
+        }
+        
+        // Ipp16s
 
-        // template <>
-        // inline void matrix<Ipp16u>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        template <>
+        inline void Add_Sfs(Ipp16s* x, Ipp16s* y, Ipp16s* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_16s_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_16s_Sfs");
+        }
+        
+        // Ipp32s
 
-        //     // Perform out-of-place addition
-        //     ippsAdd_16u_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
+        template <>
+        inline void Add_Sfs(Ipp32s* x, Ipp32s* y, Ipp32s* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_32s_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_32s_Sfs");
+        }
+        
+        // Ipp16sc
 
-        // // Ipp16s
+        template <>
+        inline void Add_Sfs(Ipp16sc* x, Ipp16sc* y, Ipp16sc* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_16sc_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_16sc_Sfs");
+        }
 
-        // template <>
-        // inline void matrix<Ipp16s>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        // Ipp32sc
 
-        //     // Perform out-of-place addition
-        //     ippsAdd_16s_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
+        template <>
+        inline void Add_Sfs(Ipp32sc* x, Ipp32sc* y, Ipp32sc* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_32sc_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_32sc_Sfs");
+        }
 
-        // // Ipp32s
+        // Ipp64s
 
-        // template <>
-        // inline void matrix<Ipp32s>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform out-of-place addition
-        //     ippsAdd_32s_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
-
-        // // Ipp16sc
-
-        // template <>
-        // inline void matrix<Ipp16sc>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform out-of-place addition
-        //     ippsAdd_16sc_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
-
-        // // Ipp32sc
-
-        // template <>
-        // inline void matrix<Ipp32sc>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform out-of-place addition
-        //     ippsAdd_32sc_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
-
-        // // Ipp64s
-
-        // template <>
-        // inline void matrix<Ipp64s>::add_Sfs(matrix& other, matrix& result, int scaleFactor)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other) || !sameDimensions(result))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform out-of-place addition
-        //     ippsAdd_64s_Sfs(this->data(), other.data(), result.data(), this->size(), scaleFactor);
-        // }
+        template <>
+        inline void Add_Sfs(Ipp64s* x, Ipp64s* y, Ipp64s* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_64s_Sfs(
+                x, y, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_64s_Sfs");
+        }
 
         // // ============================
         // // ============================ 

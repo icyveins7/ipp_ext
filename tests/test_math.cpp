@@ -215,3 +215,52 @@ TEST_CASE("ippe math Add", "[math, Add]")
        }
    }
 }
+
+TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
+{
+    /*
+    Flavours are:
+    Ipp8u
+    Ipp16u
+    Ipp16s
+    Ipp32s
+    Ipp16sc
+    Ipp32sc
+    Ipp64s
+    */
+
+   SECTION("Ipp8u")
+   {
+        ippe::vector<Ipp8u> x(10);
+        ippe::vector<Ipp8u> y(10);
+        ippe::vector<Ipp8u> result(10);
+
+        // Set some values
+        for (int i = 0; i < x.size(); ++i)
+        {
+            x[i] = i + 64;
+            y[i] = i * 2 + 64;
+        }
+
+        // Perform the operation, with a single scaling factor of half
+        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+
+        // Check the result
+        Ipp8u z;
+        for (int i = 0; i < x.size(); ++i)
+        {
+            z = x[i] + y[i];
+            // If z is odd, then the result must be fixed
+            if (z % 2 == 1)
+            {
+                z = z / 2;
+                z += 1;
+            }
+            else
+            {
+                z = z / 2;
+            }
+            REQUIRE(result[i] == z);
+        }
+   }
+}
