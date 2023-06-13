@@ -1,3 +1,4 @@
+#pragma once
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
