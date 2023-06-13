@@ -27,6 +27,16 @@ namespace ippe{
         template <typename T>
         void Add_Sfs(T* x, T* y, T* result, int length, int scaleFactor);
 
+
+        /// @brief Templated function to call ippsAdd_I.
+        /// @tparam T Input type.
+        /// @tparam U Input and Output type.
+        /// @param x Input pointer.
+        /// @param result Input and output pointer. Result is accumulated in place.
+        /// @param length Length of all arrays.
+        template <typename T, typename U>
+        void Add_I(T* x, U* result, int length);
+
         // /// @brief Adds current matrix to another, writing the result in-place.
         // /// @tparam U Type of the other matrix. In most cases this is the same type.
         // /// @param other The second matrix to add.
@@ -299,116 +309,87 @@ namespace ippe{
             IPP_NO_ERROR(sts, "ippsAdd_64s_Sfs");
         }
 
-        // // ============================
-        // // ============================ 
-        // // Add (in-place) Specializations
-        // // ============================
-        // // ============================
+        // ============================
+        // ============================ 
+        // Add (in-place) Specializations
+        // ============================
+        // ============================
 
-        // template <typename T> 
-        // template <typename U> 
-        // inline void add_I(matrix<U>& other)
-        // {
-        //     throw std::runtime_error("Matrix addition only implemented for specific types.");
-        // }
+        template<typename T, typename U>
+        inline void Add_I(T* x, U* result, int length)
+        {
+            throw std::runtime_error("ippsAdd_I only implemented for specific types.");
+        }
 
-        // // Ipp16s
+        // Ipp16s
 
-        // template <>
-        // template <>
-        // inline void matrix<Ipp16s>::add_I(matrix<Ipp16s>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        template <>
+        inline void Add_I(Ipp16s* x, Ipp16s* result, int length)
+        {
+            IppStatus sts = ippsAdd_16s_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_16s_I");
+        }
 
-        //     // Perform in-place addition
-        //     ippsAdd_16s_I(other.data(), this->data(), this->size());
-        // }
+        // Ipp32f
 
-        // // Ipp32f
+        template <>
+        inline void Add_I(Ipp32f* x, Ipp32f* result, int length)
+        {
+            IppStatus sts = ippsAdd_32f_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_32f_I");
+        }
 
-        // template <>
-        // template <>
-        // inline void matrix<Ipp32f>::add_I(matrix<Ipp32f>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        // Ipp64f
 
-        //     // Perform in-place addition
-        //     ippsAdd_32f_I(other.data(), this->data(), this->size());
-        // }
+        template <>
+        inline void Add_I(Ipp64f* x, Ipp64f* result, int length)
+        {
+            IppStatus sts = ippsAdd_64f_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_64f_I");
+        }
 
-        // // Ipp64f
+        // Ipp32fc
 
-        // template <>
-        // template <>
-        // inline void matrix<Ipp64f>::add_I(matrix<Ipp64f>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        template <>
+        inline void Add_I(Ipp32fc* x, Ipp32fc* result, int length)
+        {
+            IppStatus sts = ippsAdd_32fc_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_32fc_I");
+        }
 
-        //     // Perform in-place addition
-        //     ippsAdd_64f_I(other.data(), this->data(), this->size());
-        // }
+        // Ipp64fc
 
-        // // Ipp32fc
+        template <>
+        inline void Add_I(Ipp64fc* x, Ipp64fc* result, int length)
+        {
+            IppStatus sts = ippsAdd_64fc_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_64fc_I");
+        }
 
-        // template <>
-        // template <>
-        // inline void matrix<Ipp32fc>::add_I(matrix<Ipp32fc>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
+        // Ipp16s to Ipp32s
 
-        //     // Perform in-place addition
-        //     ippsAdd_32fc_I(other.data(), this->data(), this->size());
-        // }
+        template <>
+        inline void Add_I(Ipp16s* x, Ipp32s* result, int length)
+        {
+            IppStatus sts = ippsAdd_16s32s_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_16s32s_I");
+        }
 
-        // // Ipp64fc
+        // Ipp32u
 
-        // template <>
-        // template <>
-        // inline void matrix<Ipp64fc>::add_I(matrix<Ipp64fc>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform in-place addition
-        //     ippsAdd_64fc_I(other.data(), this->data(), this->size());
-        // }
-
-        // // Ipp16s from Ipp32s
-
-        // template <>
-        // template <>
-        // inline void matrix<Ipp32s>::add_I(matrix<Ipp16s>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform in-place addition
-        //     ippsAdd_16s32s_I(other.data(), this->data(), this->size());
-        // }
-
-        // // Ipp32u
-
-        // template <>
-        // template <>
-        // inline void matrix<Ipp32u>::add_I(matrix<Ipp32u>& other)
-        // {
-        //     // Check dimensions
-        //     if (!sameDimensions(other))
-        //         throw std::runtime_error("Dimensions must all be identical.");
-
-        //     // Perform in-place addition
-        //     ippsAdd_32u_I(other.data(), this->data(), this->size());
-        // }
+        template <>
+        inline void Add_I(Ipp32u* x, Ipp32u* result, int length)
+        {
+            IppStatus sts = ippsAdd_32u_I(
+                x, result, length);
+            IPP_NO_ERROR(sts, "ippsAdd_32u_I");
+        }
 
         // // ============================
         // // ============================ 
