@@ -916,3 +916,167 @@ TEST_CASE("ippe math Mul", "[math, Mul]")
         test_Mul<Ipp16s, Ipp16s, Ipp32f>();
     }
 }
+
+/*
+Templated test case for Mul_Sfs.
+*/
+template <typename T, typename U, typename V>
+void test_Mul_Sfs()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<U> y(10);
+    ippe::vector<V> result(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 1);
+        y[i] = (U)(i + 2);
+    }
+
+    // Perform the operation
+    ippe::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+
+     // Check the result
+    V z;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        z = x[i] * y[i];
+        // If z is odd, then the result must be fixed
+        if (z % 2 == 1)
+        {
+            z = z / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z % 2 == 1)
+                z += 1;
+        }
+        else
+        {
+            z = z / 2;
+        }
+
+        REQUIRE(result[i] == z);
+    }
+}
+
+template <typename T, typename U, typename V>
+void test_Mul_Sfs_complex()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<U> y(10);
+    ippe::vector<V> result(10);
+
+    // Set some values
+    T valT;
+    U valU;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        valT.re = i + 1;
+        valT.im = i + 2;
+        valU.re = 2*i + 3;
+        valU.im = 2*i + 4;
+        x[i] = valT;
+        y[i] = valU;
+    }
+
+    // Perform the operation
+    ippe::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+
+     // Check the result
+    V z;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        z.re = x[i].re * y[i].re - x[i].im * y[i].im;
+        z.im = x[i].re * y[i].im + x[i].im * y[i].re;
+        // If z is odd, then the result must be fixed
+        if (z.re % 2 == 1)
+        {
+            z.re = z.re / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z.re % 2 == 1){
+                if (z.re < 0)
+                    z.re -= 1; // complex muls in the test make some negative numbers
+                else
+                    z.re += 1;
+            }
+        }
+        else
+        {
+            z.re = z.re / 2;
+        }
+
+        // Similarly for imag part
+        if (z.im % 2 == 1)
+        {
+            z.im = z.im / 2;
+            if (z.im % 2 == 1){
+                if (z.im < 0)
+                    z.im -= 1; // complex muls in the test make some negative numbers
+                else
+                    z.im += 1;
+            }
+        }
+        else
+        {
+            z.im = z.im / 2;
+        }
+
+
+
+        printf("%d %d\n", x[i].re, x[i].im);
+        printf("%d %d\n", y[i].re, y[i].im);
+        REQUIRE(result[i].re == z.re);
+        REQUIRE(result[i].im == z.im);
+    }
+
+}
+
+TEST_CASE("ippe math Mul_Sfs", "[math, Mul_Sfs]")
+{
+    /*
+    Flavours are:
+    Ipp8u
+    Ipp16u
+    Ipp16s
+    Ipp32s
+    Ipp16sc
+    Ipp32sc
+    Ipp16s,Ipp16s -> Ipp32s
+    Ipp16u,Ipp16s -> Ipp16s
+    */
+
+    SECTION("Ipp8u"){
+        test_Mul_Sfs<Ipp8u, Ipp8u, Ipp8u>();
+    }
+
+    SECTION("Ipp16u"){
+        test_Mul_Sfs<Ipp16u, Ipp16u, Ipp16u>();
+    }
+
+    SECTION("Ipp16s"){
+        test_Mul_Sfs<Ipp16s, Ipp16s, Ipp16s>();
+    }
+
+    SECTION("Ipp32s"){
+        test_Mul_Sfs<Ipp32s, Ipp32s, Ipp32s>();
+    }
+
+    SECTION("Ipp16sc"){
+        test_Mul_Sfs_complex<Ipp16sc, Ipp16sc, Ipp16sc>();
+    }
+
+    SECTION("Ipp32sc"){
+        test_Mul_Sfs_complex<Ipp32sc, Ipp32sc, Ipp32sc>();
+    }
+
+    SECTION("Ipp16s,Ipp16s -> Ipp32s"){
+        test_Mul_Sfs<Ipp16s, Ipp16s, Ipp32s>();
+    }
+
+    SECTION("Ipp16u,Ipp16s -> Ipp16s"){
+        test_Mul_Sfs<Ipp16u, Ipp16s, Ipp16s>();
+    }
+    
+}
