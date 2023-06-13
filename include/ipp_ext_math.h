@@ -37,11 +37,14 @@ namespace ippe{
         template <typename T, typename U>
         void Add_I(T* x, U* result, int length);
 
-        // /// @brief Adds current matrix to another, writing the result in-place.
-        // /// @tparam U Type of the other matrix. In most cases this is the same type.
-        // /// @param other The second matrix to add.
-        // template <typename U>
-        // void add_I(matrix<U>& other);
+        /// @brief Templated function to call ippsAdd_I_Sfs.
+        /// @tparam T Input/output type.
+        /// @param x Input pointer.
+        /// @param result Input and output pointer. Result is accumulated in place.
+        /// @param length Length of all arrays.
+        /// @param scaleFactor 2^(-scaleFactor) is applied.
+        template <typename T>
+        void Add_ISfs(T* x, T* result, int length, int scaleFactor);
 
         // /// @brief Adds a constant value to the matrix, writing the result to a final matrix.
         // /// @param val The constant value to add.
@@ -389,6 +392,78 @@ namespace ippe{
             IppStatus sts = ippsAdd_32u_I(
                 x, result, length);
             IPP_NO_ERROR(sts, "ippsAdd_32u_I");
+        }
+
+        // ============================
+        // ============================ 
+        // Add_Sfs (in-place) Specializations
+        // ============================
+        // ============================
+
+        template <typename T>
+        inline void Add_ISfs(T* x, T* result, int length, int scaleFactor)
+        {
+            throw std::runtime_error("ippsAdd_ISfs only implemented for specific types.");
+        }
+
+        // Ipp8u
+
+        template <>
+        inline void Add_ISfs(Ipp8u* x, Ipp8u* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_8u_ISfs(
+                x, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_8u_ISfs");
+        }
+
+        // Ipp16u
+
+        template <>
+        inline void Add_ISfs(Ipp16u* x, Ipp16u* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_16u_ISfs(
+                x, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_16u_ISfs");
+        }
+
+        // Ipp16s
+
+        template <>
+        inline void Add_ISfs(Ipp16s* x, Ipp16s* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_16s_ISfs(
+                x, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_16s_ISfs");
+        }
+
+        // Ipp32s
+        
+        template <>
+        inline void Add_ISfs(Ipp32s* x, Ipp32s* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_32s_ISfs(
+                x, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_32s_ISfs");
+        }
+
+        // Ipp16sc
+
+        template <>
+        inline void Add_ISfs(Ipp16sc* x, Ipp16sc* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_16sc_ISfs(
+                x, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_16sc_ISfs");
+        }
+
+        // Ipp32sc
+
+        template <>
+        inline void Add_ISfs(Ipp32sc* x, Ipp32sc* result, int length, int scaleFactor)
+        {
+            IppStatus sts = ippsAdd_32sc_ISfs(
+                x, result, length, scaleFactor);
+            IPP_NO_ERROR(sts, "ippsAdd_32sc_ISfs");
         }
 
         // // ============================

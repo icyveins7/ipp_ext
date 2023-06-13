@@ -563,10 +563,16 @@ void test_Add_I_complex()
     ippe::vector<U> check(10);
 
     // Set some values
+    T valT;
+    U valU;
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i] = {(typeof(T.re))(i + 64), (typeof(T.im))(i + 65)};
-        result[i] = {(typeof(U.re))(2 * i + 64), (typeof(U.im))(2 * i + 65)};
+        valT.re = i + 64;
+        valT.im = i + 65;
+        valU.re = 2*i + 64;
+        valU.im = 2*i + 65;
+        x[i] = valT;
+        result[i] = valU;
         check[i] = result[i];
     }
 
@@ -620,5 +626,154 @@ TEST_CASE("ippe math Add_I", "[math, Add_I]")
 
     SECTION("Ipp32u"){
         test_Add_I<Ipp32u, Ipp32u>();
+    }
+}
+
+/*
+Templated test case for Add_ISfs
+*/
+template <typename T>
+void test_Add_ISfs()
+{
+    // Create two vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+    // Create check vector for result
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+        result[i] = (T)(i + 64);
+        check[i] = (T)(i + 64);
+    }
+
+    // Perform the operation, scaling by half
+    ippe::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
+    
+    // Check the result
+    T z;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        z = x[i] + check[i];
+        // If z is odd, then the result must be fixed
+        if (z % 2 == 1)
+        {
+            z = z / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z % 2 == 1)
+                z += 1;
+        }
+        else
+        {
+            z = z / 2;
+        }
+
+        REQUIRE(result[i] == z);
+    }
+}
+
+template <typename T>
+void test_Add_ISfs_complex()
+{
+    // Create two vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+    // Create check vector for result
+    ippe::vector<T> check(10);
+
+    // Set some values
+    T val1, val2;
+
+    for (int i = 0; i < x.size(); ++i)
+    {
+        val1.re = i + 64;
+        val1.im = i + 65;
+        val2.re = 2*i + 64;
+        val2.im = 2*i + 65;
+
+        x[i] = val1;
+        result[i] = val2;
+        check[i] = result[i];
+    }
+
+    // Perform the operation, scaling by half
+    ippe::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
+    
+    // Check the result
+    T z;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        // Check real
+        z.re = x[i].re + check[i].re;
+        // If z is odd, then the result must be fixed
+        if (z.re % 2 == 1)
+        {
+            z.re = z.re / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z.re % 2 == 1)
+                z.re += 1;
+        }
+        else
+        {
+            z.re = z.re / 2;
+        }
+
+        REQUIRE(result[i].re == z.re);
+
+        // Check imag
+        z.im = x[i].im + check[i].im;
+        // If z is odd, then the result must be fixed
+        if (z.im % 2 == 1)
+        {
+            z.im = z.im / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z.im % 2 == 1)
+                z.im += 1;
+        }
+        else
+        {
+            z.im = z.im / 2;
+        }
+
+        REQUIRE(result[i].im == z.im);
+    }
+}
+
+TEST_CASE("ippe math Add_ISfs", "[math, Add_ISfs]")
+{
+    /*
+    Flavours are:
+    Ipp8u
+    Ipp16u
+    Ipp16s
+    Ipp32s
+    Ipp16sc
+    Ipp32sc
+    */
+
+    SECTION("Ipp8u"){
+        test_Add_ISfs<Ipp8u>();
+    }
+
+    SECTION("Ipp16u"){
+        test_Add_ISfs<Ipp16u>();
+    }
+
+    SECTION("Ipp16s"){
+        test_Add_ISfs<Ipp16s>();
+    }
+
+    SECTION("Ipp32s"){
+        test_Add_ISfs<Ipp32s>();
+    }
+
+    SECTION("Ipp16sc"){
+        test_Add_ISfs_complex<Ipp16sc>();
+    }
+
+    SECTION("Ipp32sc"){
+        test_Add_ISfs_complex<Ipp32sc>();
     }
 }
