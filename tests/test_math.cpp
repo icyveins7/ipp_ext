@@ -990,16 +990,21 @@ void test_Mul_Sfs_complex()
     {
         z.re = x[i].re * y[i].re - x[i].im * y[i].im;
         z.im = x[i].re * y[i].im + x[i].im * y[i].re;
-        // If z is odd, then the result must be fixed
-        if (z.re % 2 == 1)
+        // If z is odd, then the result must be fixed, take care of negatives for our test case now due to complex
+        if (z.re % 2 == 1 || z.re % 2 == -1)
         {
             z.re = z.re / 2;
             // If the resulting division was clipped down to an odd number then add 1 to make it even
-            if (z.re % 2 == 1){
-                if (z.re < 0)
-                    z.re -= 1; // complex muls in the test make some negative numbers
-                else
+            if (z.re % 2 == 1 || z.re % 2 == -1){
+                if (z.re > 0) // for negative numbers we should already hit the even value
+                {
                     z.re += 1;
+                }
+                else
+                {
+                    z.re -= 1;
+                }
+                    
             }
         }
         else
@@ -1008,14 +1013,16 @@ void test_Mul_Sfs_complex()
         }
 
         // Similarly for imag part
-        if (z.im % 2 == 1)
+        if (z.im % 2 == 1 || z.im % 2 == -1)
         {
             z.im = z.im / 2;
-            if (z.im % 2 == 1){
-                if (z.im < 0)
-                    z.im -= 1; // complex muls in the test make some negative numbers
-                else
+            if (z.im % 2 == 1 || z.im % 2 == -1){
+                if (z.im > 0) // for negative numbers we should already hit the even value
                     z.im += 1;
+                else
+                {
+                    z.im -= 1;
+                }
             }
         }
         else
@@ -1023,10 +1030,6 @@ void test_Mul_Sfs_complex()
             z.im = z.im / 2;
         }
 
-
-
-        printf("%d %d\n", x[i].re, x[i].im);
-        printf("%d %d\n", y[i].re, y[i].im);
         REQUIRE(result[i].re == z.re);
         REQUIRE(result[i].im == z.im);
     }
