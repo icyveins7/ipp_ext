@@ -69,6 +69,10 @@ target_link_libraries(test_matrices PUBLIC ${ippcorelib} ${ippslib} Catch2::Catc
 add_executable(test_math test_math.cpp)
 target_link_libraries(test_math PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
 
+# Define test executable for random
+add_executable(test_random test_random.cpp)
+target_link_libraries(test_random PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 catch_discover_tests(test_vecs)
@@ -76,3 +80,4 @@ catch_discover_tests(test_dfts)
 catch_discover_tests(test_filters)
 catch_discover_tests(test_matrices)
 catch_discover_tests(test_math)
+catch_discover_tests(test_random)
