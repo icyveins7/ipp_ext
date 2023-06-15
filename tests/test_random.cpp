@@ -28,7 +28,7 @@ void randUniform_test()
     REQUIRE(gen2.getSeed() == 0);
 }
 
-TEST_CASE("ipp_ext_random RandUniform instantiation", "[random], [uniform]")
+TEST_CASE("ippe RandUniform instantiation", "[random], [uniform]")
 {
     SECTION("Ipp8u")
     {

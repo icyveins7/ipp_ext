@@ -1083,3 +1083,131 @@ TEST_CASE("ippe math Mul_Sfs", "[math, Mul_Sfs]")
     }
     
 }
+
+/*
+Templated test case for Mul_I.
+*/
+template <typename T, typename U>
+void test_Mul_I()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<U> check(10);
+    ippe::vector<U> result(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 1);
+        check[i] = (U)(i + 2);
+        result[i] = check[i];
+    }
+
+    // Perform the operation
+    ippe::math::Mul_I(x.data(), result.data(), x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == check[i] * x[i]);
+    }
+}
+
+template <typename T, typename U>
+void test_Mul_I_complex()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<U> check(10);
+    ippe::vector<U> result(10);
+
+    // Set some values
+    T valT;
+    U valU;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        valT.re = i + 1;
+        valT.im = i + 2;
+        valU.re = 2*i + 3;
+        valU.im = 2*i + 4;
+        x[i] = valT;
+        check[i] = valU;
+        result[i] = check[i];
+    }
+
+    // Perform the operation
+    ippe::math::Mul_I(x.data(), result.data(), x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == (check[i].re * x[i].re - check[i].im * x[i].im));
+        REQUIRE(result[i].im == (check[i].im * x[i].re + check[i].re * x[i].im));
+    }
+}
+
+TEST_CASE("ippe math Mul_I", "[math, Mul_I]")
+{
+    /*
+    Flavours are:
+    Ipp16s
+    Ipp32f
+    Ipp64f
+    Ipp32fc
+    Ipp64fc
+    Ipp32f -> Ipp32fc
+    */
+    
+    SECTION("Ipp16s"){
+        test_Mul_I<Ipp16s, Ipp16s>();
+    }
+
+    SECTION("Ipp32f"){
+        test_Mul_I<Ipp32f, Ipp32f>();
+    }
+
+    SECTION("Ipp64f"){
+        test_Mul_I<Ipp64f, Ipp64f>();
+    }
+
+    SECTION("Ipp32fc"){
+        test_Mul_I_complex<Ipp32fc, Ipp32fc>();
+    }
+
+    SECTION("Ipp64fc"){
+        test_Mul_I_complex<Ipp64fc, Ipp64fc>();
+    }
+
+    SECTION("Ipp32f -> Ipp32fc"){
+        // Need to specialise for this one
+        // Create vectors of the same size
+        ippe::vector<Ipp32f> x(10);
+        ippe::vector<Ipp32fc> check(10);
+        ippe::vector<Ipp32fc> result(10);
+
+        // Set some values
+        Ipp32f valT;
+        Ipp32fc valU;
+        for (int i = 0; i < x.size(); ++i)
+        {
+            valT = i;
+            valU.re = 2*i + 3;
+            valU.im = 2*i + 4;
+            x[i] = valT;
+            check[i] = valU;
+            result[i] = check[i];
+        }
+
+        // Perform the operation
+        ippe::math::Mul_I(x.data(), result.data(), x.size());
+
+        // Check the result
+        for (int i = 0; i < x.size(); ++i)
+        {
+            REQUIRE(result[i].re == (check[i].re * x[i]));
+            REQUIRE(result[i].im == (check[i].im * x[i]));
+        }
+    }
+
+
+}

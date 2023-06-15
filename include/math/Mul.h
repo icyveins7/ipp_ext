@@ -29,15 +29,14 @@ namespace ippe{
         template <typename T, typename U, typename V>
         void Mul_Sfs(T* x, U* y, V* result, int length, int scaleFactor);
 
-        // /// @brief Multiplies current matrix by another with integer scaling, writing result to a final matrix.
-        // /// @tparam U Type of the other matrix. In most cases this is the same type.
-        // /// @tparam V Type of the output matrix. In most cases this is the same type.
-        // /// @param other The second matrix to multiply.
-        // /// @param result The pre-allocated matrix to write the result to.
-        // /// @param scaleFactor The integer scaling factor. Output is multiplied by
-        // /// 2^(-scaleFactor).
-        // template <typename U, typename V>
-        // void mul_Sfs(matrix<U>& other, matrix<V>& result, int scaleFactor);
+        /// @brief Templated function to call ippsMul_I.
+        /// @tparam T Input type.
+        /// @tparam U Input/output type. 
+        /// @param x Input pointer.
+        /// @param result Input/output pointer. Result is written in-place.
+        /// @param length Length of all arrays.
+        template <typename T, typename U>
+        void Mul_I(T* x, U* result, int length);
 
         // /// @brief Multiplies current matrix by another, writing the result in-place.
         // /// @tparam U Type of the other matrix. In most cases this is the same type.
@@ -216,6 +215,72 @@ namespace ippe{
         {
             IppStatus sts = ippsMul_16u16s_Sfs(x, y, result, length, scaleFactor);
             IPP_NO_ERROR(sts, "ippsMul_16u16s_Sfs");
+        }
+
+        // ============================
+        // ============================ 
+        //     Mul_I Specializations
+        // ============================
+        // ============================
+
+        template <typename T, typename U>
+        inline void Mul_I(T* x, U* result, int length)
+        {
+            throw std::runtime_error("ippsMul_I only implemented for specific types.");
+        }
+
+        // Ipp16s
+
+        template <>
+        inline void Mul_I(Ipp16s* x, Ipp16s* result, int length)
+        {
+            IppStatus sts = ippsMul_16s_I(x, result, length);
+            IPP_NO_ERROR(sts, "ippsMul_16s_I");
+        }
+
+        // Ipp32f
+
+        template <>
+        inline void Mul_I(Ipp32f* x, Ipp32f* result, int length)
+        {
+            IppStatus sts = ippsMul_32f_I(x, result, length);
+            IPP_NO_ERROR(sts, "ippsMul_32f_I");
+        }
+
+        // Ipp64f
+
+        template <>
+        inline void Mul_I(Ipp64f* x, Ipp64f* result, int length)
+        {
+            IppStatus sts = ippsMul_64f_I(x, result, length);
+            IPP_NO_ERROR(sts, "ippsMul_64f_I");
+        }
+
+        // Ipp32fc
+
+        template <>
+        inline void Mul_I(Ipp32fc* x, Ipp32fc* result, int length)
+        {
+            IppStatus sts = ippsMul_32fc_I(x, result, length);
+            IPP_NO_ERROR(sts, "ippsMul_32fc_I");
+        }
+
+        // Ipp64fc
+
+        template <>
+        inline void Mul_I(Ipp64fc *x, Ipp64fc *result, int length)
+        {
+            IppStatus sts = ippsMul_64fc_I(x, result, length);
+            IPP_NO_ERROR(sts, "ippsMul_64fc_I");
+        }
+
+        // Ipp32f to Ipp32fc
+
+        template <>
+        inline void Mul_I(Ipp32f* x, Ipp32fc* result, int length)
+        {
+            IppStatus sts = ippsMul_32f32fc_I(x, result, length);
+            IPP_NO_ERROR(sts, "ippsMul_32f32fc_I");
         }
 
     }
