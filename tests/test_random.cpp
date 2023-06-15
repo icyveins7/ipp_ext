@@ -12,7 +12,7 @@ template <typename T>
 void randUniform_test()
 {
     // Create generator with seed
-    ippe::RandUniform<Ipp8u> gen(0, 1, 100);
+    ippe::RandUniform<T> gen(0, 1, 100);
 
     // Check internals
     REQUIRE(gen.getHigh() == 1);
@@ -20,7 +20,7 @@ void randUniform_test()
     REQUIRE(gen.getSeed() == 100);
 
     // Create without seed
-    ippe::RandUniform<Ipp8u> gen2(0, 1);
+    ippe::RandUniform<T> gen2(0, 1);
 
     // Check internals
     REQUIRE(gen2.getHigh() == 1);
