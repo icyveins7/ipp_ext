@@ -1,6 +1,5 @@
 #include <iostream>
-#include "ipp_ext_random.h"
-#include "ipp_ext_vec.h"
+#include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
 
@@ -26,9 +25,47 @@ void randUniform_test()
     REQUIRE(gen2.getHigh() == 1);
     REQUIRE(gen2.getLow() == 0);
     REQUIRE(gen2.getSeed() == 0);
+
+    // Create another via automatic copy constructor
+    ippe::RandUniform<T> gen3 = gen2;
+
+    // Generate some data
+    ippe::vector<T> data(1000);
+    ippe::vector<T> data2(1000);
+    ippe::vector<T> data3(1000);
+
+    gen.generate(data.data(), 1000);
+    gen2.generate(data2.data(), 1000);
+    gen3.generate(data3.data(), 1000);
+
+    // Same seed should be equal
+    for (int i = 0; i < 1000; i++)
+    {
+        REQUIRE(data2[i] == data3[i]);
+    }
+
+    // There should be at least 1 different value when seeds are different
+    bool isDifferent = false;
+    for (int i = 0; i < 1000; i++)
+    {
+        if (data[i] != data2[i])
+        {
+            isDifferent = true;
+            break;
+        }
+    }
+    REQUIRE(isDifferent);
+
+    // The values should be within the range
+    for (int i = 0; i < 1000; i++)
+    {
+        REQUIRE(((data[i] >= 0) && (data[i] <= 1)));
+        REQUIRE(((data2[i] >= 0) && (data2[i] <= 1)));
+        REQUIRE(((data3[i] >= 0) && (data3[i] <= 1)));
+    }
 }
 
-TEST_CASE("ippe RandUniform instantiation", "[random], [uniform]")
+TEST_CASE("ippe RandUniform", "[random], [uniform]")
 {
     SECTION("Ipp8u")
     {

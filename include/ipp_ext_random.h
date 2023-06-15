@@ -18,7 +18,7 @@ namespace ippe
 
         /// @brief Instantiates a RandUniform object with a particular seed.
         /// @param low Lower bound of values.
-        /// @param high Upper bound of values.
+        /// @param high Upper bound of values (inclusive).
         /// @param seed Seed for random number generator.
         RandUniform(T low, T high, unsigned int seed)
             : m_low{low}, m_high{high}, m_seed{seed}
@@ -28,7 +28,7 @@ namespace ippe
 
         /// @brief Instantiates a RandUniform object with a seed of 0.
         /// @param low Lower bound of values.
-        /// @param high Upper bound of values.
+        /// @param high Upper bound of values (inclusive).
         RandUniform(T low, T high)
             : RandUniform(low, high, 0)
         {
@@ -65,7 +65,7 @@ namespace ippe
     // Template specializations for prepare
 
     template <typename T>
-    void RandUniform<T>::prepare()
+    inline void RandUniform<T>::prepare()
     {
         throw std::runtime_error("RandUniform not implemented for generic types.");
     }
@@ -73,7 +73,7 @@ namespace ippe
     // Ipp8u
 
     template <>
-    void RandUniform<Ipp8u>::prepare()
+    inline void RandUniform<Ipp8u>::prepare()
     {
         IppStatus sts;
         // Get spec size
@@ -91,7 +91,7 @@ namespace ippe
     // Ipp16s
 
     template <>
-    void RandUniform<Ipp16s>::prepare()
+    inline void RandUniform<Ipp16s>::prepare()
     {
         IppStatus sts;
         // Get spec size
@@ -109,7 +109,7 @@ namespace ippe
     // Ipp32f
 
     template <>
-    void RandUniform<Ipp32f>::prepare()
+    inline void RandUniform<Ipp32f>::prepare()
     {
         IppStatus sts;
         // Get spec size
@@ -127,7 +127,7 @@ namespace ippe
     // Ipp64f
 
     template <>
-    void RandUniform<Ipp64f>::prepare()
+    inline void RandUniform<Ipp64f>::prepare()
     {
         IppStatus sts;
         // Get spec size
@@ -145,7 +145,7 @@ namespace ippe
     // Template specializations for generate
 
     template <typename T>
-    void RandUniform<T>::generate(T* data, int length)
+    inline void RandUniform<T>::generate(T* data, int length)
     {
         throw std::runtime_error("RandUniform not implemented for generic types.");
     }
@@ -153,7 +153,7 @@ namespace ippe
     // Ipp8u
 
     template <>
-    void RandUniform<Ipp8u>::generate(Ipp8u* data, int length)
+    inline void RandUniform<Ipp8u>::generate(Ipp8u* data, int length)
     {
         IppStatus sts = ippsRandUniform_8u(
             data, length, (IppsRandUniState_8u*)rndObj.data()); 
@@ -163,7 +163,7 @@ namespace ippe
     // Ipp16s
 
     template <>
-    void RandUniform<Ipp16s>::generate(Ipp16s* data, int length)
+    inline void RandUniform<Ipp16s>::generate(Ipp16s* data, int length)
     {
         IppStatus sts = ippsRandUniform_16s(
             data, length, (IppsRandUniState_16s*)rndObj.data()); 
@@ -173,7 +173,7 @@ namespace ippe
     // Ipp32f
 
     template <>
-    void RandUniform<Ipp32f>::generate(Ipp32f* data, int length)
+    inline void RandUniform<Ipp32f>::generate(Ipp32f* data, int length)
     {
         IppStatus sts = ippsRandUniform_32f(
             data, length, (IppsRandUniState_32f*)rndObj.data()); 
@@ -183,7 +183,7 @@ namespace ippe
     // Ipp64f
 
     template <>
-    void RandUniform<Ipp64f>::generate(Ipp64f* data, int length)
+    inline void RandUniform<Ipp64f>::generate(Ipp64f* data, int length)
     {
         IppStatus sts = ippsRandUniform_64f(
             data, length, (IppsRandUniState_64f*)rndObj.data()); 
