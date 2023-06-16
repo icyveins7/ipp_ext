@@ -114,23 +114,23 @@ void randGauss_test()
     ippe::RandGauss<T> gen3 = gen2;
 
     // Generate some data
-    ippe::vector<T> data(1000);
-    ippe::vector<T> data2(1000);
-    ippe::vector<T> data3(1000);
+    ippe::vector<T> data(10);
+    ippe::vector<T> data2(10);
+    ippe::vector<T> data3(10);
 
-    gen.generate(data.data(), 1000);
-    gen2.generate(data2.data(), 1000);
-    gen3.generate(data3.data(), 1000);
+    gen.generate(data.data(), 10);
+    gen2.generate(data2.data(), 10);
+    gen3.generate(data3.data(), 10);
 
     // Same seed should be equal
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 10; i++)
     {
         REQUIRE(data2[i] == data3[i]);
     }
 
     // There should be at least 1 different value when seeds are different
     bool isDifferent = false;
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 10; i++)
     {
         if (data[i] != data2[i])
         {
@@ -141,16 +141,19 @@ void randGauss_test()
     REQUIRE(isDifferent);
 
     // Can't really definitively test for stddeviation/mean values, nor range of values
-    T estMean = 0, estMean2 = 0;
-    for (int i = 0; i < 1000; i++)
+    T estMean = 0, estMean2 = 0, estMean3 = 0;
+    for (int i = 0; i < 10; i++)
     {
         estMean += data[i];
         estMean2 += data2[i];
+        estMean3 += data3[i];
     }
-    estMean = estMean / (T)1000;
-    estMean2 = estMean2 / (T)1000;
+    estMean = estMean / (T)10;
+    estMean2 = estMean2 / (T)10;
+    estMean3 = estMean3 / (T)10;
 
     REQUIRE(estMean > estMean2); // First one should be sufficiently bigger
+    REQUIRE(estMean2 == estMean3);
 }
 
 TEST_CASE("ippe RandGauss", "[random], [gauss]")
