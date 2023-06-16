@@ -17,19 +17,19 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
         REQUIRE(v8u_size.size() == 2);
         REQUIRE(v8u_size.capacity() == 2);
 
-        // ippe::vector<Ipp8u> v8u_size_zeroed(2, 0);
-        // REQUIRE(v8u_size_zeroed.size() == 2);
-        // REQUIRE(v8u_size_zeroed.capacity() == 2);
-        // Ipp8u z = 0;
-        // REQUIRE(v8u_size_zeroed.at(0) == z);
-        // REQUIRE(v8u_size_zeroed.at(1) == z);
+        ippe::vector<Ipp8u> v8u_size_zeroed(2, 0);
+        REQUIRE(v8u_size_zeroed.size() == 2);
+        REQUIRE(v8u_size_zeroed.capacity() == 2);
+        Ipp8u z = 0;
+        REQUIRE(v8u_size_zeroed.at(0) == z);
+        REQUIRE(v8u_size_zeroed.at(1) == z);
 
-        // Ipp8u v = 10;
-        // ippe::vector<Ipp8u> v8u_size_valued(2, v)
-        // REQUIRE(v8u_size_valued.size() == 2);
-        // REQUIRE(v8u_size_valued.capacity() == 2);
-        // REQUIRE(v8u_size_valued.at(0) == v);
-        // REQUIRE(v8u_size_valued.at(1) == v);
+        Ipp8u v = 10;
+        ippe::vector<Ipp8u> v8u_size_valued(2, v);
+        REQUIRE(v8u_size_valued.size() == 2);
+        REQUIRE(v8u_size_valued.capacity() == 2);
+        REQUIRE(v8u_size_valued.at(0) == v);
+        REQUIRE(v8u_size_valued.at(1) == v);
     }
 
     SECTION("instantiate 16u"){
