@@ -8,6 +8,7 @@ multiply defined symbols errors do not occur.
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
+#include "ipp_ext_errors.h"
 
 namespace ippe
 {
@@ -207,8 +208,14 @@ namespace ippe
 		{
 			// allocate new memory
 			Ipp8u *newm_data = ippsMalloc_8u_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
 			// copy the existing data first
-			ippsCopy_8u(m_data, newm_data, (int)cap);
+			IppStatus sts = ippsCopy_8u(m_data, newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_8u");
+
 			// free the old memory
 			ippsFree(m_data);
 			// set the new data
@@ -226,8 +233,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp16u *newm_data = ippsMalloc_16u_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
+            IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
+            IPP_NO_ERROR(sts, "ippsCopy_16s");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -245,8 +258,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp32u *newm_data = ippsMalloc_32u_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap); // wrap as 32s
+            IppStatus sts = ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap); // wrap as 32s
+            IPP_NO_ERROR(sts, "ippsCopy_32s");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -264,8 +283,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp64u *newm_data = (Ipp64u*)ippsMalloc_64s_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap); // wrap as 64s
+            IppStatus sts = ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap); // wrap as 64s
+            IPP_NO_ERROR(sts, "ippsCopy_64s");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -283,8 +308,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp8s *newm_data = ippsMalloc_8s_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_8u((Ipp8u*)m_data, (Ipp8u*)newm_data, (int)cap); // wrap as 8u
+            IppStatus sts = ippsCopy_8u((Ipp8u*)m_data, (Ipp8u*)newm_data, (int)cap); // wrap as 8u
+            IPP_NO_ERROR(sts, "ippsCopy_8u");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -302,8 +333,15 @@ namespace ippe
         {
             // allocate new memory
             Ipp16s *newm_data = ippsMalloc_16s_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_16s");
+
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -321,8 +359,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp32s *newm_data = ippsMalloc_32s_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_32s");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -340,8 +384,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp64s *newm_data = ippsMalloc_64s_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_64s");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -359,8 +409,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp32f *newm_data = ippsMalloc_32f_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_32f((Ipp32f*)m_data, (Ipp32f*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_32f((Ipp32f*)m_data, (Ipp32f*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_32f");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -378,8 +434,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp64f *newm_data = ippsMalloc_64f_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_64f((Ipp64f*)m_data, (Ipp64f*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_64f((Ipp64f*)m_data, (Ipp64f*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_64f");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -397,8 +459,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp8sc *newm_data = ippsMalloc_8sc_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
+            IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
+            IPP_NO_ERROR(sts, "ippsCopy_16s");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -416,8 +484,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp16sc *newm_data = ippsMalloc_16sc_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_16sc((Ipp16sc*)m_data, (Ipp16sc*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_16sc((Ipp16sc*)m_data, (Ipp16sc*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_16sc");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -435,8 +509,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp32sc *newm_data = ippsMalloc_32sc_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_32sc((Ipp32sc*)m_data, (Ipp32sc*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_32sc((Ipp32sc*)m_data, (Ipp32sc*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_32sc");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -454,8 +534,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp64sc *newm_data = ippsMalloc_64sc_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_64sc((Ipp64sc*)m_data, (Ipp64sc*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_64sc((Ipp64sc*)m_data, (Ipp64sc*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_64sc");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -473,8 +559,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp32fc *newm_data = ippsMalloc_32fc_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first
-            ippsCopy_32fc((Ipp32fc*)m_data, (Ipp32fc*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_32fc((Ipp32fc*)m_data, (Ipp32fc*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_32fc");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
@@ -492,8 +584,14 @@ namespace ippe
         {
             // allocate new memory
             Ipp64fc *newm_data = ippsMalloc_64fc_L(new_cap);
+            // check that memory was allocated
+            if (newm_data == NULL)
+                throw std::bad_alloc();
+
             // copy the existing data first, if it exists
-            ippsCopy_64fc((Ipp64fc*)m_data, (Ipp64fc*)newm_data, (int)cap);
+            IppStatus sts = ippsCopy_64fc((Ipp64fc*)m_data, (Ipp64fc*)newm_data, (int)cap);
+            IPP_NO_ERROR(sts, "ippsCopy_64fc");
+
             // free the old memory
             ippsFree(m_data);
             // set the new data
