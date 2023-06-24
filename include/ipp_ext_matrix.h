@@ -6,8 +6,6 @@ namespace ippe
 {
     /// @brief Matrix class that inherits from vector.
     /// This class has a concept of dimensions (rows and columns), along with appropriate accessors.
-    /// It will also enable the use of math through public methods,
-    /// like add().
     /// @tparam T Type of the matrix elements. Must be a type that satisfies ippe::vector.
     template <typename T>
     class matrix : public vector<T>
