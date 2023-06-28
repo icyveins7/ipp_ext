@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ipp_ext_matrix.h"
+#include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
 

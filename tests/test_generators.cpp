@@ -1,6 +1,5 @@
 #include <iostream>
-#include "ipp_ext_generator.h"
-#include "ipp_ext_vec.h"
+#include "ipp_ext.h"
 
 #include <catch2/catch_test_macros.hpp>
 
