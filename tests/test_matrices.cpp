@@ -75,7 +75,7 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
         // Check row access
         for (int i = 0; i < m8u.rows(); ++i)
         {
-            REQUIRE(&m8u.row(i) == &m8u.at(i * m8u.columns())); // check reference
+            REQUIRE(m8u.row(i) == &m8u.at(i * m8u.columns())); // check reference
         }
 
         // Check indexed access

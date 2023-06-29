@@ -1308,3 +1308,198 @@ TEST_CASE("ippe math Sub", "[math, Sub]")
         test_Sub<Ipp16s, Ipp32f>();
     }
 }
+
+/*
+Templated test case for Sub_I.
+*/
+template <typename T>
+void test_Sub_I()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (i + 1);
+        result[i] = (i + 2);
+        check[i] = result[i];
+    }
+
+    // Perform the operation
+    ippe::math::Sub_I(x.data(), result.data(), x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == check[i] - x[i]);
+    }
+}
+
+template <typename T>
+void test_Sub_I_complex()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        T valT;
+        valT.re = i + 1;
+        valT.im = i + 2;
+        x[i] = valT;
+
+        valT.re = 2*i + 3;
+        valT.im = 2*i + 4;
+        result[i] = valT;
+        check[i] = result[i];
+    }
+
+    // Perform the operation
+    ippe::math::Sub_I(x.data(), result.data(), x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == check[i].re - x[i].re);
+        REQUIRE(result[i].im == check[i].im - x[i].im);
+    }
+}
+
+TEST_CASE("ippe math Sub_I", "[math, Sub_I]")
+{
+    /*
+    Flavours are:
+    Ipp16s
+    Ipp32f
+    Ipp64f
+    Ipp32fc
+    Ipp64fc
+    */
+
+    SECTION("Ipp16s"){
+        test_Sub_I<Ipp16s>();
+    }
+
+    SECTION("Ipp32f"){
+        test_Sub_I<Ipp32f>();
+    }
+
+    SECTION("Ipp64f"){
+        test_Sub_I<Ipp64f>();
+    }
+
+    SECTION("Ipp32fc"){
+        test_Sub_I_complex<Ipp32fc>();
+    }
+
+    SECTION("Ipp64fc"){
+        test_Sub_I_complex<Ipp64fc>();
+    }
+
+}
+
+// I'm not going to bother checking any more Sfs as it's very cumbersome..
+
+/*
+Templated test case for Norm_L2
+*/
+template <typename T, typename U>
+void test_Norm_L2()
+{
+    // Create arrays
+    ippe::matrix<T> x(10, 10);
+    ippe::vector<U> norms(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 1);
+    }
+
+    // Perform the operation on each row
+    for (int i = 0; i < x.rows(); ++i)
+    {
+        ippe::math::Norm_L2(x.row(i), x.columns(), &norms.at(i));
+
+        // Calculate the norm manually
+        U norm = 0;
+        for (int j = 0; j < x.columns(); ++j)
+        {
+            norm += x.index(i,j) * x.index(i,j);
+        }
+
+        REQUIRE(std::sqrt(norm) == norms.at(i));
+    }
+}
+
+template <typename T, typename U>
+void test_Norm_L2_complex()
+{
+    // Create arrays
+    ippe::matrix<T> x(10, 10);
+    ippe::vector<U> norms(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        T valT;
+        valT.re = i + 1;
+        valT.im = i + 2;
+        x[i] = valT;
+    }
+
+    // Perform the operation on each row
+    for (int i = 0; i < x.rows(); ++i)
+    {
+        ippe::math::Norm_L2(x.row(i), x.columns(), &norms.at(i));
+
+        // Calculate the norm manually
+        U norm = 0;
+        for (int j = 0; j < x.columns(); ++j)
+        {
+            norm += x.index(i,j).re * x.index(i,j).re + x.index(i,j).im * x.index(i,j).im;
+        }
+
+        REQUIRE(std::sqrt(norm) == norms.at(i));
+    }
+}
+
+TEST_CASE("ippe math Norm_L2", "[math, Norm_L2]")
+{
+    /*
+    Flavours are:
+    Ipp32f
+    Ipp64f
+    Ipp16s -> Ipp32f
+    Ipp32fc -> Ipp64f
+    Ipp64fc -> Ipp64f
+    */
+
+    SECTION("Ipp32f"){
+        test_Norm_L2<Ipp32f, Ipp32f>();
+    }
+
+    SECTION("Ipp64f"){
+        test_Norm_L2<Ipp64f, Ipp64f>();
+    }
+
+    SECTION("Ipp16s -> Ipp32f"){
+        test_Norm_L2<Ipp16s, Ipp32f>();
+    }
+
+    SECTION("Ipp32fc -> Ipp64f"){
+        test_Norm_L2_complex<Ipp32fc, Ipp64f>();
+    }
+
+    SECTION("Ipp64fc -> Ipp64f"){
+        test_Norm_L2_complex<Ipp64fc, Ipp64f>();
+    }
+
+}
+

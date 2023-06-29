@@ -73,14 +73,14 @@ namespace ippe
             }
 
             // Access a row
-            T& row(size_t rowIdx)
+            T* row(size_t rowIdx)
             {
                 if (rowIdx >= m_rows)
                 {
                     throw std::out_of_range("Row index out of range");
                 }
                 else
-                    return this->m_data[m_columns * rowIdx]; 
+                    return &this->m_data[m_columns * rowIdx]; 
                 // you need this->, otherwise it fails compilation
                 // see https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-members
             }
