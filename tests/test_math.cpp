@@ -1208,5 +1208,103 @@ TEST_CASE("ippe math Mul_I", "[math, Mul_I]")
         }
     }
 
+}
 
+/*
+Templated test case for Sub.
+*/
+template <typename T, typename U>
+void test_Sub()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<U> result(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 1);
+        y[i] = (U)(i + 2);
+    }
+
+    // Perform the operation
+    ippe::math::Sub(x.data(), y.data(), result.data(), x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == y[i] - x[i]);
+    }
+}
+
+template <typename T>
+void test_Sub_complex()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<T> result(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        T valT;
+        valT.re = i + 1;
+        valT.im = i + 2;
+
+        x[i] = valT;
+
+        valT.re = 2*i + 3;
+        valT.im = 2*i + 4;
+
+        y[i] = valT;
+    }
+
+    // Perform the operation
+    ippe::math::Sub(x.data(), y.data(), result.data(), x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == y[i].re - x[i].re);
+        REQUIRE(result[i].im == y[i].im - x[i].im);
+    }
+}
+
+TEST_CASE("ippe math Sub", "[math, Sub]")
+{
+    /*
+    Flavours are:
+    Ipp16s
+    Ipp32f
+    Ipp64f
+    Ipp32fc
+    Ipp64fc
+    Ipp16s -> Ipp32f
+    */
+
+    SECTION("Ipp16s"){
+        test_Sub<Ipp16s, Ipp16s>();
+    }
+
+    SECTION("Ipp32f"){
+        test_Sub<Ipp32f, Ipp32f>();
+    }
+
+    SECTION("Ipp64f"){
+        test_Sub<Ipp64f, Ipp64f>();
+    }
+
+    SECTION("Ipp32fc"){
+        test_Sub_complex<Ipp32fc>();
+    }
+
+    SECTION("Ipp64fc"){
+        test_Sub_complex<Ipp64fc>();
+    }
+
+    SECTION("Ipp16s -> Ipp32f"){
+        test_Sub<Ipp16s, Ipp32f>();
+    }
 }
