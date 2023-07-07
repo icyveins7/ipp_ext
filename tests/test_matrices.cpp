@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ipp_ext.h"
+#include <stdexcept>
 
 #include <catch2/catch_test_macros.hpp>
 
@@ -89,200 +90,89 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
     }
 }
 
-// TEST_CASE("ippe matrix adds", "[matrix],[adds]")
-// {
-//     SECTION("add out-of-place 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-//         ippe::matrix<Ipp32f> m32f3(3,5);
+TEST_CASE("ippe matrix math", "[matrix],[math]")
+{
+    SECTION("create new 16u from 16u + 16u")
+    {
+        ippe::matrix<Ipp16u> x(3,5);
+        ippe::matrix<Ipp16u> y(3,5);
+        for (int i = 0; i < x.size(); ++i)
+            x.at(i) = i;
+        for (int i = 0; i < y.size(); ++i)
+            y.at(i) = i + 1;
 
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//             m32f2.at(i) = (Ipp32f)(i*2 + 1.1);
-//         }
+        ippe::matrix<Ipp16u> z = x + y;
+        for (int i = 0; i < z.size(); ++i)
+            REQUIRE(z.at(i) == x.at(i) + y.at(i));
 
-//         // Call the add
-//         m32f.add(m32f2, m32f3);
-        
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f3.at(i) == m32f.at(i) + m32f2.at(i));
-//         }
-//     }
+        // Demonstrate failure with mismatched shapes
+        ippe::matrix<Ipp16u> ywrong(5,3);
 
-//     SECTION("add in-place 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-//         ippe::matrix<Ipp32f> m32f3(3,5);
+        REQUIRE_THROWS_AS(z = x + ywrong, std::out_of_range);
+    }
 
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//             m32f2.at(i) = (Ipp32f)(i*2 + 1.1);
-//             // We use the last one to check
-//             m32f3.at(i) = m32f.at(i);
-//         }
+    SECTION("create new 16s from 16s - 16s")
+    {
+        ippe::matrix<Ipp16s> x(3,5);
+        ippe::matrix<Ipp16s> y(3,5);
+        for (int i = 0; i < x.size(); ++i)
+            x.at(i) = i;
+        for (int i = 0; i < y.size(); ++i)
+            y.at(i) = i + 1;
 
-//         // Call the add in place
-//         m32f.add_I(m32f2);
+        ippe::matrix<Ipp16s> z = y - x;
+        for (int i = 0; i < z.size(); ++i)
+            REQUIRE(z.at(i) == y.at(i) - x.at(i));
 
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f.at(i) == m32f2.at(i) + m32f3.at(i));
-//         }
-//     }
+        // Demonstrate failure with mismatched shapes
+        ippe::matrix<Ipp16s> ywrong(5,3);
 
-//     SECTION("add constant 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-//         Ipp32f v = 2.2;
+        REQUIRE_THROWS_AS(z = ywrong - x, std::out_of_range);
+    }
 
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//         }
+    SECTION("accumulate 16s as 16s + 16s")
+    {
+        ippe::matrix<Ipp16s> x(3,5);
+        ippe::matrix<Ipp16s> y(3,5);
+        ippe::matrix<Ipp16s> check(3,5);
+        for (int i = 0; i < x.size(); ++i)
+        {
+            x.at(i) = i;
+            y.at(i) = i+1;
+            check.at(i) = x.at(i);
+        }
 
-//         // Call the add
-//         m32f.addC(v, m32f2);
+        // Demonstrate chaining as well
+        (x += y) += y; // x = x + y + y, leaves y untouched
+        for (int i = 0; i < x.size(); ++i)
+            REQUIRE(x.at(i) ==  y.at(i) + y.at(i) + check.at(i));
 
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f2.at(i) == v + m32f.at(i));
-//         }
-//     }
+        // Demonstrate failure with mismatched shapes
+        ippe::matrix<Ipp16s> ywrong(5,3);
 
-//     SECTION("add constant in-place 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         Ipp32f v = 2.2;
-//         ippe::matrix<Ipp32f> m32f2(3,5);
+        REQUIRE_THROWS_AS(x += ywrong, std::out_of_range);
+    }
 
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//             // We use the last one to check
-//             m32f2.at(i) = m32f.at(i);
-//         }
+    SECTION("accumulate 16s as 16s - 16s")
+    {
+        ippe::matrix<Ipp16s> x(3,5);
+        ippe::matrix<Ipp16s> y(3,5);
+        ippe::matrix<Ipp16s> check(3,5);
+        for (int i = 0; i < x.size(); ++i)
+        {
+            x.at(i) = i;
+            y.at(i) = 2*(i+1);
+            check.at(i) = y.at(i);
+        }
 
-//         // Call the add
-//         m32f.addC_I(v);
+        // Demonstrate chaining as well
+        (y -= x) -= x; // y = y - x - x, leaves x untouched
+        for (int i = 0; i < x.size(); ++i)
+            REQUIRE(y.at(i) == check.at(i) - x.at(i) - x.at(i));
 
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f.at(i) == v + m32f2.at(i));
-//         }
-//     }
-    
+        // Demonstrate failure with mismatched shapes
+        ippe::matrix<Ipp16s> ywrong(5,3);
 
-// }
-
-// TEST_CASE("ippe matrix multiplies", "[matrix],[multiplies]")
-// {
-//     SECTION("multiply out-of-place 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-//         ippe::matrix<Ipp32f> m32f3(3,5);
-
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//             m32f2.at(i) = (Ipp32f)(i*2 + 1.1);
-//         }
-
-//         // Call the multiply
-//         m32f.mul(m32f2, m32f3);
-        
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f3.at(i) == m32f.at(i) * m32f2.at(i));
-//         }
-//     }
-
-//     SECTION("multiply in-place 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-//         ippe::matrix<Ipp32f> m32f3(3,5);
-
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//             m32f2.at(i) = (Ipp32f)(i*2 + 1.1);
-//             // We use the last one to check
-//             m32f3.at(i) = m32f.at(i);
-//         }
-
-//         // Call the multiply in place
-//         m32f.mul_I(m32f2);
-
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f.at(i) == m32f2.at(i) * m32f3.at(i));
-//         }
-//     }
-
-//     SECTION("multiply by a const 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         Ipp32f val = 4.5;
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//         }
-
-//         // Call the multiply
-//         m32f.mulC(val, m32f2);
-        
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f2.at(i) == m32f.at(i) * val);
-//         }
-//     }
-
-//     SECTION("multiply by a const in-place 32f")
-//     {
-//         ippe::matrix<Ipp32f> m32f(3,5);
-//         Ipp32f val = 4.5;
-//         ippe::matrix<Ipp32f> m32f2(3,5);
-
-//         // Fill some values
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             m32f.at(i) = (Ipp32f)i;
-//             // We use the last one to check
-//             m32f2.at(i) = m32f.at(i);
-//         }
-
-//         // Call the multiply in place
-//         m32f.mulC_I(val);
-
-//         // Check the results
-//         for (int i = 0; i < m32f.size(); ++i)
-//         {
-//             REQUIRE(m32f.at(i) == m32f2.at(i) * val);
-//         }
-//     }
-// 
-// }
-
+        REQUIRE_THROWS_AS(ywrong -= x, std::out_of_range);
+    }
+}

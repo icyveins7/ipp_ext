@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ipp_ext_vec.h"
+// We include math functions experimentally
+#include "ipp_ext_math.h"
 
 namespace ippe
 {
@@ -92,6 +94,64 @@ namespace ippe
                     throw std::out_of_range("Index out of range");
                 else
                     return this->m_data[rowIdx * m_columns + columnIdx];
+            }
+
+            // Simple math functions
+
+            /// @brief Creates a new matrix of the same shape by addition.
+            /// @param other The other matrix.
+            /// @return New matrix containing the sum.
+            matrix operator+(matrix& other)
+            {
+                // Ensure same shape
+                if (!sameDimensions(other))
+                    throw std::out_of_range("Dimension mismatch for operator+");
+
+                // Perform add using the ippe math functions
+                matrix result(this->rows(), this->columns());
+                ippe::math::Add(this->data(), other.data(), result.data(), result.size());
+
+                return result;
+            }
+
+            /// @brief Creates a new matrix of the same shape by subtraction.
+            /// @param other The other matrix.
+            /// @return New matrix containing the difference.
+            matrix operator-(matrix& other)
+            {
+                // Ensure same shape
+                if (!sameDimensions(other))
+                    throw std::out_of_range("Dimension mismatch for operator+");
+
+                // Perform sub using the ippe math functions
+                matrix result(this->rows(), this->columns());
+                ippe::math::Sub(other.data(), this->data(), result.data(), result.size());
+
+                return result;
+            }
+
+            matrix& operator+=(matrix &other)
+            {
+                // Ensure same shape
+                if (!sameDimensions(other))
+                    throw std::out_of_range("Dimension mismatch for operator+");
+
+                // Perform add using the ippe math functions
+                ippe::math::Add_I(other.data(), this->data(), this->size());
+
+                return *this;
+            }
+
+            matrix& operator-=(matrix &other)
+            {
+                // Ensure same shape
+                if (!sameDimensions(other))
+                    throw std::out_of_range("Dimension mismatch for operator+");
+
+                // Perform sub using the ippe math functions
+                ippe::math::Sub_I(other.data(), this->data(), this->size());
+
+                return *this;
             }
 
             // Remove size adjustment methods (for now?)
