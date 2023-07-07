@@ -49,3 +49,23 @@ Individual header is contained in ```ipp_ext_filter.h```. The parent class ```ip
 1. ```ippe::FIRSRLowpass``` creates a lowpass filter.
 
 These classes take care of internal taps generation, memory allocation and de-allocation, and all workspace requirements, including a delay vector that properly accounts for repeated ```filter()``` invocations. See ```filter_example.cpp``` for a simple example.
+
+
+## Extension 4: Templated Math
+### Description
+Individual header is contained in ```ipp_ext_math.h```, but this simply includes the separate headers in the ```math``` folder. Each individual header contains the template specializations for a specific operation, like ```ippsAdd``` for example.
+
+Invocation is wrapped in a ```ippe::math``` namespace, with the functions retaining the call structure of the original C functions.
+
+Example:
+
+```
+ippe::vector<Ipp32fc> x, y, z;
+ippe::math::Add(x.data(), y.data(), z.data(), x.size()); // Performs z = x + y using ippsAdd_32fc()
+```
+
+Currently implemented templates:
+1. Add
+2. Sub
+3. Mul (incomplete)
+4. Norm (only Norm_L2)
