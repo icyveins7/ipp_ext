@@ -9,6 +9,7 @@ multiply defined symbols errors do not occur.
 #include <stdexcept>
 #include <string>
 #include "ipp_ext_errors.h"
+#include "ipp_ext_copy.h"
 
 namespace ippe
 {
@@ -215,8 +216,9 @@ namespace ippe
 			// copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_8u(m_data, newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_8u");
+                Copy<Ipp8u>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_8u(m_data, newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_8u");
             }
 			
 			// free the old memory
@@ -243,8 +245,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
-                IPP_NO_ERROR(sts, "ippsCopy_16s");
+                Copy<Ipp16u>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
+                // IPP_NO_ERROR(sts, "ippsCopy_16s");
             }
 
             // free the old memory
@@ -271,8 +274,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap); // wrap as 32s
-                IPP_NO_ERROR(sts, "ippsCopy_32s");
+                Copy<Ipp32s>((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap); // wrap as 32s
+                // IPP_NO_ERROR(sts, "ippsCopy_32s");
             }
 
             // free the old memory
@@ -299,8 +303,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap); // wrap as 64s
-                IPP_NO_ERROR(sts, "ippsCopy_64s");
+                Copy<Ipp64s>((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap); // wrap as 64s
+                // IPP_NO_ERROR(sts, "ippsCopy_64s");
             }
 
             // free the old memory
@@ -327,8 +332,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_8u((Ipp8u*)m_data, (Ipp8u*)newm_data, (int)cap); // wrap as 8u
-                IPP_NO_ERROR(sts, "ippsCopy_8u");
+                Copy<Ipp8u>((Ipp8u*)m_data, (Ipp8u*)newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_8u((Ipp8u*)m_data, (Ipp8u*)newm_data, (int)cap); // wrap as 8u
+                // IPP_NO_ERROR(sts, "ippsCopy_8u");
             }
 
             // free the old memory
@@ -355,8 +361,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_16s");
+                Copy<Ipp16s>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_16s");
             }
 
             // free the old memory
@@ -383,8 +390,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_32s");
+                Copy<Ipp32s>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_32s((Ipp32s*)m_data, (Ipp32s*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_32s");
             }
 
             // free the old memory
@@ -411,8 +419,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_64s");
+                Copy<Ipp64s>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_64s((Ipp64s*)m_data, (Ipp64s*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_64s");
             }
 
             // free the old memory
@@ -439,8 +448,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_32f((Ipp32f*)m_data, (Ipp32f*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_32f");
+                Copy<Ipp32f>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_32f((Ipp32f*)m_data, (Ipp32f*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_32f");
             }
 
             // free the old memory
@@ -467,8 +477,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_64f((Ipp64f*)m_data, (Ipp64f*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_64f");
+                Copy<Ipp64f>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_64f((Ipp64f*)m_data, (Ipp64f*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_64f");
             }
 
             // free the old memory
@@ -495,8 +506,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
-                IPP_NO_ERROR(sts, "ippsCopy_16s");
+                Copy<Ipp16s>((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_16s((Ipp16s*)m_data, (Ipp16s*)newm_data, (int)cap); // wrap as 16s
+                // IPP_NO_ERROR(sts, "ippsCopy_16s");
             }
 
             // free the old memory
@@ -523,8 +535,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_16sc((Ipp16sc*)m_data, (Ipp16sc*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_16sc");
+                Copy<Ipp16sc>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_16sc((Ipp16sc*)m_data, (Ipp16sc*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_16sc");
             }
 
             // free the old memory
@@ -551,8 +564,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_32sc((Ipp32sc*)m_data, (Ipp32sc*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_32sc");
+                Copy<Ipp32sc>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_32sc((Ipp32sc*)m_data, (Ipp32sc*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_32sc");
             }
 
             // free the old memory
@@ -579,8 +593,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_64sc((Ipp64sc*)m_data, (Ipp64sc*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_64sc");
+                Copy<Ipp64sc>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_64sc((Ipp64sc*)m_data, (Ipp64sc*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_64sc");
             }
 
             // free the old memory
@@ -607,8 +622,9 @@ namespace ippe
             // copy the existing data first
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_32fc((Ipp32fc*)m_data, (Ipp32fc*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_32fc");
+                Copy<Ipp32fc>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_32fc((Ipp32fc*)m_data, (Ipp32fc*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_32fc");
             }
 
             // free the old memory
@@ -635,8 +651,9 @@ namespace ippe
             // copy the existing data first, if it exists
             if (m_data != nullptr)
             {
-                IppStatus sts = ippsCopy_64fc((Ipp64fc*)m_data, (Ipp64fc*)newm_data, (int)cap);
-                IPP_NO_ERROR(sts, "ippsCopy_64fc");
+                Copy<Ipp64fc>(m_data, newm_data, (int)cap);
+                // IppStatus sts = ippsCopy_64fc((Ipp64fc*)m_data, (Ipp64fc*)newm_data, (int)cap);
+                // IPP_NO_ERROR(sts, "ippsCopy_64fc");
             }
 
             // free the old memory
