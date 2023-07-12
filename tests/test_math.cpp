@@ -4,6 +4,39 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+// Helper function to evaluate integer scaling results
+// I didn't really check this for anything other than scaleFactor=1
+template <typename T>
+T evaluate_integer_scaling(T x, int scaleFactor)
+{
+    if (scaleFactor == 0)
+    {
+        return x;
+    }
+
+    int f = 1 << scaleFactor;
+    if (x % 2 == 1 || x % 2 == -1)
+    {
+        x = x / f;
+        // If the resulting division was clipped down to an odd number then add 1 to make it even
+        if (x % 2 == 1 || x % 2 == -1){
+            if (x > 0) // for negative numbers we should already hit the even value
+            {
+                x += 1;
+            }
+            else
+            {
+                x -= 1;
+            }      
+        }
+    }
+    else
+    {
+        x = x / f;
+    }
+    return x;
+}
+
 TEST_CASE("ippe math Add", "[math, Add]")
 {
     SECTION("Errors")
@@ -776,6 +809,164 @@ TEST_CASE("ippe math Add_ISfs", "[math, Add_ISfs]")
     SECTION("Ipp32sc"){
         test_Add_ISfs_complex<Ipp32sc>();
     }
+}
+
+
+/*
+Templated test case for AddC.
+*/
+template <typename T>
+void test_AddC()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+    }
+
+    // Define constant
+    T c = (T)(11);
+
+    // Perform the operation
+    ippe::math::AddC(x.data(), c, result.data(), x.size());
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == (x[i] + c));
+    }
+}
+
+template <typename T>
+void test_AddC_complex()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i].re = (i + 64);
+        x[i].im = (i + 65);
+    }
+
+    // Define constant
+    T c;
+    c.re = (11);
+    c.im = (12);
+
+    // Perform the operation
+    ippe::math::AddC(x.data(), c, result.data(), x.size());
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == (x[i].re + c.re));
+        REQUIRE(result[i].im == (x[i].im + c.im));
+    }
+}
+
+TEST_CASE("ippe math AddC", "[math], [AddC]")
+{
+    SECTION("Ipp32f"){
+        test_AddC<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_AddC<Ipp64f>();
+    }
+    SECTION("Ipp32fc"){
+        test_AddC_complex<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_AddC_complex<Ipp64fc>();
+    }
+}
+
+/*
+Templated test case for AddC_Sfs.
+*/
+template <typename T, typename U>
+void test_AddC_Sfs()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+    }
+
+    // Define constant
+    T c = (T)(11);
+
+    // Perform the operation
+    ippe::math::AddC_Sfs(x.data(), c, result.data(), (U)x.size(), 1);
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == evaluate_integer_scaling(x[i] + c, 1));
+    }
+}
+template <typename T, typename U>
+void test_AddC_Sfs_complex()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i].re = (i + 64);
+        x[i].im = (i + 65);
+    }
+
+    // Define constant
+    T c;
+    c.re = (11);
+    c.im = (12);
+
+    // Perform the operation
+    ippe::math::AddC_Sfs(x.data(), c, result.data(), (U)x.size(), 1);
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == evaluate_integer_scaling(x[i].re + c.re, 1));
+        REQUIRE(result[i].im == evaluate_integer_scaling(x[i].im + c.im, 1));
+    }
+}
+
+TEST_CASE("ippe math AddC_Sfs", "[math], [AddC_Sfs]")
+{
+    SECTION("Ipp8u"){
+        test_AddC_Sfs<Ipp8u, int>();
+    }
+    SECTION("Ipp16u"){
+        test_AddC_Sfs<Ipp16u, int>();
+    }
+    SECTION("Ipp16s"){
+        test_AddC_Sfs<Ipp16s, int>();
+    }
+    SECTION("Ipp32s"){
+        test_AddC_Sfs<Ipp32s, int>();
+    }
+    SECTION("Ipp16sc"){
+        test_AddC_Sfs_complex<Ipp16sc, int>();
+    }
+    SECTION("Ipp32sc"){
+        test_AddC_Sfs_complex<Ipp32sc, int>();
+    }
+    // Test the weird 64u and 64s?
+
 }
 
 /*
