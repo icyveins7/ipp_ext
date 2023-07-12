@@ -965,8 +965,174 @@ TEST_CASE("ippe math AddC_Sfs", "[math], [AddC_Sfs]")
     SECTION("Ipp32sc"){
         test_AddC_Sfs_complex<Ipp32sc, int>();
     }
-    // Test the weird 64u and 64s?
+    // Test the weird 64u and 64s? TODO: figure out why these fail
+    // SECTION("Ipp64u"){
+    //     test_AddC_Sfs<Ipp64u, Ipp32u>();
+    // }
+    // SECTION("Ipp64s"){
+    //     test_AddC_Sfs<Ipp64s, Ipp32u>();
+    // }
+}
 
+/*
+Templated test case for AddC_I.
+*/
+template <typename T>
+void test_AddC_I()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+        result[i] = x[i];
+    }
+
+    // Define constant
+    T c = (T)(11);
+
+    // Perform the operation
+    ippe::math::AddC_I(c, result.data(), result.size());
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == (x[i] + c));
+    }
+}
+template <typename T>
+void test_AddC_I_complex()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i].re = (i + 64);
+        x[i].im = (i + 65);
+        result[i] = x[i];
+    }
+
+    // Define constant
+    T c;
+    c.re = (11);
+    c.im = (12);
+
+    // Perform the operation
+    ippe::math::AddC_I(c, result.data(), result.size());
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == (x[i].re + c.re));
+        REQUIRE(result[i].im == (x[i].im + c.im));
+    }
+}
+
+TEST_CASE("ippe math AddC_I", "[math], [AddC_I]")
+{
+    SECTION("Ipp16s"){
+        test_AddC_I<Ipp16s>();
+    }
+    SECTION("Ipp32f"){
+        test_AddC_I<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_AddC_I<Ipp64f>();
+    }
+    SECTION("Ipp32fc"){
+        test_AddC_I_complex<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_AddC_I_complex<Ipp64fc>();
+    }
+}
+
+/*
+Templated test case for AddC_ISfs.
+*/
+template <typename T>
+void test_AddC_ISfs()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+        result[i] = x[i];
+    }
+
+    // Define constant
+    T c = (T)(11);
+
+    // Perform the operation
+    ippe::math::AddC_ISfs(c, result.data(), (int)x.size(), 1);
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == evaluate_integer_scaling(x[i] + c, 1));
+    }
+}
+template <typename T>
+void test_AddC_ISfs_complex()
+{
+    // Make vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+
+    // Set values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i].re = (i + 64);
+        x[i].im = (i + 65);
+        result[i] = x[i];
+    }
+
+    // Define constant
+    T c;
+    c.re = (11);
+    c.im = (12);
+
+    // Perform the operation
+    ippe::math::AddC_ISfs(c, result.data(), (int)x.size(), 1);
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == evaluate_integer_scaling(x[i].re + c.re, 1));
+        REQUIRE(result[i].im == evaluate_integer_scaling(x[i].im + c.im, 1));
+    }
+}
+
+TEST_CASE("ippe math AddC_ISfs", "[math], [AddC_ISfs]")
+{
+    SECTION("Ipp8u"){
+        test_AddC_ISfs<Ipp8u>();
+    }
+    SECTION("Ipp16u"){
+        test_AddC_ISfs<Ipp16u>();
+    }
+    SECTION("Ipp16s"){
+        test_AddC_ISfs<Ipp16s>();
+    }
+    SECTION("Ipp32s"){
+        test_AddC_ISfs<Ipp32s>();
+    }
+    SECTION("Ipp16sc"){
+        test_AddC_ISfs_complex<Ipp16sc>();
+    }
+    SECTION("Ipp32sc"){
+        test_AddC_ISfs_complex<Ipp32sc>();
+    }
 }
 
 /*
