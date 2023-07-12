@@ -1212,6 +1212,170 @@ TEST_CASE("ippe math Mul_I", "[math, Mul_I]")
 }
 
 /*
+Templated test case for Mul_ISfs.
+*/
+
+template <typename T>
+void test_Mul_ISfs()
+{
+    // Create two vectors and a check
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 1);
+        y[i] = (T)(i + 2);
+        check[i] = y[i];
+    }
+
+    // Perform the operation
+    ippe::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
+
+    // Check the result
+    T z;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        z = x[i] * check[i];
+        // If z is odd, then the result must be fixed
+        if (z % 2 == 1)
+        {
+            z = z / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z % 2 == 1)
+                z += 1;
+        }
+        else
+        {
+            z = z / 2;
+        }
+
+        REQUIRE(y[i] == z);
+    }
+}
+
+template <typename T>
+void test_Mul_ISfs_complex()
+{
+    // Create two vectors and a check
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    T valT;
+    T valU;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        valT.re = i + 1;
+        valT.im = i + 2;
+        valU.re = 2*i + 3;
+        valU.im = 2*i + 4;
+        x[i] = valT;
+        y[i] = valU;
+        check[i] = y[i];
+    }
+
+    // Perform the operation
+    ippe::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
+
+     // Check the result
+    T z;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        z.re = x[i].re * check[i].re - x[i].im * check[i].im;
+        z.im = x[i].re * check[i].im + x[i].im * check[i].re;
+        // If z is odd, then the result must be fixed, take care of negatives for our test case now due to complex
+        if (z.re % 2 == 1 || z.re % 2 == -1)
+        {
+            z.re = z.re / 2;
+            // If the resulting division was clipped down to an odd number then add 1 to make it even
+            if (z.re % 2 == 1 || z.re % 2 == -1){
+                if (z.re > 0) // for negative numbers we should already hit the even value
+                {
+                    z.re += 1;
+                }
+                else
+                {
+                    z.re -= 1;
+                }
+                    
+            }
+        }
+        else
+        {
+            z.re = z.re / 2;
+        }
+
+        // Similarly for imag part
+        if (z.im % 2 == 1 || z.im % 2 == -1)
+        {
+            z.im = z.im / 2;
+            if (z.im % 2 == 1 || z.im % 2 == -1){
+                if (z.im > 0) // for negative numbers we should already hit the even value
+                    z.im += 1;
+                else
+                {
+                    z.im -= 1;
+                }
+            }
+        }
+        else
+        {
+            z.im = z.im / 2;
+        }
+
+        REQUIRE(y[i].re == z.re);
+        REQUIRE(y[i].im == z.im);
+    }
+}
+
+TEST_CASE("ippe math Mul_ISfs", "[math],[Mul_ISfs]")
+{
+    /*
+    Flavours are:
+    Ipp8u
+    Ipp16u
+    Ipp16s
+    Ipp32s
+    Ipp16sc
+    Ipp32sc
+    */
+
+    SECTION("Ipp8u")
+    {
+        test_Mul_ISfs<Ipp8u>();
+    }
+
+    SECTION("Ipp16u")
+    {
+        test_Mul_ISfs<Ipp16u>();
+    }
+
+    SECTION("Ipp16s")
+    {
+        test_Mul_ISfs<Ipp16s>();
+    }
+
+    SECTION("Ipp32s")
+    {
+        test_Mul_ISfs<Ipp32s>();
+    }
+
+    SECTION("Ipp16sc")
+    {
+        test_Mul_ISfs_complex<Ipp16sc>();
+    }
+
+    SECTION("Ipp32sc")
+    {
+        test_Mul_ISfs_complex<Ipp32sc>();
+    }
+}
+
+/*
 Templated test case for Sub.
 */
 template <typename T, typename U>
