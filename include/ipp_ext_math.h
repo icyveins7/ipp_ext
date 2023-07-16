@@ -4,5 +4,9 @@
 #include "math/AddC.h"
 
 #include "math/Mul.h"
+
 #include "math/Sub.h"
+
+#include "math/Div.h"
+
 #include "math/Norm.h"
