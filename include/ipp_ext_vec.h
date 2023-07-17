@@ -160,6 +160,7 @@ namespace ippe
 			{
 				// check size
 				if (numel == cap){
+                    cap = cap == 0 ? 1 : cap; // if cap is 0 (blank ctor then initialise with something small)
 					reserve(cap * 2); // we double the capacity, similar to how std::vector does it
 				}
 				
