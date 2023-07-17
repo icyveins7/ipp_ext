@@ -59,7 +59,7 @@ namespace ippe{
         // ============================
 
         template <typename T, typename U>
-        void AddProduct_Sfs(const T* src1, const T* src2, U* dst, int len, int scaleFactor){
+        inline void AddProduct_Sfs(const T* src1, const T* src2, U* dst, int len, int scaleFactor){
             throw std::runtime_error("ippsAddProduct_Sfs only implemented for specific types");
         }
 
