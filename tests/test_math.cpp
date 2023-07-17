@@ -1136,6 +1136,133 @@ TEST_CASE("ippe math AddC_ISfs", "[math], [AddC_ISfs]")
 }
 
 /*
+Templated test case for AddProduct.
+*/
+template <typename T>
+void test_AddProduct()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<T> result(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+        y[i] = (T)(i + 65);
+        result[i] = (T)(i + 66);
+        check[i] = result[i];
+    }
+
+    // Perform the operation
+    ippe::math::AddProduct(x.data(), y.data(), result.data(), x.size());
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == check[i] + (x[i] * y[i]));
+    }
+}
+
+template <typename T>
+void test_AddProduct_complex()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<T> result(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i].re = (i + 64);
+        x[i].im = (i + 65);
+        y[i].re = (i + 66);
+        y[i].im = (i + 67);
+        result[i].re = (i + 68);
+        result[i].im = (i + 69);
+        check[i].re = result[i].re;
+        check[i].im = result[i].im;
+    }
+
+    // Perform the operation
+    ippe::math::AddProduct(x.data(), y.data(), result.data(), x.size());
+    
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i].re == check[i].re + (x[i].re * y[i].re) - (x[i].im * y[i].im));
+        REQUIRE(result[i].im == check[i].im + (x[i].im * y[i].re) + (x[i].re * y[i].im));
+    }
+}
+
+TEST_CASE("ippe math AddProduct", "[math], [AddProduct]")
+{
+    SECTION("Ipp32f"){
+        test_AddProduct<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_AddProduct<Ipp64f>();
+    }
+    SECTION("Ipp32fc"){
+        test_AddProduct_complex<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_AddProduct_complex<Ipp64fc>();
+    }
+}
+
+/*
+Templated test case for AddProduct_Sfs.
+*/
+template <typename T, typename U>
+void test_AddProduct_Sfs()
+{
+    // Create vectors of the same size
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+    ippe::vector<U> result(10);
+    ippe::vector<U> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 64);
+        y[i] = (T)(i + 65);
+        result[i] = (U)(i + 66);
+        check[i] = result[i];
+    }
+
+    // Perform the operation
+    ippe::math::AddProduct_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
+    
+    // Check the result
+    U val;
+    for (int i = 0; i < x.size(); ++i)
+    {
+        val = evaluate_integer_scaling(check[i] + (U)x[i] * (U)y[i], 1);
+        REQUIRE(result[i] == val);
+    }
+}
+
+TEST_CASE("ippe math AddProduct_Sfs", "[math], [AddProduct_Sfs]")
+{
+    SECTION("Ipp16s"){
+        test_AddProduct_Sfs<Ipp16s, Ipp16s>();
+    }
+    SECTION("Ipp32s"){
+        test_AddProduct_Sfs<Ipp32s, Ipp32s>();
+    }
+    SECTION("Ipp16s to Ipp32s"){
+        test_AddProduct_Sfs<Ipp16s, Ipp32s>();
+    }
+}
+
+
+/*
 Templated test case for Mul.
 */
 template <typename T, typename U, typename V>
