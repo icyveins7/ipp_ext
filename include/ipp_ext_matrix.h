@@ -67,11 +67,9 @@ namespace ippe
 
             // Move constructor
             matrix(matrix&& other)
+                : vector<T>(std::move(other)), m_rows(other.m_rows), m_columns(other.m_columns)
             {
                 DEBUG("matrix(matrix&& other)\n");
-                m_rows = other.m_rows;
-                m_columns = other.m_columns;
-                vector<T>::operator=(std::move(other));
             }
 
             // Move Assignment operator

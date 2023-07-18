@@ -4,6 +4,7 @@ cl /EHsc /O2 /I"../include/" matrix_example.cpp ippcore.lib ipps.lib
 #include <iostream>
 #include "../include/ipp_ext.h"
 
+
 int main()
 {
     ippe::matrix<Ipp64f> x(1, 10, 1.0);
@@ -17,6 +18,12 @@ int main()
     printf("z2 dimensions at start = %zd, %zd\n", z2.rows(), z2.columns());
     z2 = x + y;
     printf("z2 dimensions at end = %zd, %zd\n", z2.rows(), z2.columns());
+
+    printf("------Move constructor activated?\n");
+    ippe::matrix<Ipp64f> z3(std::move(x));
+    printf("z3 dimensions = %zd, %zd\n", z3.rows(), z3.columns());
+    printf("x dimensions = %zd, %zd\n", x.rows(), x.columns());
+    printf("x nullptr? %s\n", (x.data() == nullptr)? "true" : "false");
 
     return 0;
 }
