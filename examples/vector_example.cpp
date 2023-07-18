@@ -17,5 +17,12 @@ int main()
         printf("v[%d] = %d\n", i, v[i]);
     }
 
+    // Copy the vector via copy assignment
+    ippe::vector<Ipp16s> v_copy;
+    v_copy = v;
+
+    // Copy the vector via copy constructor
+    ippe::vector<Ipp16s> v_copy2(v);
+
     return 0;
 }

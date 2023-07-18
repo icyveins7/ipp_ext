@@ -2,14 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 
 project(ipp_ext_examples)
 
-# Add compile options so instruction sets are explicitly enabled
-if (MSVC)
-    add_compile_options(/arch:AVX2)
-else()
-    add_compile_options(-mavx2 -O3)
-    add_compile_definitions(NDEBUG)
-endif()
-
 # Do this to include all the IPP paths for headers, assumed to be done by the normal vars.bat provided by oneAPI
 include_directories($ENV{INCLUDE} $ENV{CPATH} ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
 # On linux it's CPATH, on win it's INCLUDE
@@ -34,18 +26,11 @@ endif()
 add_executable(vector_example vector_example.cpp)
 target_link_libraries(vector_example PUBLIC ${ippcorelib} ${ippslib})
 
-if (MSVC)
-    target_compile_options(vector_example PUBLIC /arch:AVX2 /EHsc)
-else()
-    target_compile_options(vector_example PUBLIC -mavx2 -O3)
-endif()
-
 ###########################################################
 add_executable(filter_example filter_example.cpp)
 target_link_libraries(filter_example PUBLIC ${ippcorelib} ${ippslib})
 
-if (MSVC)
-    target_compile_options(filter_example PUBLIC /arch:AVX2 /EHsc)
-else()
-    target_compile_options(filter_example PUBLIC -mavx2 -O3)
-endif()
+###########################################################
+add_executable(dft_example dft_example.cpp)
+target_link_libraries(dft_example PUBLIC ${ippcorelib} ${ippslib})
+

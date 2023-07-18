@@ -11,6 +11,12 @@ multiply defined symbols errors do not occur.
 #include "ipp_ext_errors.h"
 #include "ipp_ext_copy.h"
 
+#ifndef NDEBUG
+#define DEBUG(x) printf(x);
+#else
+#define DEBUG(x)
+#endif
+
 namespace ippe
 {
 	const size_t INITIAL_CAP = 128;
@@ -32,6 +38,7 @@ namespace ippe
 			// Default constructor
 			vector()
 			{
+                DEBUG("vector()\n");
 				// do nothing
 			}
 
@@ -40,12 +47,14 @@ namespace ippe
             // If zero-ing is required, the next constructor with the value should be used instead
 			explicit vector(size_t count)
 			{
+                DEBUG("vector(size_t count)\n");
 				numel = count;
 				reserve(numel); // even if count is 0, reserve() will do nothing
 			}
 
             vector(size_t count, const T &value)
             {
+                DEBUG("vector(size_t count, const T &value)\n");
                 numel = count;
                 reserve(numel); // even if count is 0, reserve() will do nothing
                 if (isZero(value))
@@ -57,6 +66,8 @@ namespace ippe
             // Copy constructor
             vector(const vector &other)
             {
+                DEBUG("vector(const vector &other)\n");
+                
                 // set size
                 numel = other.numel;
                 // set cap
@@ -69,6 +80,8 @@ namespace ippe
             // Assignment operator
             vector& operator=(const vector &other)
             {
+                DEBUG("vector& operator=(const vector &other)\n");
+                
                 // set size
                 numel = other.numel;
                 // set cap
