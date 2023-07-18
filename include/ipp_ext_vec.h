@@ -73,11 +73,12 @@ namespace ippe
                 // set cap
                 reserve(numel); // even if count is 0, reserve() will do nothing
                 // copy data
+                // Copy<T>(other.m_data, m_data, (int)numel); // cannot do this as some types dont have a copy
                 for (size_t i = 0; i < numel; i++)
                     m_data[i] = other.m_data[i]; // TODO: write using ippsCopy? would require template specializations
             }
 
-            // Assignment operator
+            // Copy Assignment operator
             vector& operator=(const vector &other)
             {
                 DEBUG("vector& operator=(const vector &other)\n");
@@ -87,10 +88,41 @@ namespace ippe
                 // set cap
                 reserve(numel); // even if count is 0, reserve() will do nothing
                 // copy data
+                // Copy<T>(other.m_data, m_data, (int)numel);
                 for (size_t i = 0; i < numel; i++)
                     m_data[i] = other.m_data[i]; // TODO: write using ippsCopy? would require template specializations
                 return *this;
             }
+
+            // Move constructor
+            vector(vector &&other)
+            {
+                DEBUG("vector(vector &&other)\n");
+                
+                // set size
+                numel = other.numel;
+                // set cap
+                reserve(numel); // even if count is 0, reserve() will do nothing
+                // move data
+                m_data = other.m_data;
+                other.m_data = nullptr;
+            }
+
+            // Move Assignment operator
+            vector& operator=(vector &&other)
+            {
+                DEBUG("vector& operator=(vector &&other)\n");
+                
+                // set size
+                numel = other.numel;
+                // set cap
+                reserve(numel); // even if count is 0, reserve() will do nothing
+                // move data
+                m_data = other.m_data;
+                other.m_data = nullptr;
+                return *this;
+            }
+            
 
 			~vector()
 			{
