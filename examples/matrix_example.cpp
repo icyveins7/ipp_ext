@@ -12,9 +12,11 @@ int main()
     printf("------Copy elision by compiler if you construct along with the math\n");
     ippe::matrix<Ipp64f> z = x + y;
 
-    printf("------Copy assignment activated?\n");
+    printf("------Move assignment activated?\n");
     ippe::matrix<Ipp64f> z2;
+    printf("z2 dimensions at start = %zd, %zd\n", z2.rows(), z2.columns());
     z2 = x + y;
+    printf("z2 dimensions at end = %zd, %zd\n", z2.rows(), z2.columns());
 
     return 0;
 }

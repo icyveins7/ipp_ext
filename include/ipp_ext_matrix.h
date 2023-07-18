@@ -65,6 +65,25 @@ namespace ippe
                 return *this;
             }
 
+            // Move constructor
+            matrix(matrix&& other)
+            {
+                DEBUG("matrix(matrix&& other)\n");
+                m_rows = other.m_rows;
+                m_columns = other.m_columns;
+                vector<T>::operator=(std::move(other));
+            }
+
+            // Move Assignment operator
+            matrix& operator=(matrix&& other)
+            {
+                DEBUG("matrix& operator=(matrix&& other)\n");
+                m_rows = other.m_rows;
+                m_columns = other.m_columns;
+                vector<T>::operator=(std::move(other));
+                return *this;
+            }
+
             // Destructor
             ~matrix()
             {
