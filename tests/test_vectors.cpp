@@ -426,9 +426,17 @@ TEST_CASE("ippe vector capacity and resizes", "[vector],[resize]"){
 }
 
 TEST_CASE("ippe vector writes", "[vector],[write]"){
-    ippe::vector<Ipp64fc> data(128);
 
-    SECTION("pushback and access"){
+    SECTION("pushback and access from empty constructor"){
+        ippe::vector<Ipp64fc> data;
+        Ipp64fc a = {0, 0};
+        data.push_back(a);
+        REQUIRE(data.size() == 1);
+        REQUIRE((data.at(0).re == a.re && data.at(0).im == a.im));
+    }    
+
+    SECTION("pushback and access from initial finite size"){
+        ippe::vector<Ipp64fc> data(128);
         Ipp64fc val = {1.0, 0.0};
         data.push_back(val);
         REQUIRE(data.size() == 129);
