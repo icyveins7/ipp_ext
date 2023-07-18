@@ -34,3 +34,6 @@ target_link_libraries(filter_example PUBLIC ${ippcorelib} ${ippslib})
 add_executable(dft_example dft_example.cpp)
 target_link_libraries(dft_example PUBLIC ${ippcorelib} ${ippslib})
 
+###########################################################
+add_executable(matrix_example matrix_example.cpp)
+target_link_libraries(matrix_example PUBLIC ${ippcorelib} ${ippslib})

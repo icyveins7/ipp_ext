@@ -4,6 +4,12 @@
 // We include math functions experimentally
 #include "ipp_ext_math.h"
 
+#ifndef NDEBUG
+#define DEBUG(x) printf(x);
+#else
+#define DEBUG(x)
+#endif
+
 namespace ippe
 {
     /// @brief Matrix class that inherits from vector.
@@ -17,6 +23,7 @@ namespace ippe
             matrix()
                 : vector<T>()
             {
+                DEBUG("matrix()\n");
                 // do nothing
             }
 
@@ -24,33 +31,34 @@ namespace ippe
             matrix(size_t rows, size_t columns)
                 : vector<T>(rows * columns), m_rows(rows), m_columns(columns)
             {
-                
+                DEBUG("matrix(size_t rows, size_t columns)\n");
             }
 
             // Explicit constructor which only specifies columns
             explicit matrix(size_t columns)
                 : vector<T>(columns), m_rows(1), m_columns(columns)
             {
-
+                DEBUG("matrix(size_t columns)\n");
             }
 
             // Construct with certain value
             matrix(size_t rows, size_t columns, const T& value)
                 : vector<T>(rows * columns, value), m_rows(rows), m_columns(columns)
             {
-                
+                DEBUG("matrix(size_t rows, size_t columns, const T& value)\n");
             }
 
             // Copy constructor
             matrix(const matrix& other)
                 : vector<T>(other), m_rows(other.m_rows), m_columns(other.m_columns)
             {
-
+                DEBUG("matrix(const matrix& other)\n");
             }
 
-            // Assignment operator
+            // Copy Assignment operator
             matrix& operator=(const matrix& other)
             {
+                DEBUG("matrix& operator=(const matrix& other)\n");
                 m_rows = other.m_rows;
                 m_columns = other.m_columns;
                 vector<T>::operator=(other);
