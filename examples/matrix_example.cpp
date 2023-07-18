@@ -2,6 +2,7 @@
 cl /EHsc /O2 /I"../include/" matrix_example.cpp ippcore.lib ipps.lib
 */
 #include <iostream>
+#include <vector>
 #include "../include/ipp_ext.h"
 
 
@@ -12,6 +13,13 @@ int main()
 
     printf("------Copy elision by compiler if you construct along with the math\n");
     ippe::matrix<Ipp64f> z = x + y;
+
+    printf("------Copy constructor\n");
+    std::vector<ippe::matrix<Ipp64f>> v;
+    v.push_back(x);
+
+    printf("------Copy assignment\n");
+    v[0] = y;
 
     printf("------Move assignment activated?\n");
     ippe::matrix<Ipp64f> z2;
