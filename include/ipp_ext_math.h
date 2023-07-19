@@ -6,6 +6,7 @@
 #include "math/AddProduct.h"
 
 #include "math/Mul.h"
+#include "math/MulC.h"
 
 #include "math/Sub.h"
 #include "math/SubC.h"
