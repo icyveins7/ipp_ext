@@ -65,12 +65,11 @@ namespace ippe
 
             // Copy constructor
             vector(const vector &other)
+                : numel(other.numel)
             {
                 DEBUG("vector(const vector &other)\n");
                 
-                // set size
-                numel = other.numel;
-                // set cap
+                // set cap (and frees existing memory)
                 reserve(numel); // even if count is 0, reserve() will do nothing
                 // copy data
                 // Copy<T>(other.m_data, m_data, (int)numel); // cannot do this as some types dont have a copy
@@ -96,30 +95,33 @@ namespace ippe
 
             // Move constructor
             vector(vector &&other)
+                : m_data(other.m_data), numel(other.numel), cap(other.cap)
             {
                 DEBUG("vector(vector &&other)\n");
                 
-                // set size
-                numel = other.numel;
-                // set cap
-                reserve(numel); // even if count is 0, reserve() will do nothing
-                // move data
-                m_data = other.m_data;
+                // nullify the other
                 other.m_data = nullptr;
+                other.cap = 0;
+                other.numel = 0;
             }
 
             // Move Assignment operator
             vector& operator=(vector &&other)
             {
-                DEBUG("vector& operator=(vector &&other)\n");
-                
-                // set size
-                numel = other.numel;
-                // set cap
-                reserve(numel); // even if count is 0, reserve() will do nothing
-                // move data
-                m_data = other.m_data;
-                other.m_data = nullptr;
+                if (this != &other)
+                {
+                    DEBUG("vector& operator=(vector &&other)\n");
+                    // Free existing resource
+                    ippsFree(m_data);
+                    // move parameters
+                    numel = other.numel;
+                    cap = other.cap;
+                    m_data = other.m_data;
+                    // nullify the other
+                    other.m_data = nullptr;
+                    other.cap = 0;
+                    other.numel = 0;
+                }
                 return *this;
             }
             

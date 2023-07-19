@@ -22,9 +22,9 @@ int main()
     v[0] = y;
 
     printf("------Move assignment activated?\n");
-    ippe::matrix<Ipp64f> z2;
+    ippe::matrix<Ipp64f> z2(2,20); // put some existing memory in to make sure its released safely
     printf("z2 dimensions at start = %zd, %zd\n", z2.rows(), z2.columns());
-    z2 = x + y;
+    z2 = x + y; // move in the other memory
     printf("z2 dimensions at end = %zd, %zd\n", z2.rows(), z2.columns());
 
     printf("------Move constructor activated?\n");

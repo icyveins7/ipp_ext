@@ -70,15 +70,24 @@ namespace ippe
                 : vector<T>(std::move(other)), m_rows(other.m_rows), m_columns(other.m_columns)
             {
                 DEBUG("matrix(matrix&& other)\n");
+
+                other.m_rows = 0;
+                other.m_columns = 0;
             }
 
             // Move Assignment operator
             matrix& operator=(matrix&& other)
             {
-                DEBUG("matrix& operator=(matrix&& other)\n");
-                m_rows = other.m_rows;
-                m_columns = other.m_columns;
-                vector<T>::operator=(std::move(other));
+                if (this != &other)
+                {
+                    DEBUG("matrix& operator=(matrix&& other)\n");
+                    m_rows = other.m_rows;
+                    m_columns = other.m_columns;
+                    vector<T>::operator=(std::move(other));
+
+                    other.m_rows = 0;
+                    other.m_columns = 0;
+                }
                 return *this;
             }
 
