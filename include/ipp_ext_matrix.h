@@ -148,6 +148,15 @@ namespace ippe
                 return result;
             }
 
+            matrix operator+(const T& value)
+            {
+                matrix result(this->rows(), this->columns());
+                ippe::math::AddC(this->data(), value, result.data(), result.size());
+
+                return result;
+            }
+            // TODO: handle integers since they are by default in the Sfs calls..
+
             /// @brief Creates a new matrix of the same shape by subtraction.
             /// @param other The other matrix.
             /// @return New matrix containing the difference.
@@ -164,6 +173,9 @@ namespace ippe
                 return result;
             }
 
+            /// @brief Adds the other matrix in place.
+            /// @param other The other matrix.
+            /// @return Returns the current matrix after the addition.
             matrix& operator+=(matrix &other)
             {
                 // Ensure same shape
@@ -176,6 +188,9 @@ namespace ippe
                 return *this;
             }
 
+            /// @brief Subtracts the other matrix from the current matrix in place.
+            /// @param other The other matrix.
+            /// @return Returns the current matrix after the subtraction.
             matrix& operator-=(matrix &other)
             {
                 // Ensure same shape

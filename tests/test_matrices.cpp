@@ -92,7 +92,7 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
 
 TEST_CASE("ippe matrix math", "[matrix],[math]")
 {
-    SECTION("create new 16u from 16u + 16u")
+    SECTION("16u operator+")
     {
         ippe::matrix<Ipp16u> x(3,5);
         ippe::matrix<Ipp16u> y(3,5);
@@ -111,7 +111,7 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         REQUIRE_THROWS_AS(z = x + ywrong, std::out_of_range);
     }
 
-    SECTION("create new 16s from 16s - 16s")
+    SECTION("16s operator-")
     {
         ippe::matrix<Ipp16s> x(3,5);
         ippe::matrix<Ipp16s> y(3,5);
@@ -130,7 +130,7 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         REQUIRE_THROWS_AS(z = ywrong - x, std::out_of_range);
     }
 
-    SECTION("accumulate 16s as 16s + 16s")
+    SECTION("16s operator+=")
     {
         ippe::matrix<Ipp16s> x(3,5);
         ippe::matrix<Ipp16s> y(3,5);
@@ -153,7 +153,7 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         REQUIRE_THROWS_AS(x += ywrong, std::out_of_range);
     }
 
-    SECTION("accumulate 16s as 16s - 16s")
+    SECTION("16s operator-=")
     {
         ippe::matrix<Ipp16s> x(3,5);
         ippe::matrix<Ipp16s> y(3,5);
@@ -174,5 +174,24 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         ippe::matrix<Ipp16s> ywrong(5,3);
 
         REQUIRE_THROWS_AS(ywrong -= x, std::out_of_range);
+    }
+
+    SECTION("32f operator+ constant"){
+        ippe::matrix<Ipp32f> x(3,5);
+        Ipp32f y = 22;
+
+        for (int i = 0; i < x.size(); ++i)
+        {
+            x.at(i) = i;            
+        }
+
+        // Perform operation
+        ippe::matrix<Ipp32f> result = x + y;
+        // ippe::matrix<Ipp32f> result = y + x; // Note that this doesn't compile..
+
+        for (int i = 0; i < result.size(); ++i)
+        {
+            REQUIRE(result.at(i) == x.at(i) + y);
+        }
     }
 }
