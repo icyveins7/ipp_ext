@@ -206,45 +206,30 @@ namespace ippe
             // Remove size adjustment methods (for now?)
             void push_back(T value) = delete;
 
-            // Resizing is okay though, but we need to do extra things
-            void resize(size_t new_count)
-            {
-                // Assume that this means 1 row
-                if (new_count == 0)
-                {
-                    m_rows = 0;
-                    m_columns = 0;
-                }
-                else
-                {
-                    m_rows = 1;
-                    m_columns = new_count;
-                }
-                vector<T>::resize(new_count);
-            }
-            void resize(size_t new_count, const T& value)
-            {
-                // Assume that this means 1 row
-                if (new_count == 0)
-                {
-                    m_rows = 0;
-                    m_columns = 0;
-                }
-                else
-                {
-                    m_rows = 1;
-                    m_columns = new_count;
-                }
-                vector<T>::resize(new_count, value);
-            }
-            // We also have two more resizes to set the columns as well
-            void resize(size_t rows, size_t columns)
+            // Resizing like before is not allowed, as we cannot ensure that
+            // the same index points to the same value if columns change, since
+            // the memory block is copied as is.
+            void resize(size_t new_count) = delete;
+            void resize(size_t new_count, const T& value) = delete;
+
+
+            // As such we make a new method to be clear that this does not maintain index values
+
+            /// @brief Performs a vector<T> resize. In general, .index() values will not remain the same when columns change.
+            /// @param rows New number of rows.
+            /// @param columns New number of columns.
+            void redim(size_t rows, size_t columns)
             {
                 m_rows = rows;
                 m_columns = columns;
                 vector<T>::resize(rows * columns);
             }
-            void resize(size_t rows, size_t columns, const T& value)
+
+            /// @brief Performs a vector<T> resize with value setting. In general,.index() values will not remain the same
+            /// @param rows New number of rows.
+            /// @param columns New number of columns.
+            /// @param value Value which is set to additional elements if the new size is greater.
+            void redim(size_t rows, size_t columns, const T& value)
             {
                 m_rows = rows;
                 m_columns = columns;

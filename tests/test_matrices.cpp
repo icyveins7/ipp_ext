@@ -90,6 +90,34 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
     }
 }
 
+TEST_CASE("ippe matrix resize", "[matrix],[resize]")
+{
+    SECTION("Ipp8u")
+    {
+        ippe::matrix<Ipp8u> m8u(3,5, 0);
+
+        m8u.redim(2,3);
+        REQUIRE(m8u.rows() == 2);
+        REQUIRE(m8u.columns() == 3);
+        // The values should all be 0, since it is smaller and they were previously set to 0
+        for (int i = 0; i < m8u.size(); ++i)
+        {
+            REQUIRE(m8u.at(i) == 0);
+        }
+
+        m8u.redim(7, 7, 1);
+        REQUIRE(m8u.rows() == 7);
+        REQUIRE(m8u.columns() == 7);
+        for (int i = 0; i < m8u.size(); ++i)
+        {
+            if (i < 6) // previous original size
+                REQUIRE(m8u.at(i) == 0);
+            else
+                REQUIRE(m8u.at(i) == 1);
+        }
+    }
+}
+
 TEST_CASE("ippe matrix math", "[matrix],[math]")
 {
     SECTION("16u operator+")
