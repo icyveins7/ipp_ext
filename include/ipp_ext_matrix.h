@@ -205,8 +205,53 @@ namespace ippe
 
             // Remove size adjustment methods (for now?)
             void push_back(T value) = delete;
-            void resize(size_t new_count) = delete;
-            void resize(size_t new_count, const T& value) = delete;
+
+            // Resizing is okay though, but we need to do extra things
+            void resize(size_t new_count)
+            {
+                // Assume that this means 1 row
+                if (new_count == 0)
+                {
+                    m_rows = 0;
+                    m_columns = 0;
+                }
+                else
+                {
+                    m_rows = 1;
+                    m_columns = new_count;
+                }
+                vector<T>::resize(new_count);
+            }
+            void resize(size_t new_count, const T& value)
+            {
+                // Assume that this means 1 row
+                if (new_count == 0)
+                {
+                    m_rows = 0;
+                    m_columns = 0;
+                }
+                else
+                {
+                    m_rows = 1;
+                    m_columns = new_count;
+                }
+                vector<T>::resize(new_count, value);
+            }
+            // We also have two more resizes to set the columns as well
+            void resize(size_t rows, size_t columns)
+            {
+                m_rows = rows;
+                m_columns = columns;
+                vector<T>::resize(rows * columns);
+            }
+            void resize(size_t rows, size_t columns, const T& value)
+            {
+                m_rows = rows;
+                m_columns = columns;
+                vector<T>::resize(rows * columns, value);
+            }
+
+            
 
         private:
             size_t m_rows = 0;
