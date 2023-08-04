@@ -98,12 +98,12 @@ namespace ippe
             }
 
             // Extra accessors
-            size_t rows()
+            const size_t rows()
             {
                 return m_rows;
             }
 
-            size_t columns()
+            const size_t columns()
             {
                 return m_columns;
             }

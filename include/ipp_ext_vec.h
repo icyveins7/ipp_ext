@@ -180,14 +180,26 @@ namespace ippe
 			T* data(){
 				return m_data;
 			}
+
+            const T* data() const {
+                return m_data;
+            }
 			
 			T& back(){
 				return m_data[numel-1];
 			}
+
+            const T& back() const {
+                return m_data[numel-1];
+            }
 			
 			T& front(){
 				return m_data[0];
 			}
+
+            const T& front() const {
+                return m_data[0];
+            }
 			
 			T& at(size_t pos)
 			{
@@ -197,13 +209,26 @@ namespace ippe
 					throw std::out_of_range(std::string("ippe::vector::range_check: Size is ") + std::to_string(numel));
 			}
 
+            const T& at(size_t pos) const
+            {
+				if (pos < numel && pos >= 0)
+					return m_data[pos];
+				else
+					throw std::out_of_range(std::string("ippe::vector::range_check: Size is ") + std::to_string(numel));
+            }
+
             // true to std::vector, this will not perform bounds checking
 			T& operator[](size_t pos)
 			{
 				return m_data[pos];
 			}
+
+            const T& operator[](size_t pos) const
+            {
+                return m_data[pos];
+            }
 			
-			void push_back(T value) // for now lets not deal with lvalue/rvalue refs
+			void push_back(const T& value) // for now lets not deal with lvalue/rvalue refs
 			{
 				// check size
 				if (numel == cap){
@@ -214,13 +239,25 @@ namespace ippe
 				m_data[numel] = value;
 				numel++;
 			}
+
+            void push_back(T&& value)
+            {
+                // check size
+				if (numel == cap){
+                    cap = cap == 0 ? 1 : cap; // if cap is 0 (blank ctor then initialise with something small)
+					reserve(cap * 2); // we double the capacity, similar to how std::vector does it
+				}
+				
+				m_data[numel] = value;
+				numel++;
+            }
 			
-			size_t size()
+			size_t size() const
 			{
 				return numel;
 			}
 			
-			size_t capacity()
+			size_t capacity() const
 			{
 				return cap;
 			}
@@ -230,10 +267,9 @@ namespace ippe
 				numel = 0;
 			}
 			
-			bool empty()
+			bool empty() const
 			{
-				if (numel == 0){return true;}
-				else{ return false;}
+                return numel == 0;
 			}
 
 	};
