@@ -8,3 +8,4 @@
 #include "ipp_ext_errors.h"
 #include "ipp_ext_math.h"
 #include "ipp_ext_generator.h"
+#include "ipp_ext_convert.h"
