@@ -151,3 +151,204 @@ TEST_CASE("ippe convert CplxToReal", "[convert], [CplxToReal]")
         test_CplxToReal<Ipp64fc, Ipp64f>();
     }
 }
+
+// =====================================================
+template <typename T, typename U>
+void test_Convert()
+{
+    // Make vectors for the src and dst types
+    ippe::vector<T> src(10);
+    ippe::vector<U> dst(10);
+
+    // Write values for src
+    for (int i = 0; i < 10; i++)
+    {
+        src[i] = 1 + i;
+    }
+
+    // Run conversion
+    ippe::convert::Convert<T, U>(src.data(), dst.data(), src.size());
+
+    // Check
+    for (int i = 0; i < 10; i++)
+    {
+        REQUIRE(dst[i] == (U)src[i]);
+    }
+}
+
+TEST_CASE("ippe convert Convert", "[convert], [Convert]")
+{
+    // 8s to 16s
+    SECTION("Ipp8s to Ipp16s"){
+        test_Convert<Ipp8s, Ipp16s>();
+    }
+    // 8s to 32f
+    SECTION("Ipp8s to Ipp32f"){
+        test_Convert<Ipp8s, Ipp32f>();
+    }
+    // 8u to 32f
+    SECTION("Ipp8u to Ipp32f"){
+        test_Convert<Ipp8u, Ipp32f>();
+    }
+    // 8s to 8u
+    SECTION("Ipp8s to Ipp8u"){
+        test_Convert<Ipp8s, Ipp8u>();
+    }
+    // 16s to 32s
+    SECTION("Ipp16s to Ipp32s") {
+        test_Convert<Ipp16s, Ipp32s>();
+    }
+    // 16s to 32f
+    SECTION("Ipp16s to Ipp32f") {
+        test_Convert<Ipp16s, Ipp32f>();
+    }
+    // 16u to 32f
+    SECTION("Ipp16u to Ipp32f"){
+        test_Convert<Ipp16u, Ipp32f>();
+    }
+    // 32s to 16s
+    SECTION("Ipp32s to Ipp16s") {
+        test_Convert<Ipp32s, Ipp16s>();
+    }
+    // 32s to 32f
+    SECTION("Ipp32s to Ipp32f") {
+        test_Convert<Ipp32s, Ipp32f>();
+    }
+    // 32s to 64f
+    SECTION("Ipp32s to Ipp64f") {
+        test_Convert<Ipp32s, Ipp64f>();
+    }
+    // 32f to 64f
+    SECTION("Ipp32f to Ipp64f") {
+        test_Convert<Ipp32f, Ipp64f>();
+    }
+    // 64s to 64f
+    SECTION("Ipp64s to Ipp64f") {
+        test_Convert<Ipp64s, Ipp64f>();
+    }
+    // 64f to 32f
+    SECTION("Ipp64f to Ipp32f") {
+        test_Convert<Ipp64f, Ipp32f>();
+    }
+}
+
+template <typename T, typename U>
+void test_Convert_Sfs()
+{
+    // Make vectors for the src and dst types
+    ippe::vector<T> src(10);
+    ippe::vector<U> dst(10);
+
+    // Write values for src
+    for (int i = 0; i < 10; i++)
+    {
+        src[i] = 1 + i;
+    }
+
+    // Run conversion
+    ippe::convert::Convert_Sfs<T, U>(src.data(), dst.data(), src.size(), 0); // ignore scalefactor and rndmode
+
+    // Check
+    for (int i = 0; i < 10; i++)
+    {
+        REQUIRE(dst[i] == (U)src[i]);
+    }
+}
+
+TEST_CASE("ippe convert Convert_Sfs", "[convert], [Convert_Sfs]")
+{
+    // 8u to 8s
+    SECTION("Ipp8u to Ipp8s"){
+        test_Convert_Sfs<Ipp8u, Ipp8s>();
+    }
+
+    // 16s to 8s
+    SECTION("Ipp16s to Ipp8s"){
+        test_Convert_Sfs<Ipp16s, Ipp8s>();
+    }
+
+    // 16s to 32f
+    SECTION("Ipp16s to Ipp32f"){
+        test_Convert_Sfs<Ipp16s, Ipp32f>();
+    }
+
+    // 16s to 64f
+    SECTION("Ipp16s to Ipp64f"){
+        test_Convert_Sfs<Ipp16s, Ipp64f>();
+    }
+
+    // 32s to 16s
+    SECTION("Ipp32s to Ipp16s"){
+        test_Convert_Sfs<Ipp32s, Ipp16s>();
+    }
+
+    // 32s to 32f
+    SECTION("Ipp32s to Ipp32f"){
+        test_Convert_Sfs<Ipp32s, Ipp32f>();
+    }
+
+    // 32s to 64f
+    SECTION("Ipp32s to Ipp64f"){
+        test_Convert_Sfs<Ipp32s, Ipp64f>();
+    }
+
+    // 32f to 8s
+    SECTION("Ipp32f to Ipp8s"){
+        test_Convert_Sfs<Ipp32f, Ipp8s>();
+    }
+
+    // 32f to 8u
+    SECTION("Ipp32f to Ipp8u"){
+        test_Convert_Sfs<Ipp32f, Ipp8u>();
+    }
+
+    // 32f to 16s
+    SECTION("Ipp32f to Ipp16s"){
+        test_Convert_Sfs<Ipp32f, Ipp16s>();
+    }
+
+    // 32f to 16u
+    SECTION("Ipp32f to Ipp16u"){
+        test_Convert_Sfs<Ipp32f, Ipp16u>();
+    }
+
+    // 32f to 32s
+    SECTION("Ipp32f to Ipp32s"){
+        test_Convert_Sfs<Ipp32f, Ipp32s>();
+    }
+
+    // 64f to 8s
+    SECTION("Ipp64f to Ipp8s"){
+        test_Convert_Sfs<Ipp64f, Ipp8s>();
+    }
+
+    // 64f to 8u
+    SECTION("Ipp64f to Ipp8u"){
+        test_Convert_Sfs<Ipp64f, Ipp8u>();
+    }
+
+    // 64f to 16u
+    SECTION("Ipp64f to Ipp16u"){
+        test_Convert_Sfs<Ipp64f, Ipp16u>();
+    }
+
+    // 64s to 32s
+    SECTION("Ipp64s to Ipp32s"){
+        test_Convert_Sfs<Ipp64s, Ipp32s>();
+    }
+
+    // 64f to 16s
+    SECTION("Ipp64f to Ipp16s"){
+        test_Convert_Sfs<Ipp64f, Ipp16s>();
+    }
+
+    // 64f to 32s
+    SECTION("Ipp64f to Ipp32s"){
+        test_Convert_Sfs<Ipp64f, Ipp32s>();
+    }
+
+    // 64f to 64s
+    SECTION("Ipp64f to Ipp64s"){
+        test_Convert_Sfs<Ipp64f, Ipp64s>();
+    }
+}
