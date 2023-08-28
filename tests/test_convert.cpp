@@ -352,3 +352,73 @@ TEST_CASE("ippe convert Convert_Sfs", "[convert], [Convert_Sfs]")
         test_Convert_Sfs<Ipp64f, Ipp64s>();
     }
 }
+
+// =====================================================
+
+template <typename T>
+void test_Conj()
+{
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+
+    for (int i = 0; i < 10; i++)
+    {
+        x[i].re = i;
+        x[i].im = i;
+    }
+
+    ippe::convert::Conj(x.data(), y.data(), x.size());
+
+    for (int i = 0; i < 10; i++)
+    {
+        REQUIRE(y[i].re == x[i].re);
+        REQUIRE(y[i].im == -x[i].im);
+    }
+}
+
+TEST_CASE("ippe convert Conj", "[convert], [Conj]"){
+    SECTION("Ipp16sc"){
+        test_Conj<Ipp16sc>();
+    }
+    SECTION("Ipp32fc"){
+        test_Conj<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_Conj<Ipp64fc>();
+    }
+}
+
+template <typename T>
+void test_Conj_I()
+{
+    ippe::vector<T> x(10);
+    ippe::vector<T> y(10);
+
+    for (int i = 0; i < 10; i++)
+    {
+        x[i].re = i;
+        x[i].im = i;
+        y[i].re = i;
+        y[i].im = i;
+    }
+
+    ippe::convert::Conj_I(y.data(), y.size());
+
+    for (int i = 0; i < 10; i++)
+    {
+        REQUIRE(x[i].re == y[i].re);
+        REQUIRE(x[i].im == -y[i].im);
+    }
+}
+
+TEST_CASE("ippe convert Conj_I", "[convert], [Conj_I]"){
+    SECTION("Ipp16sc"){
+        test_Conj_I<Ipp16sc>();
+    }
+    SECTION("Ipp32fc"){
+        test_Conj_I<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_Conj_I<Ipp64fc>();
+    }
+}
