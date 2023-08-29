@@ -85,6 +85,10 @@ target_link_libraries(test_convert PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch
 add_executable(test_transforms test_transforms.cpp)
 target_link_libraries(test_transforms PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
 
+# Define test executable for stats
+add_executable(test_stats test_stats.cpp)
+target_link_libraries(test_stats PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 catch_discover_tests(test_vecs)
@@ -96,3 +100,4 @@ catch_discover_tests(test_random)
 catch_discover_tests(test_generators)
 catch_discover_tests(test_convert)
 catch_discover_tests(test_transforms)
+catch_discover_tests(test_stats)

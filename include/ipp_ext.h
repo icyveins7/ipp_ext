@@ -10,3 +10,4 @@
 #include "ipp_ext_generator.h"
 #include "ipp_ext_convert.h"
 #include "ipp_ext_transform.h"
+#include "ipp_ext_stats.h"
