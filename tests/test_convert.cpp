@@ -422,3 +422,67 @@ TEST_CASE("ippe convert Conj_I", "[convert], [Conj_I]"){
         test_Conj_I<Ipp64fc>();
     }
 }
+
+// =====================================================
+template <typename T, typename U>
+void test_PowerSpectr()
+{
+    ippe::vector<T> xRe(10);
+    ippe::vector<T> xIm(10);
+    ippe::vector<U> y(10);
+
+    for (int i = 0; i < 10; ++i)
+    {
+        xRe[i] = i;
+        xIm[i] = i + 1;
+    }
+
+    ippe::convert::PowerSpectr(xRe.data(), xIm.data(), y.data(), xRe.size());
+
+    for (int i = 0; i < 10; ++i)
+    {
+        REQUIRE(y[i] == (U)(xRe[i] * xRe[i] + xIm[i] * xIm[i]));
+    }
+}
+
+template <typename T, typename U>
+void test_PowerSpectr_complex()
+{
+    ippe::vector<T> x(10);
+    ippe::vector<U> y(10);
+
+    for (int i = 0; i < 10; ++i)
+    {
+        x[i].re = i;
+        x[i].im = i + 1;
+    }
+
+    ippe::convert::PowerSpectr(x.data(), y.data(), x.size());
+
+    for (int i = 0; i < 10; ++i)
+    {
+        REQUIRE(y[i] == (U)(x[i].re * x[i].re + x[i].im * x[i].im));
+    }
+}
+
+TEST_CASE("ippe convert PowerSpectr", "[convert], [PowerSpectr]"){
+    SECTION("Ipp16s to Ipp32f"){
+        test_PowerSpectr<Ipp16s, Ipp32f>();
+    }
+    SECTION("Ipp32f to Ipp32f"){
+        test_PowerSpectr<Ipp32f, Ipp32f>();
+    }
+    SECTION("Ipp64f to Ipp64f"){
+        test_PowerSpectr<Ipp64f, Ipp64f>();
+    }
+
+    SECTION("Ipp16sc to Ipp32f"){
+        test_PowerSpectr_complex<Ipp16sc, Ipp32f>();
+    }
+    SECTION("Ipp32fc to Ipp32f"){
+        test_PowerSpectr_complex<Ipp32fc, Ipp32f>();
+    }
+    SECTION("Ipp64fc to Ipp64f"){
+        test_PowerSpectr_complex<Ipp64fc, Ipp64f>();
+    }
+}
