@@ -5,6 +5,10 @@ project(ipp_ext_catch2_tests)
 # # Set C++ standard
 # set(CMAKE_CXX_STANDARD 11)
 
+if (APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64") # Need this to work with intel stuff for m1/m2
+endif()
+
 # Check for user-specified CMAKE_PREFIX_PATH, otherwise generate it from VCPKG_DIR environment variable
 if (NOT DEFINED CMAKE_PREFIX_PATH)
     message("CMAKE_PREFIX_PATH not defined. Searching for env var VCPKG_DIR..")
@@ -39,6 +43,12 @@ if (WIN32)
     message("Finding IPP libraries for Windows...")
     find_library(ippcorelib NAMES ippcore ENV LIBRARY_PATH)
     find_library(ippslib NAMES ipps ENV LIBRARY_PATH) # Did i actually need HINTS here too?
+    message("Libpath: " ${ippcorelib})
+    message("Libpath: " ${ippslib})
+elseif (APPLE)
+    message("Finding IPP libraries for MacOS...")
+    find_library(ippcorelib NAMES libippcore ippcore HINTS ENV DYLD_LIBRARY_PATH) # on mac it seems like it's here, even though it's linux based
+    find_library(ippslib NAMES libipps ipps HINTS ENV DYLD_LIBRARY_PATH) # definitely needed the HINTS keyword here though
     message("Libpath: " ${ippcorelib})
     message("Libpath: " ${ippslib})
 else ()

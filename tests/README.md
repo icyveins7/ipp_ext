@@ -41,3 +41,12 @@ ctest
 Debug\tests.exe # For example, this is where msvc will compile to
 ```
 
+# Note for MacOS with Apple Silicon
+
+You will need to build Catch2 with x86_64 targets. To do that, run the normal cmake command with
+
+```bash
+-DCMAKE_OSX_ARCHITECTURES=x86_64
+```
+
+Everything else should be the same. This command is used internally in the ```ipp_ext``` cmake as well.
