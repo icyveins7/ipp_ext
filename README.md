@@ -15,6 +15,12 @@ git clone https://github.com/icyveins7/ipp_ext.git
 cl mysource1.cpp mysource2.cpp ... -I"path/to/ipp_ext/include" ...
 ```
 
+## Compilation Notes for MacOS
+
+On Apple Silicon chips like M1, you can cross-compile using the in-built clang compiler, as long as the target architecture is specified as x86_64, and the ```rpath``` is appropriately set.
+
+For examples, see how the CMake is written in the ```tests``` folder.
+
 # Extensions
 ## Extension 1: Vector
 ### Description

@@ -48,9 +48,11 @@ if (WIN32)
 elseif (APPLE)
     message("Finding IPP libraries for MacOS...")
     find_library(ippcorelib NAMES libippcore ippcore HINTS ENV DYLD_LIBRARY_PATH) # on mac it seems like it's here, even though it's linux based
-    find_library(ippslib NAMES libipps ipps HINTS ENV DYLD_LIBRARY_PATH) # definitely needed the HINTS keyword here though
-    message("Libpath: " ${ippcorelib})
-    message("Libpath: " ${ippslib})
+    find_library(ippslib NAMES ipps HINTS ENV DYLD_LIBRARY_PATH)
+    # For mac we must also find the library directory and set rpath. The linux method doesn't seem to compile properly
+    get_filename_component(ipplibdir ${ippcorelib} DIRECTORY)
+    message("Using ipplibdir: " ${ipplibdir})
+    set(CMAKE_BUILD_RPATH ${ipplibdir})
 else ()
     message("Finding IPP libraries for Linux...")
     find_library(ippcorelib NAMES libippcore ippcore HINTS ENV LD_LIBRARY_PATH)
