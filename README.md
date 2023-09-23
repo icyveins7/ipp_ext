@@ -15,9 +15,19 @@ git clone https://github.com/icyveins7/ipp_ext.git
 cl mysource1.cpp mysource2.cpp ... -I"path/to/ipp_ext/include" ...
 ```
 
-## Compilation Notes for MacOS
+## Compilation Notes for MacOS with Apple Silicon
 
-On Apple Silicon chips like M1, you can cross-compile using the in-built clang compiler, as long as the target architecture is specified as x86_64, and the ```rpath``` is appropriately set.
+On Apple Silicon chips like M1, you can cross-compile using the in-built ```clang``` compiler, as long as the target architecture is specified as x86_64, and static linking is used; that is, you link to the ```.a``` versions rather than the ```.dylib``` versions. Dynamic linking does not seem to work properly as the linker fails to find the symbols for some unknown reason...
+
+Compiling with static linking has been tested to work with the native Apple ```clang``` compiler and a Homebrew CMake.
+
+ Note that there may be a lot of linker warnings that look like this:
+
+```bash
+ld: warning: no platform load command found in '/opt/intel/oneapi/ipp/2021.9.0/lib/libipps.a[11443](pscopyca_y8---ippsCopy_64fc.o)', assuming: macOS
+```
+
+The compilation should still work however (which means you can run the same code on your Intel machine as you would on the M1/M2 machine).
 
 For examples, see how the CMake is written in the ```tests``` folder.
 

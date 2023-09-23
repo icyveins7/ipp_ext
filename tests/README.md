@@ -49,4 +49,6 @@ You will need to build Catch2 with x86_64 targets. To do that, when building Cat
 -DCMAKE_OSX_ARCHITECTURES=x86_64
 ```
 
-The CMakeLists.txt should handle the rest. This command is used internally in the ```ipp_ext``` cmake as well.
+The Catch2 ```CMakeLists.txt``` should handle the rest. This was tested to work with a Homebrew CMake and the native Apple ```clang``` compiler. 
+
+This command is used internally in the ```ipp_ext``` cmake as well.
