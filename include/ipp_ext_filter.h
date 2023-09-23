@@ -29,8 +29,8 @@ FIR generating functions.
 #include <stdexcept>
 #include <string>
 
-// #include "filter/FIR.h"
-// #include "filter/FIRGen.h"
+#include "filter/FIR.h"
+#include "filter/FIRGen.h"
 
 namespace ippe
 {

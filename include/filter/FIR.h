@@ -13,6 +13,13 @@ namespace ippe{
 
         // Wrappers to directly generate vectors of taps
 
+        /// @brief Helper function to generate a vector of lowpass taps.
+        /// @tparam T Type for the taps array. Is internally generated as 64f before converting.
+        /// @param rFreq Normalised frequency (0, 0.5).
+        /// @param tapsLen Length of taps, minimum 5.
+        /// @param winType Window type.
+        /// @param doNormal Normalised taps flag.
+        /// @return ippe::vector<T> of taps.
         template <typename T>
         vector<T> generateLowpassTaps(Ipp64f rFreq, int tapsLen, IppWinType winType, IppBool doNormal);
 
@@ -86,8 +93,25 @@ namespace ippe{
         class FIRSR
         {
         public:
-            FIRSR(vector<T> taps, IppAlgType algType=IppAlgType::ippAlgDirect);
+            FIRSR(vector<T>& taps, IppAlgType algType=IppAlgType::ippAlgDirect)
+                : m_taps{taps}, // copy the taps internally
+                m_dly{taps.size() - 1}, // construct with 0s
+                m_algType{algType}
+            {
+                reset();
+                prepare();
+            }
 
+            FIRSR(vector<T>&& taps, IppAlgType algType = IppAlgType::ippAlgDirect)
+                : m_taps{taps},
+                m_dly{taps.size() - 1},
+                m_algType{algType}
+            {
+                printf("Moved taps\n");
+                reset();
+                prepare();
+            }
+            
             void filter(const U* in, U* out, int len);
 
             // Accessors for the delay vector
@@ -97,7 +121,7 @@ namespace ippe{
             {
                 Copy<U>(dly, m_dly.data(), (int)m_dly.size());
             }
-            const vector<U>& getDelay() { return m_dly; }
+            const vector<U>& getDelayVector() { return m_dly; }
             const U* getDelay() { return m_dly.data(); }
 
             const vector<T>& getTaps() { return m_taps; }
@@ -108,6 +132,9 @@ namespace ippe{
             vector<U> m_dly;
             vector<Ipp8u> m_spec;
             vector<Ipp8u> m_buf;
+            IppAlgType m_algType;
+
+            void prepare();
         };
 
         // ============================
@@ -118,9 +145,7 @@ namespace ippe{
 
         // 32f taps, 32f input/output
         template <>
-        FIRSR<Ipp32f, Ipp32f>::FIRSR(vector<Ipp32f> taps, IppAlgType algType)
-            : m_taps{taps}, // copy the taps internally
-            m_dly{taps.size() - 1, 0.0f} // construct with 0s
+        inline void FIRSR<Ipp32f, Ipp32f>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -134,7 +159,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_32f(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_32f*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_32f");
@@ -142,9 +167,7 @@ namespace ippe{
 
         // 64f taps, 64f input/output
         template <>
-        FIRSR<Ipp64f, Ipp64f>::FIRSR(vector<Ipp64f> taps, IppAlgType algType)
-            : m_taps{taps}, // copy the taps internally,
-            m_dly{taps.size() - 1, 0.0} // construct with 0s
+        inline void FIRSR<Ipp64f, Ipp64f>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -158,7 +181,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_64f(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_64f*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_64f");
@@ -166,9 +189,7 @@ namespace ippe{
 
         // 32fc taps, 32fc input/output
         template <>
-        FIRSR<Ipp32fc, Ipp32fc>::FIRSR(vector<Ipp32fc> taps, IppAlgType algType)
-            : m_taps{taps}, // copy the taps internally,
-            m_dly{taps.size() - 1, {0.0f, 0.0f}} // construct with 0s
+        inline void FIRSR<Ipp32fc, Ipp32fc>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -182,7 +203,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_32fc(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_32fc*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_32fc");
@@ -190,9 +211,7 @@ namespace ippe{
 
         // 64fc taps, 64fc input/output
         template <>
-        FIRSR<Ipp64fc, Ipp64fc>::FIRSR(vector<Ipp64fc> taps, IppAlgType algType)
-            : m_taps{taps}, // copy the taps internally,
-            m_dly{taps.size() - 1, {0.0, 0.0}} // construct with 0s
+        inline void FIRSR<Ipp64fc, Ipp64fc>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -206,7 +225,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_64fc(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_64fc*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_64fc");
@@ -214,9 +233,7 @@ namespace ippe{
 
         // 32f taps, 32fc input/output
         template <>
-        FIRSR<Ipp32f, Ipp32fc>::FIRSR(vector<Ipp32f> taps, IppAlgType algType)
-            : m_taps{taps},
-            m_dly{taps.size() - 1, {0.0f, 0.0f}} // construct with 0s
+        inline void FIRSR<Ipp32f, Ipp32fc>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -230,7 +247,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_32f(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_32f*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_32f");
@@ -238,9 +255,7 @@ namespace ippe{
 
         // 32f taps, 16s input/output
         template <>
-        FIRSR<Ipp32f, Ipp16s>::FIRSR(vector<Ipp32f> taps, IppAlgType algType)
-            : m_taps{taps}, // copy the taps internally,
-            m_dly{taps.size() - 1, 0} // construct with 0s
+        inline void FIRSR<Ipp32f, Ipp16s>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -254,7 +269,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_32f(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_32f*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_32f");
@@ -262,9 +277,7 @@ namespace ippe{
 
         // 32fc taps, 16sc input/output
         template <>
-        FIRSR<Ipp32fc, Ipp16sc>::FIRSR(vector<Ipp32fc> taps, IppAlgType algType)
-            : m_taps{taps}, // copy the taps internally,
-            m_dly{taps.size() - 1, {0, 0}} // construct with 0s
+        inline void FIRSR<Ipp32fc, Ipp16sc>::prepare()
         {
             int specSize, bufSize;
             IppStatus sts = ippsFIRSRGetSize(
@@ -278,7 +291,7 @@ namespace ippe{
             // Then initialize the spec
             sts = ippsFIRSRInit_32fc(
                 m_taps.data(), (int)m_taps.size(),
-                algType,
+                m_algType,
                 (IppsFIRSpec_32fc*)m_spec.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSRInit_32fc");
@@ -328,27 +341,6 @@ namespace ippe{
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_32fc");
-            // Copy the delay back to internal vector
-            m_dly = dlyDst;
-        }
-
-        // 64f taps, 64fc input/output
-        template <>
-        inline void FIRSR<Ipp64fc, Ipp64fc>::filter(
-            const Ipp64fc* in,
-            Ipp64fc* out,
-            int len
-        ){
-            // Create temporary vector for output of delay
-            vector<Ipp64fc> dlyDst(m_dly.size());
-            IppStatus sts = ippsFIRSR_64fc(
-                in, out, len,
-                (IppsFIRSpec_64fc*)m_spec.data(),
-                (const Ipp64fc*)m_dly.data(),
-                dlyDst.data(),
-                m_buf.data()
-            );
-            IPP_NO_ERROR(sts, "ippsFIRSR_64fc");
             // Copy the delay back to internal vector
             m_dly = dlyDst;
         }
