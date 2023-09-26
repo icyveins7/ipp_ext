@@ -103,8 +103,8 @@ namespace ippe{
             }
 
             FIRSR(vector<T>&& taps, IppAlgType algType = IppAlgType::ippAlgDirect)
-                : m_taps{taps},
-                m_dly{taps.size() - 1},
+                : m_taps{std::move(taps)},
+                m_dly{m_taps.size() - 1}, // important that this is after m_taps, like in declaration order; we must use m_taps since we moved from it already
                 m_algType{algType}
             {
                 printf("Moved taps\n");

@@ -9,6 +9,11 @@ int main()
     );
     // Copy elision should happen for the above statement so you won't see the move ctor.
 
+    // You could also hold the filter taps separately, though this is unnecessary since the filter object copies it..
+    printf("Unnecessary taps storage, not recommended\n");
+    ippe::vector<Ipp32f> unnecessaryTaps = ippe::filter::generateLowpassTaps<Ipp32f>(0.5/2.0, 8, ippWinHamming, ippTrue);
+    ippe::filter::FIRSR<Ipp32f, Ipp32fc> filter2(unnecessaryTaps);
+
     printf("Checking filter coefficients...\n");
     for (int i = 0; i < filter.getTaps().size(); i++)
         printf("%f ", filter.getTaps()[i]);
