@@ -324,6 +324,27 @@ namespace ippe{
             m_dly = dlyDst;
         }
 
+        // 64f taps, 64f input/output
+        template <>
+        inline void FIRSR<Ipp64f, Ipp64f>::filter(
+            const Ipp64f* in,
+            Ipp64f* out,
+            int len
+        ){
+            // Create temporary vector for output of delay
+            vector<Ipp64f> dlyDst(m_dly.size());
+            IppStatus sts = ippsFIRSR_64f(
+                in, out, len,
+                (IppsFIRSpec_64f*)m_spec.data(),
+                (const Ipp64f*)m_dly.data(),
+                dlyDst.data(),
+                m_buf.data()
+            );
+            IPP_NO_ERROR(sts, "ippsFIRSR_64f");
+            // Copy the delay back to internal vector
+            m_dly = dlyDst;
+        }
+
         // 32fc taps, 32fc input/output
         template <>
         inline void FIRSR<Ipp32fc, Ipp32fc>::filter(
