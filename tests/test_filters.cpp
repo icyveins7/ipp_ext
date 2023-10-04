@@ -180,7 +180,7 @@ void test_FIRSR_lowpass()
     ippe::filter::FIRSR<T, U> filter(taps);
 
     // Check that the delay is all zeros
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < filter.getDelayVector().size(); i++)
     {
         REQUIRE(filter.getDelayVector()[i] == (U)0.0);
     }
@@ -228,9 +228,10 @@ void test_FIRSR_lowpass()
         REQUIRE(delay[i] == (U)0.0);
     }
 
-    // Test copy assignment
-    std::vector<ippe::filter::FIRSR<T,U>> filters;
-    filters.push_back(filter);
+    // Test copy and assignment
+    std::vector<ippe::filter::FIRSR<T,U>> filters(1);
+    filters.at(0) = filter; // assignment
+    filters.push_back(filter); // copy
 
     // Check that the internal vectors are distinct, but the values are the same
     for (int i = 0; i < filters.size(); i++)
@@ -244,6 +245,93 @@ void test_FIRSR_lowpass()
     }
 }
 
+template <typename T, typename U>
+void test_FIRSR_lowpass_cplx()
+{
+    // Create the taps
+    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
+
+    // Create the filter with taps
+    ippe::filter::FIRSR<T, U> filter(taps);
+
+    // Check that the delay is all zeros
+    for (int i = 0; i < filter.getDelayVector().size(); i++)
+    {
+        REQUIRE(filter.getDelayVector()[i].re == 0);
+        REQUIRE(filter.getDelayVector()[i].im == 0);
+    }
+
+    // Check that the taps are correct
+    for (int i = 0; i < 8; i++)
+    {
+        REQUIRE(filter.getTaps()[i].re == taps[i].re);
+        REQUIRE(filter.getTaps()[i].im == taps[i].im);
+    }
+
+    // Create some data
+    ippe::vector<U> data(16);
+    for (int i = 0; i < data.size(); i++)
+    {
+        data[i].re = i;
+        data[i].im = i + 1;
+    }
+
+    // Apply the filter
+    ippe::vector<U> result(data.size());
+    filter.filter(data.data(), result.data(), (int)result.size());
+
+    // Check that the result is correct
+    for (int i = 0; i < result.size(); i++)
+    {
+        U value = {0, 0};
+        for (int j = 0; j < taps.size(); j++)
+        {
+            if (i - j >= 0)
+            {
+                value.re += taps[j].re * data[i - j].re;
+                value.im += taps[j].re * data[i - j].im;
+            }
+                
+        }
+        REQUIRE(std::abs(result[i].re - value.re) < 1e-6); // use some threshold cause it's not exact
+        REQUIRE(std::abs(result[i].im - value.im) < 1e-6);
+    }
+
+    // Check that the delay is set correctly
+    const ippe::vector<U> &delay = filter.getDelayVector();
+    for (int i = 0; i < delay.size(); i++)
+    {
+        REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
+        REQUIRE(delay[i].im == data[data.size()-delay.size()+i].im);
+    }
+
+    // Reset the delay and check again
+    filter.reset();
+    for (int i = 0; i < delay.size(); i++)
+    {
+        REQUIRE(delay[i].re == 0);
+        REQUIRE(delay[i].im == 0);
+    }
+
+    // Test copy and assignment
+    std::vector<ippe::filter::FIRSR<T,U>> filters(1);
+    filters.at(0) = filter; // assignment
+    filters.push_back(filter); // copy
+
+    // Check that the internal vectors are distinct, but the values are the same
+    for (int i = 0; i < filters.size(); i++)
+    {
+        REQUIRE(&filters.at(i).getTaps() != &filter.getTaps());
+        REQUIRE(filters.at(i).getDelay() != filter.getDelay());
+        for (int j = 0; j < filters.at(i).getTaps().size(); j++)
+        {
+            REQUIRE(filters.at(i).getTaps()[j].re == filter.getTaps()[j].re);
+            REQUIRE(filters.at(i).getTaps()[j].im == filter.getTaps()[j].im);
+        }
+    }
+
+}
+
 TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
 {
     SECTION("Ipp32f taps, Ipp32f data"){
@@ -252,6 +340,103 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     SECTION("Ipp64f taps, Ipp64f data"){
         test_FIRSR_lowpass<Ipp64f, Ipp64f>();
     }
+    SECTION("Ipp32fc taps, Ipp32fc data"){
+        test_FIRSR_lowpass_cplx<Ipp32fc, Ipp32fc>();
+    }
+    SECTION("Ipp64fc taps, Ipp64fc data"){
+        test_FIRSR_lowpass_cplx<Ipp64fc, Ipp64fc>();
+    }
+    // Special case
+    SECTION("Ipp32f taps, Ipp32fc data")
+    {
+        // Create the taps
+        ippe::vector<Ipp32f> taps = ippe::filter::generateLowpassTaps<Ipp32f>(0.5/2.0, 8, ippWinHamming, ippTrue);
+
+        // Create the filter with taps
+        ippe::filter::FIRSR<Ipp32f, Ipp32fc> filter(taps);
+
+        // Check that the delay is all zeros
+        for (int i = 0; i < filter.getDelayVector().size(); i++)
+        {
+            REQUIRE(filter.getDelayVector()[i].re == 0);
+            REQUIRE(filter.getDelayVector()[i].im == 0);
+        }
+
+        // Check that the taps are correct
+        for (int i = 0; i < 8; i++)
+        {
+            REQUIRE(filter.getTaps()[i] == taps[i]);
+        }
+
+        // Create some data
+        ippe::vector<Ipp32fc> data(16);
+        for (int i = 0; i < data.size(); i++)
+        {
+            data[i].re = i;
+            data[i].im = i + 1;
+        }
+
+        // Apply the filter
+        ippe::vector<Ipp32fc> result(data.size());
+        filter.filter(data.data(), result.data(), (int)result.size());
+
+        // Check that the result is correct
+        for (int i = 0; i < result.size(); i++)
+        {
+            Ipp32fc value = {0, 0};
+            for (int j = 0; j < taps.size(); j++)
+            {
+                if (i - j >= 0)
+                {
+                    value.re += taps[j] * data[i - j].re;
+                    value.im += taps[j] * data[i - j].im;
+                }
+            }
+            printf("%d, %f %f\n", i, result[i].re, result[i].im);
+            REQUIRE(std::abs(result[i].re - value.re) < 1e-6); // use some threshold cause it's not exact
+            REQUIRE(std::abs(result[i].im - value.im) < 1e-6);
+        }
+
+        // Check that the delay is set correctly
+        const ippe::vector<Ipp32fc> &delay = filter.getDelayVector();
+        for (int i = 0; i < delay.size(); i++)
+        {
+            REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
+            REQUIRE(delay[i].im == data[data.size()-delay.size()+i].im);
+        }
+
+        // Reset the delay and check again
+        filter.reset();
+        for (int i = 0; i < delay.size(); i++)
+        {
+            REQUIRE(delay[i].re == 0);
+            REQUIRE(delay[i].im == 0);
+        }
+
+        // Test copy and assignment
+        std::vector<ippe::filter::FIRSR<Ipp32f, Ipp32fc>> filters(1);
+        filters.at(0) = filter; // assignment
+        filters.push_back(filter); // copy
+
+        // Check that the internal vectors are distinct, but the values are the same
+        for (int i = 0; i < filters.size(); i++)
+        {
+            REQUIRE(&filters.at(i).getTaps() != &filter.getTaps());
+            REQUIRE(filters.at(i).getDelay() != filter.getDelay());
+            for (int j = 0; j < filters.at(i).getTaps().size(); j++)
+            {
+                REQUIRE(filters.at(i).getTaps()[j] == filter.getTaps()[j]);
+            }
+        }
+    }
+
+    // Skipping the mixed int/floating tests for now; would need to perform a lot of custom conversions
+    // SECTION("Ipp32fc taps, Ipp16s data"){
+    //     test_FIRSR_lowpass_cplx<Ipp32fc, Ipp16s>();
+    // }
+    // SECTION("Ipp32f taps, Ipp16s data"){
+    //     test_FIRSR_lowpass<Ipp32f, Ipp16s>();
+    // }
 }
 
 // TEST_CASE("ippe filter copy/assignment", "[filter],[copy],[assignment]")
