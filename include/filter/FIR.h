@@ -98,7 +98,8 @@ namespace ippe{
 
             FIRSR(vector<T>& taps, IppAlgType algType=IppAlgType::ippAlgDirect)
                 : m_taps{taps}, // copy the taps internally
-                m_dly{taps.size() - 1}, // construct with 0s
+                m_dly{taps.size() - 1}, // construct with 0s,
+                m_dlyDst{taps.size() - 1},
                 m_algType{algType}
             {
                 reset();
@@ -107,8 +108,9 @@ namespace ippe{
             }
 
             FIRSR(vector<T>&& taps, IppAlgType algType = IppAlgType::ippAlgDirect)
-                : m_taps{std::move(taps)},
+                : m_taps(std::move(taps)),
                 m_dly{m_taps.size() - 1}, // important that this is after m_taps, like in declaration order; we must use m_taps since we moved from it already
+                m_dlyDst{m_taps.size() - 1},
                 m_algType{algType}
             {
                 printf("Moved taps\n");
@@ -135,12 +137,13 @@ namespace ippe{
             vector<T> m_taps;
             // Workspaces for the filter
             vector<U> m_dly;
+            vector<U> m_dlyDst;
             vector<Ipp8u> m_spec;
             vector<Ipp8u> m_buf;
             IppAlgType m_algType;
 
             void prepare();
-            bool isPrepared = false;
+            bool isPrepared = false; // flag to ensure that taps have been initialized
         };
 
         // ============================
@@ -319,18 +322,16 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
 
-            // Create temporary vector for output of delay
-            vector<Ipp32f> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR_32f(
                 in, out, len,
                 (IppsFIRSpec_32f*)m_spec.data(),
                 (const Ipp32f*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_32f");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
 
         // 64f taps, 64f input/output
@@ -343,18 +344,16 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
 
-            // Create temporary vector for output of delay
-            vector<Ipp64f> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR_64f(
                 in, out, len,
                 (IppsFIRSpec_64f*)m_spec.data(),
                 (const Ipp64f*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_64f");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
 
         // 32fc taps, 32fc input/output
@@ -367,18 +366,16 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
 
-            // Create temporary vector for output of delay
-            vector<Ipp32fc> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR_32fc(
                 in, out, len,
                 (IppsFIRSpec_32fc*)m_spec.data(),
                 (const Ipp32fc*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_32fc");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
 
         // 64fc taps, 64fc input/output
@@ -391,21 +388,19 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
 
-            // Create temporary vector for output of delay
-            vector<Ipp64fc> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR_64fc(
                 in, out, len,
                 (IppsFIRSpec_64fc*)m_spec.data(),
                 (const Ipp64fc*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_64fc");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
     
-        // 32f taps, 32fc input/output
+        // 32f taps, 32fc input/output (note that it is not understood how the results of this combination are calculated)
         template <>
         inline void FIRSR<Ipp32f, Ipp32fc>::filter(
             const Ipp32fc* in,
@@ -415,18 +410,16 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
 
-            // Create temporary vector for output of delay
-            vector<Ipp32fc> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR32f_32fc(
                 in, out, len,
                 (IppsFIRSpec32f_32fc*)m_spec.data(),
                 (const Ipp32fc*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR32f_32fc");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
 
         // 32f taps, 16s input/output
@@ -439,18 +432,16 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
 
-            // Create temporary vector for output of delay
-            vector<Ipp16s> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR_16s(
                 in, out, len,
                 (IppsFIRSpec_32f*)m_spec.data(),
                 (const Ipp16s*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_16s");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
 
         // 32fc taps, 16sc input/output
@@ -463,18 +454,16 @@ namespace ippe{
             if (!isPrepared)
                 throw std::runtime_error("FIRSR filter not prepared");
                 
-            // Create temporary vector for output of delay
-            vector<Ipp16sc> dlyDst(m_dly.size());
             IppStatus sts = ippsFIRSR_16sc(
                 in, out, len,
                 (IppsFIRSpec_32fc*)m_spec.data(),
                 (const Ipp16sc*)m_dly.data(),
-                dlyDst.data(),
+                m_dlyDst.data(),
                 m_buf.data()
             );
             IPP_NO_ERROR(sts, "ippsFIRSR_16sc");
             // Copy the delay back to internal vector
-            m_dly = dlyDst;
+            m_dly = m_dlyDst;
         }
     
     }

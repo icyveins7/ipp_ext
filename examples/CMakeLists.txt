@@ -47,8 +47,8 @@ add_executable(filter_example filter_example.cpp)
 target_link_libraries(filter_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
 
 ###########################################################
-add_executable(filter_example_v2 filter_example_v2.cpp)
-target_link_libraries(filter_example_v2 PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
+# add_executable(filter_example_v2 filter_example_v2.cpp)
+# target_link_libraries(filter_example_v2 PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
 
 ###########################################################
 add_executable(dft_example dft_example.cpp)
