@@ -1,4 +1,4 @@
 #pragma once
 
-#include "filter/FIR.h"
+#include "filter/FIRSR.h"
 #include "filter/FIRGen.h"
