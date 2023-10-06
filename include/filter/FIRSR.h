@@ -36,7 +36,6 @@ namespace ippe{
                 m_dlyDst{m_taps.size() - 1},
                 m_algType{algType}
             {
-                printf("Moved taps\n");
                 reset();
                 prepare();
                 isPrepared = true;
@@ -71,7 +70,7 @@ namespace ippe{
 
         // ============================
         // ============================ 
-        //  FIRSR Ctor Specializations
+        //  FIRSR prepare Specializations
         // ============================
         // ============================
 
