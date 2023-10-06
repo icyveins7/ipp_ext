@@ -2,7 +2,6 @@
 
 #include "ipp.h"
 #include "../ipp_ext_errors.h"
-#include "FIRGen.h" // include all the taps generators
 #include "../ipp_ext_vec.h" // use ippe vectors
 #include <stdexcept>
 #include <string>
