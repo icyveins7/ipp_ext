@@ -31,6 +31,20 @@ namespace ippe{
                     prepare();
                     isPrepared = true;
                 }
+                FIRMR(
+                    vector<T>&& taps,
+                    int upFactor, int upPhase,
+                    int downFactor, int downPhase
+                ) : m_taps{std::move(taps)},
+                    m_upFactor{upFactor}, m_upPhase{upPhase},
+                    m_downFactor{downFactor}, m_downPhase{downPhase},
+                    m_dly{(m_taps.size()+upFactor-1)/upFactor}, // must use m_taps cause we already moved
+                    m_dlyDst{(m_taps.size()+upFactor-1)/upFactor}
+                {
+                    reset();
+                    prepare();
+                    isPrepared = true;
+                }
 
                 void filter(const U* in, U* out, int len);
 
