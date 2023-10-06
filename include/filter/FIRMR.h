@@ -46,7 +46,7 @@ namespace ippe{
                     isPrepared = true;
                 }
 
-                void filter(const U* in, U* out, int len);
+                void filter(const U* in, U* out, int inlen, int outlen);
 
                 // Accessors for the delay vector
                 void reset(){ m_dly.zero(); }
@@ -181,13 +181,18 @@ namespace ippe{
 
         // 32f taps, 32f data
         template <>
-        inline void FIRMR<Ipp32f, Ipp32f>::filter(const Ipp32f* in, Ipp32f* out, int len)
+        inline void FIRMR<Ipp32f, Ipp32f>::filter(const Ipp32f* in, Ipp32f* out, int inlen, int outlen)
         {
             if (!isPrepared)
                 throw std::runtime_error("FIRMR not prepared");
 
+            // Expected input length is numIters * downFactor
+            int numIters = inlen / m_downFactor;
+            if (outlen < numIters * m_upFactor)
+                throw std::invalid_argument("FIRMR output length is too small");
+
             IppStatus sts = ippsFIRMR_32f(
-                in, out, len,
+                in, out, numIters,
                 (IppsFIRSpec_32f*)m_spec.data(),
                 (const Ipp32f*)m_dly.data(),
                 m_dlyDst.data(),
@@ -200,13 +205,18 @@ namespace ippe{
 
         // 64f taps, 64f data
         template <>
-        inline void FIRMR<Ipp64f, Ipp64f>::filter(const Ipp64f* in, Ipp64f* out, int len)
+        inline void FIRMR<Ipp64f, Ipp64f>::filter(const Ipp64f* in, Ipp64f* out, int inlen, int outlen)
         {
             if (!isPrepared)
                 throw std::runtime_error("FIRMR not prepared");
 
+            // Expected input length is numIters * downFactor
+            int numIters = inlen / m_downFactor;
+            if (outlen < numIters * m_upFactor)
+                throw std::invalid_argument("FIRMR output length is too small");
+
             IppStatus sts = ippsFIRMR_64f(
-                in, out, len,
+                in, out, numIters,
                 (IppsFIRSpec_64f*)m_spec.data(),
                 (const Ipp64f*)m_dly.data(),
                 m_dlyDst.data(),
@@ -219,13 +229,18 @@ namespace ippe{
 
         // 32fc taps, 32fc data
         template <>
-        inline void FIRMR<Ipp32fc, Ipp32fc>::filter(const Ipp32fc* in, Ipp32fc* out, int len)
+        inline void FIRMR<Ipp32fc, Ipp32fc>::filter(const Ipp32fc* in, Ipp32fc* out, int inlen, int outlen)
         {
             if (!isPrepared)
                 throw std::runtime_error("FIRMR not prepared");
 
+            // Expected input length is numIters * downFactor
+            int numIters = inlen / m_downFactor;
+            if (outlen < numIters * m_upFactor)
+                throw std::invalid_argument("FIRMR output length is too small");
+
             IppStatus sts = ippsFIRMR_32fc(
-                in, out, len,
+                in, out, numIters,
                 (IppsFIRSpec_32fc*)m_spec.data(),
                 (const Ipp32fc*)m_dly.data(),
                 m_dlyDst.data(),
@@ -238,13 +253,18 @@ namespace ippe{
 
         // 64fc taps, 64fc data
         template <>
-        inline void FIRMR<Ipp64fc, Ipp64fc>::filter(const Ipp64fc* in, Ipp64fc* out, int len)
+        inline void FIRMR<Ipp64fc, Ipp64fc>::filter(const Ipp64fc* in, Ipp64fc* out, int inlen, int outlen)
         {
             if (!isPrepared)
                 throw std::runtime_error("FIRMR not prepared");
 
+            // Expected input length is numIters * downFactor
+            int numIters = inlen / m_downFactor;
+            if (outlen < numIters * m_upFactor)
+                throw std::invalid_argument("FIRMR output length is too small");
+
             IppStatus sts = ippsFIRMR_64fc(
-                in, out, len,
+                in, out, numIters,
                 (IppsFIRSpec_64fc*)m_spec.data(),
                 (const Ipp64fc*)m_dly.data(),
                 m_dlyDst.data(),
@@ -254,7 +274,5 @@ namespace ippe{
             // Copy the delay back
             m_dly = m_dlyDst;
         }
-
-
     }
 }

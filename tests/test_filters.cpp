@@ -336,3 +336,59 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     //     test_FIRSR_lowpass<Ipp32f, Ipp16s>();
     // }
 }
+
+template <typename T, typename U>
+void test_FIRMR_lowpass()
+{
+    // Create filter and taps
+    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
+
+    int up = 5;
+    int down = 3;
+    ippe::filter::FIRMR<T,U> filter(
+        taps,
+        up, 0, down, 0
+    );
+
+    // Create some data
+    ippe::vector<U> data(30);
+    for (int i = 0; i < data.size(); i++)
+    {
+        data[i] = 10 + i;
+    }
+
+    // Apply the filter
+    ippe::vector<U> result(data.size() * up / down);
+    filter.filter(data.data(), result.data(), data.size(), result.size());
+
+    // Check results
+    for (int i = 0; i < result.size(); i++)
+    {
+        U value = 0;
+        for (int j = 0; j < filter.getTaps().size(); j++)
+        {
+            if ((i * down - j) >= 0 && (i * down - j) % up == 0 )
+            {
+                value += filter.getTaps()[j] * data[ (i * down - j) / up];
+            }
+        }
+        REQUIRE(std::abs(result[i] - value) < 1e-6); // use some threshold cause it's not exact
+    }
+
+}
+
+TEST_CASE("ippe filter FIRMR lowpass", "[filter],[firmr],[lowpass]")
+{
+    SECTION("Ipp32f taps, Ipp32f data"){
+        test_FIRMR_lowpass<Ipp32f, Ipp32f>();
+    }
+    SECTION("Ipp64f taps, Ipp64f data"){
+        test_FIRMR_lowpass<Ipp64f, Ipp64f>();
+    }
+    // SECTION("Ipp32fc taps, Ipp32fc data"){
+    //     test_FIRMR_lowpass_cplx<Ipp32fc, Ipp32fc>();
+    // }
+    // SECTION("Ipp64fc taps, Ipp64fc data"){
+    //     test_FIRMR_lowpass_cplx<Ipp64fc, Ipp64fc>();
+    // }
+}
