@@ -983,6 +983,104 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
     
 }
 
+template <typename T>
+void test_vector_iterators()
+{
+    ippe::vector<T> a(100);
+    // Set with the iterators
+    int i = 0;
+    for (auto& v : a)
+    {
+        v = i;
+        i++;
+    }
+    // Read with the const iterators specifically
+    i = 0;
+    for (const auto& v : a)
+    {
+        REQUIRE(v == i);
+        i++;
+    }
+}
+
+template <typename T>
+void test_vector_iterators_cplx()
+{
+    ippe::vector<T> a(100);
+    // Set with the iterators
+    int i = 0;
+    for (auto& v : a)
+    {
+        v.re = i;
+        v.im = i;
+        i++;
+    }
+    // Read with the const iterators specifically
+    i = 0;
+    for (const auto& v : a)
+    {
+        REQUIRE(v.re == i);
+        REQUIRE(v.im == i);
+        i++;
+    }
+}
+
+TEST_CASE("ippe vector iterators", "[vector],[iterator]")
+{
+    // Real types
+    SECTION("Ipp8u"){
+        test_vector_iterators<Ipp8u>();
+    }
+    SECTION("Ipp8s"){
+        test_vector_iterators<Ipp8s>();
+    }
+    SECTION("Ipp16u"){
+        test_vector_iterators<Ipp16u>();
+    }
+    SECTION("Ipp16s"){
+        test_vector_iterators<Ipp16s>();
+    }
+    SECTION("Ipp32s"){
+        test_vector_iterators<Ipp32s>();
+    }
+    SECTION("Ipp32u"){
+        test_vector_iterators<Ipp32u>();
+    }
+    SECTION("Ipp64s"){
+        test_vector_iterators<Ipp64s>();
+    }
+    SECTION("Ipp64u"){
+        test_vector_iterators<Ipp64u>();
+    }
+    SECTION("Ipp32f"){
+        test_vector_iterators<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_vector_iterators<Ipp64f>();
+    }
+
+    // Complex types
+    SECTION("Ipp8sc"){
+        test_vector_iterators_cplx<Ipp8sc>();
+    }
+    SECTION("Ipp16sc"){
+        test_vector_iterators_cplx<Ipp16sc>();
+    }
+    SECTION("Ipp32sc"){
+        test_vector_iterators_cplx<Ipp32sc>();
+    }
+    SECTION("Ipp64sc"){
+        test_vector_iterators_cplx<Ipp64sc>();
+    }
+    SECTION("Ipp32fc"){
+        test_vector_iterators_cplx<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_vector_iterators_cplx<Ipp64fc>();
+    }
+
+}
+
 	
 
 
