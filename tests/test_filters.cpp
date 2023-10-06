@@ -341,12 +341,10 @@ template <typename T, typename U>
 void test_FIRMR_lowpass()
 {
     // Create filter and taps
-    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
-
     int up = 5;
     int down = 3;
     ippe::filter::FIRMR<T,U> filter(
-        taps,
+        ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue),
         up, 0, down, 0
     );
 
