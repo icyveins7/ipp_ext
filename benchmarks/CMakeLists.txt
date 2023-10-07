@@ -8,9 +8,16 @@ project(ipp_ext_catch2_benchmarks)
 # Add compile options so instruction sets are explicitly enabled
 if (MSVC)
     add_compile_options(/arch:AVX2)
+elseif (APPLE)
+    add_compile_definitions(NDEBUG)
 else()
     add_compile_options(-mavx2 -O3)
     add_compile_definitions(NDEBUG)
+endif()
+
+if (APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64") # Need this to work with intel stuff for m1/m2
+    message("CMAKE_OSX_ARCHITECTURES is " ${CMAKE_OSX_ARCHITECTURES})
 endif()
 
 # Check for user-specified CMAKE_PREFIX_PATH, otherwise generate it from VCPKG_DIR environment variable
@@ -49,6 +56,14 @@ if (WIN32)
     find_library(ippslib NAMES ipps ENV LIBRARY_PATH) # Did i actually need HINTS here too?
     message("Libpath: " ${ippcorelib})
     message("Libpath: " ${ippslib})
+elseif (APPLE)
+    message("Finding IPP libraries for MacOS...")
+    find_library(ippcorelib NAMES libippcore.a HINTS ENV DYLD_LIBRARY_PATH) # on mac it seems like it's here, even though it's linux based
+    find_library(ippslib NAMES libipps.a HINTS ENV DYLD_LIBRARY_PATH)
+    find_library(ippvmlib NAMES libippvm.a HINTS ENV DYLD_LIBRARY_PATH)
+    message("Libpath: " ${ippcorelib})
+    message("Libpath: " ${ippslib})
+    message("Libpath: " ${ippvmlib})
 else ()
     message("Finding IPP libraries for Linux...")
     find_library(ippcorelib NAMES libippcore ippcore HINTS ENV LD_LIBRARY_PATH)
@@ -62,9 +77,9 @@ add_executable(benchmark_dft benchmark_dft.cpp)
 
 # We only need pthreads for unix-based OSes
 if (WIN32)
-    target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+    target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
 else()
-    target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} pthread Catch2::Catch2WithMain)
+    target_link_libraries(benchmark_dft PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} pthread Catch2::Catch2WithMain)
 endif()
 
 # We check if Eigen exists
@@ -74,8 +89,12 @@ if (DEFINED ENV{EIGEN_DIR})
 
     include_directories($ENV{EIGEN_DIR})
     add_executable(compare_eigen compare_eigen.cpp)
-    target_link_libraries(compare_eigen PUBLIC ${ippcorelib} ${ippslib} Catch2::Catch2WithMain)
+    target_link_libraries(compare_eigen PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
 endif()
+
+# Other benchmarks
+add_executable(benchmark_upfirdn benchmark_upfirdn.cpp)
+target_link_libraries(benchmark_upfirdn PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
 
 include(CTest)
 include(Catch)

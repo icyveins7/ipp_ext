@@ -10,7 +10,7 @@ namespace ippe{
     namespace filter
     {
         /// @brief Class for filtering single-rate.
-        /// @tparam T Type of the taps container e.g. FIRLowpass.
+        /// @tparam T Type of the taps.
         /// @tparam U Type of the input/output.
         template <typename T, typename U>
         class FIRSR
