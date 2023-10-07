@@ -373,6 +373,145 @@ void test_FIRMR_lowpass()
         REQUIRE(std::abs(result[i] - value) < 1e-6); // use some threshold cause it's not exact
     }
 
+    // Check that the delay is set correctly
+    const ippe::vector<U> &delay = filter.getDelayVector();
+    for (int i = 0; i < delay.size(); i++)
+    {
+        REQUIRE(delay[i] == data[data.size()-delay.size()+i]);
+    }
+
+    // Reset the delay and check again
+    filter.reset();
+    for (int i = 0; i < delay.size(); i++)
+    {
+        REQUIRE(delay[i] == 0);
+    }
+
+    // Check that it will throw if the output is not long enough
+    ippe::vector<U> tooshortresult(data.size());
+    REQUIRE_THROWS_AS(
+        filter.filter(data.data(), tooshortresult.data(), data.size(), tooshortresult.size()),
+        std::invalid_argument
+    );
+
+    // Make a vector of filter objects
+    std::vector<ippe::filter::FIRMR<T,U>> filters(1);
+    // First show that it will throw if not constructed directly
+    REQUIRE_THROWS_AS(
+        filters.at(0).filter(data.data(), result.data(), data.size(), result.size()), 
+        std::runtime_error
+    );
+
+    filters.at(0) = filter; // assignment
+    filters.push_back(filter); // copy
+
+    // Check that the delays are the same as the original
+    for (int i = 0; i < filters.size(); i++)
+    {
+        for (int j = 0; j < filters.at(i).getDelayVector().size(); j++)
+        {
+            REQUIRE(filters.at(i).getDelayVector()[j] == filter.getDelayVector()[j]);
+        }
+        for (int j = 0; j < filters.at(i).getTaps().size(); j++)
+        {
+            REQUIRE(filters.at(i).getTaps()[j] == filter.getTaps()[j]);
+        }
+        // But that the actual pointers are different
+        REQUIRE(&filters.at(i).getTaps()!= &filter.getTaps());
+        REQUIRE(&filters.at(i).getDelayVector()!= &filter.getDelayVector());
+    }
+}
+
+// Make corresponding complex test
+template <typename T, typename U>
+void test_FIRMR_lowpass_cplx()
+{
+        // Create filter and taps
+    int up = 5;
+    int down = 3;
+    ippe::filter::FIRMR<T,U> filter(
+        ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue),
+        up, 0, down, 0
+    );
+
+    // Create some data
+    ippe::vector<U> data(30);
+    for (int i = 0; i < data.size(); i++)
+    {
+        data[i].re = 10 + i;
+        data[i].im = 20 + i;
+    }
+
+    // Apply the filter
+    ippe::vector<U> result(data.size() * up / down);
+    filter.filter(data.data(), result.data(), data.size(), result.size());
+
+    // Check results
+    for (int i = 0; i < result.size(); i++)
+    {
+        U value = {0, 0};
+        for (int j = 0; j < filter.getTaps().size(); j++)
+        {
+            if ((i * down - j) >= 0 && (i * down - j) % up == 0 )
+            {
+                value.re += filter.getTaps()[j].re * data[ (i * down - j) / up].re;
+                value.im += filter.getTaps()[j].re * data[ (i * down - j) / up].im;
+            }
+        }
+        REQUIRE(std::abs(result[i].re - value.re) < 1e-6); // use some threshold cause it's not exact
+        REQUIRE(std::abs(result[i].im - value.im) < 1e-6);
+    }
+
+    // Check that the delay is set correctly
+    const ippe::vector<U> &delay = filter.getDelayVector();
+    for (int i = 0; i < delay.size(); i++)
+    {
+        REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
+        REQUIRE(delay[i].im == data[data.size()-delay.size()+i].im);
+    }
+
+    // Reset the delay and check again
+    filter.reset();
+    for (int i = 0; i < delay.size(); i++)
+    {
+        REQUIRE(delay[i].re == 0);
+        REQUIRE(delay[i].im == 0);
+    }
+
+    // Check that it will throw if the output is not long enough
+    ippe::vector<U> tooshortresult(data.size());
+    REQUIRE_THROWS_AS(
+        filter.filter(data.data(), tooshortresult.data(), data.size(), tooshortresult.size()),
+        std::invalid_argument
+    );
+
+    // Make a vector of filter objects
+    std::vector<ippe::filter::FIRMR<T,U>> filters(1);
+    // First show that it will throw if not constructed directly
+    REQUIRE_THROWS_AS(
+        filters.at(0).filter(data.data(), result.data(), data.size(), result.size()), 
+        std::runtime_error
+    );
+
+    filters.at(0) = filter; // assignment
+    filters.push_back(filter); // copy
+
+    // Check that the delays are the same as the original
+    for (int i = 0; i < filters.size(); i++)
+    {
+        for (int j = 0; j < filters.at(i).getDelayVector().size(); j++)
+        {
+            REQUIRE(filters.at(i).getDelayVector()[j].re == filter.getDelayVector()[j].re);
+            REQUIRE(filters.at(i).getDelayVector()[j].im == filter.getDelayVector()[j].im);
+        }
+        for (int j = 0; j < filters.at(i).getTaps().size(); j++)
+        {
+            REQUIRE(filters.at(i).getTaps()[j].re == filter.getTaps()[j].re);
+        }
+        // But that the actual pointers are different
+        REQUIRE(&filters.at(i).getTaps()!= &filter.getTaps());
+        REQUIRE(&filters.at(i).getDelayVector()!= &filter.getDelayVector());
+    }
 }
 
 TEST_CASE("ippe filter FIRMR lowpass", "[filter],[firmr],[lowpass]")
@@ -383,10 +522,10 @@ TEST_CASE("ippe filter FIRMR lowpass", "[filter],[firmr],[lowpass]")
     SECTION("Ipp64f taps, Ipp64f data"){
         test_FIRMR_lowpass<Ipp64f, Ipp64f>();
     }
-    // SECTION("Ipp32fc taps, Ipp32fc data"){
-    //     test_FIRMR_lowpass_cplx<Ipp32fc, Ipp32fc>();
-    // }
-    // SECTION("Ipp64fc taps, Ipp64fc data"){
-    //     test_FIRMR_lowpass_cplx<Ipp64fc, Ipp64fc>();
-    // }
+    SECTION("Ipp32fc taps, Ipp32fc data"){
+        test_FIRMR_lowpass_cplx<Ipp32fc, Ipp32fc>();
+    }
+    SECTION("Ipp64fc taps, Ipp64fc data"){
+        test_FIRMR_lowpass_cplx<Ipp64fc, Ipp64fc>();
+    }
 }
