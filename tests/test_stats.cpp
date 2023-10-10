@@ -165,3 +165,47 @@ TEST_CASE("ippe stats Max", "[stats], [Max]")
         test_Max<Ipp64f>();
     }
 }
+
+// =====================================================================================================================
+template <typename T>
+void test_MaxIndx()
+{
+    ippe::vector<T> x(10);
+    
+    for (int i = 0; i < 10; i++)
+    {
+        x[i] = i;
+    }
+    
+    T max;
+    int idx;
+    ippe::stats::MaxIndx(x.data(), x.size(), &max, &idx);
+    
+    T checkMax = 0;
+    int checkIdx = 0;
+    for (int i = 0; i < 10; i++){
+        checkMax = std::max(checkMax, x[i]);
+        if (checkMax == x[i]){
+            checkIdx = i;
+        }
+    }
+
+    REQUIRE(std::abs(max - checkMax) < 1e-10);
+    REQUIRE(idx == checkIdx);
+}
+
+TEST_CASE("ippe stats MaxIndx", "[stats], [MaxIndx]")
+{
+    SECTION("Ipp16s"){
+        test_MaxIndx<Ipp16s>();
+    }
+    SECTION("Ipp32s"){
+        test_MaxIndx<Ipp32s>();
+    }
+    SECTION("Ipp32f"){
+        test_MaxIndx<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_MaxIndx<Ipp64f>();
+    }
+}
