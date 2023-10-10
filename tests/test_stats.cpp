@@ -128,3 +128,40 @@ TEST_CASE("ippe stats Sum", "[stats], [Sum]")
         test_Sum_complex<Ipp64fc>();
     }
 }
+
+// =====================================================================================================================
+template <typename T>
+void test_Max()
+{
+    ippe::vector<T> x(10);
+    
+    for (int i = 0; i < 10; i++)
+    {
+        x[i] = i;
+    }
+    
+    T max;
+    ippe::stats::Max(x.data(), x.size(), &max);
+    
+    T checkMax = 0;
+    for (int i = 0; i < 10; i++){
+        checkMax = std::max(checkMax, x[i]);
+    }
+    REQUIRE(std::abs(max - checkMax) < 1e-10);
+}
+
+TEST_CASE("ippe stats Max", "[stats], [Max]")
+{
+    SECTION("Ipp16s"){
+        test_Max<Ipp16s>();
+    }
+    SECTION("Ipp32s"){
+        test_Max<Ipp32s>();
+    }
+    SECTION("Ipp32f"){
+        test_Max<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_Max<Ipp64f>();
+    }
+}
