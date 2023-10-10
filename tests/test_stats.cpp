@@ -209,3 +209,67 @@ TEST_CASE("ippe stats MaxIndx", "[stats], [MaxIndx]")
         test_MaxIndx<Ipp64f>();
     }
 }
+
+// =====================================================================================================================
+template <typename T>
+void test_Min()
+{
+    ippe::vector<T> x(10);
+    
+    for (int i = 0; i < 10; i++)
+    {
+        x[i] = i;
+    }
+    
+    T min;
+    ippe::stats::Min(x.data(), x.size(), &min);
+    
+    T checkMin = 0;
+    for (int i = 0; i < 10; i++){
+        checkMin = std::min(checkMin, x[i]);
+    }
+    REQUIRE(std::abs(min - checkMin) < 1e-10);
+}
+
+TEST_CASE("ippe stats Min", "[stats], [Min]")
+{
+    SECTION("Ipp16s"){
+        test_Min<Ipp16s>();
+    }
+    SECTION("Ipp32s"){
+        test_Min<Ipp32s>();
+    }
+    SECTION("Ipp32f"){
+        test_Min<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_Min<Ipp64f>();
+    }
+}
+
+// =====================================================================================================================
+template <typename T>
+void test_MinIndx()
+{
+    ippe::vector<T> x(10);
+    
+    for (int i = 0; i < 10; i++)
+    {
+        x[i] = i;
+    }
+    
+    T min;
+    int idx;
+    ippe::stats::MinIndx(x.data(), x.size(), &min, &idx);
+    
+    T checkMin = 0;
+    int checkIdx = 0;
+    for (int i = 0; i < 10; i++){
+        checkMin = std::min(checkMin, x[i]);
+        if (checkMin == x[i]){
+            checkIdx = i;
+        }
+    }
+    REQUIRE(std::abs(min - checkMin) < 1e-10);
+    REQUIRE(idx == checkIdx);
+}
