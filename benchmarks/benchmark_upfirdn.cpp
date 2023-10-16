@@ -28,6 +28,8 @@ TEST_CASE("Benchmark upfirdn implementations", "[upfirdn],[naive],[FIRMR]")
                 data.data(), result.data(),
                 data.size(), result.size()
             );
+
+            return 0;
         };
 
         BENCHMARK("upfirdn naive")
@@ -44,7 +46,11 @@ TEST_CASE("Benchmark upfirdn implementations", "[upfirdn],[naive],[FIRMR]")
                         value.im += taps[j].re * data[ (i * down - j) / up].im;
                     }
                 }
+
+                result[i] = value;
             }
+
+            return 0;
         };
     }
 }
