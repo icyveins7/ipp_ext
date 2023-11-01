@@ -16,3 +16,5 @@
 #include "math/Norm.h"
 
 #include "math/Exp.h"
+
+#include "math/Ln.h"

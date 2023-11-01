@@ -5,3 +5,4 @@
 #include "stats/Max.h"
 #include "stats/MaxIndx.h"
 #include "stats/Min.h"
+#include "stats/MinIndx.h"
