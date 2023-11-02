@@ -2172,7 +2172,7 @@ void test_Ln()
     // Check the result
     for (int i = 0; i < x.size(); ++i)
     {
-        REQUIRE(result[i] == std::log(x[i]));
+        REQUIRE(std::abs(result[i]-std::log(x[i])) < 1e-6); // arbitrary tolerance (higher value so that it will pass on Ipp32f as well)
     }
 
     // Perform in place version as well
