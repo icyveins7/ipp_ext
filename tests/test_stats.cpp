@@ -413,3 +413,38 @@ TEST_CASE("ippe stats DotProd", "[stats], [DotProd]")
         test_DotProd_realreal_real<Ipp16s, Ipp16s, Ipp32f>();
     }
 }
+
+// =====================================================================================================================
+template <typename T, typename U, typename V>
+void test_DotProdSfs()
+{
+    ippe::vector<T> x(10);
+    ippe::vector<U> y(10);
+    V z;
+
+    // Make some values
+    for (int i = 0; i < 10; i++)
+    {
+        x[i] = (T)(i+10);
+        y[i] = (U)(i+1);
+    }
+
+    ippe::stats::DotProd_Sfs(x.data(), y.data(), x.size(), &z, -1);
+
+    V checkZ = 0;
+    for (int i = 0; i < 10; i++){
+        checkZ += x[i] * y[i];
+    }
+    checkZ = checkZ * 2; // from the -1 scale factor?
+    REQUIRE(std::abs(z - checkZ) < 1e-7);
+}
+
+TEST_CASE("ippe stats DotProd_Sfs", "[stats], [DotProd_Sfs]")
+{
+    SECTION("Ipp16s, Ipp16s -> Ipp32s"){
+        test_DotProdSfs<Ipp16s, Ipp16s, Ipp32s>();
+    }
+    SECTION("Ipp16s, Ipp32s -> Ipp32s"){
+        test_DotProdSfs<Ipp16s, Ipp32s, Ipp32s>();
+    }
+}
