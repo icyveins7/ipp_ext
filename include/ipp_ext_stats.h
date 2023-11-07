@@ -6,3 +6,4 @@
 #include "stats/MaxIndx.h"
 #include "stats/Min.h"
 #include "stats/MinIndx.h"
+#include "stats/DotProd.h"

@@ -203,6 +203,21 @@ namespace ippe
                 return *this;
             }
 
+            matrix& operator*(matrix &other)
+            {
+                // Ensure the rows of other match the columns of this
+                if (this->columns()!= other.rows())
+                    throw std::out_of_range("Dimension mismatch for operator*");
+
+                // Create appropriately sized output matrix
+                matrix result(this->rows(), other.columns());
+
+                // We don't have a matmul operation in IPP, so use dotproducts and sampledowns
+                // TODO: complete implementation
+
+                return result;
+            }
+
             // Remove size adjustment methods (for now?)
             void push_back(T value) = delete;
 
