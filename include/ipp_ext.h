@@ -12,3 +12,4 @@
 #include "ipp_ext_transform.h"
 #include "ipp_ext_stats.h"
 #include "ipp_ext_logical.h"
+#include "ipp_ext_sampling.h"
