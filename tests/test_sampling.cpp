@@ -10,8 +10,9 @@ void test_sampleUp()
 {
     int factor = 3;
     int phase = 1;
+    int inputPhase = phase;
     ippe::vector<T> src(10);
-    ippe::vector<T> dst(src.size()*factor - (factor-1)); // this should cut off before the last one is written
+    ippe::vector<T> dst(src.size()*factor); 
 
     // Set some values
     for (int i = 0; i < src.size(); i++)
@@ -38,8 +39,8 @@ void test_sampleUp()
         }
     }
 
-    // Check phase returned; since we cut off before the last one, phase should be 0 now
-    // REQUIRE(phase == 0); // phase doesn't seem to change? test fails on this
+    // Check phase returned; for SampleUp, it shouldn't change
+    REQUIRE(phase == inputPhase); 
 }
 
 template <typename T>
@@ -47,8 +48,9 @@ void test_sampleUp_cplx()
 {
     int factor = 3;
     int phase = 1;
+    int inputPhase = phase;
     ippe::vector<T> src(10);
-    ippe::vector<T> dst(src.size()*factor - (factor-1)); // this should cut off before the last one is written
+    ippe::vector<T> dst(src.size()*factor); 
 
     // Set some values
     for (int i = 0; i < src.size(); i++)
@@ -80,8 +82,8 @@ void test_sampleUp_cplx()
         }
     }
 
-    // Check phase returned; since we cut off before the last one, phase should be 0 now
-    // REQUIRE(phase == 0); // phase doesn't seem to change? test fails on this
+    // Check phase returned; for SampleUp, it shouldn't change
+    REQUIRE(phase == inputPhase); 
 }
 
 

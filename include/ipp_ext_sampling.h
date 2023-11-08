@@ -11,6 +11,15 @@ namespace ippe{
         template <typename T>
         void SampleDown(const T* src, int srcLen, T* dst, int *dstLen, int factor, int *phase);
 
+        /// @brief Note that this function ignores the initial value of dstLen, 
+        /// and will always write srcSize * factor elements to dst.
+        /// @tparam T Type of input/output.
+        /// @param src Source array.
+        /// @param srcLen Length of the source array.
+        /// @param dst Destination array. Must have minimum length of srcLen * factor.
+        /// @param dstLen For SampleUp, this is effectively ignored, and always returns as srcLen * factor.
+        /// @param factor Upsample factor
+        /// @param phase Upsample phase, [0, factor-1]. For SampleUp, this always returns as the phase that was input.
         template <typename T>
         void SampleUp(const T* src, int srcLen, T* dst, int *dstLen, int factor, int *phase);
 
