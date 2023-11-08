@@ -70,5 +70,26 @@ int main()
     }
     printf("\nLength %d, Phase = %d, wlen = %d\n", (int)w.size(), phase, wlen);
 
+    printf("===================================\n");
+    // Create a long vector
+    ippe::vector<Ipp16s> a(100);
+    ippe::generator::Slope(a.data(), (int)a.size(), 0.0f, 1.0f);
+
+    // Perform downsample
+    ippe::vector<Ipp16s> b(33);
+    int blen = b.size();
+    printf("Phase = %d first\n", phase);
+    ippe::sampling::SampleDown(
+        a.data(), (int)a.size() / 2, // do the first half first
+        b.data(), &blen,
+        factor, &phase
+    );
+
+    for (int i = 0; i < b.size(); i++)
+    {
+        printf("%d ", b[i]);
+    }
+    printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
+
     return 0;
 }
