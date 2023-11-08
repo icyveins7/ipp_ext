@@ -53,3 +53,7 @@ target_link_libraries(dft_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
 ###########################################################
 add_executable(matrix_example matrix_example.cpp)
 target_link_libraries(matrix_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
+
+###########################################################
+add_executable(sample_updown_example sample_updown_example.cpp)
+target_link_libraries(sample_updown_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
