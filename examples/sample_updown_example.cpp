@@ -72,19 +72,21 @@ int main()
 
     printf("===================================\n");
     // Create a long vector
-    ippe::vector<Ipp16s> a(100);
+    ippe::vector<Ipp16s> a(150);
     ippe::generator::Slope(a.data(), (int)a.size(), 0.0f, 1.0f);
 
     // Perform downsample
-    ippe::vector<Ipp16s> b(34);
+    ippe::vector<Ipp16s> b(50);
     int blen = 0;
-    printf("Complete step-wise in 2 blocks\n");
+    size_t bWritten = 0;
+    printf("Complete step-wise in 3 blocks\n");
     printf("Phase = %d first\n", phase);
     ippe::sampling::SampleDown(
-        a.data(), (int)a.size() / 2, // do the first half first
+        a.data(), (int)a.size() / 3, // do the first half first
         b.data(), &blen,
         factor, &phase
     );
+    bWritten += blen;
 
     for (int i = 0; i < b.size(); i++)
     {
@@ -93,16 +95,31 @@ int main()
     printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
 
     ippe::sampling::SampleDown(
-        &a.at(a.size()/2), (int)a.size() / 2, // do the second half
-        &b.at(blen), &blen,
+        &a.at(a.size()/3), (int)a.size() / 3, // do the second half
+        &b.at(bWritten), &blen,
         factor, &phase
     );
+    bWritten += blen;
+
     for (int i = 0; i < b.size(); i++)
     {
         printf("%d ", b[i]);
     }
     printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
 
+
+    ippe::sampling::SampleDown(
+        &a.at(2*a.size()/3), (int)a.size() / 3, // do the third half
+        &b.at(bWritten), &blen,
+        factor, &phase
+    );
+    bWritten += blen;
+
+    for (int i = 0; i < b.size(); i++)
+    {
+        printf("%d ", b[i]);
+    }
+    printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
 
 
     return 0;
