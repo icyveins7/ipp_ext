@@ -57,3 +57,7 @@ target_link_libraries(matrix_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib}
 ###########################################################
 add_executable(sample_updown_example sample_updown_example.cpp)
 target_link_libraries(sample_updown_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
+
+###########################################################
+add_executable(heap_overflow_example heap_overflow_example.cpp)
+target_link_libraries(heap_overflow_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
