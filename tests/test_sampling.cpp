@@ -41,6 +41,17 @@ void test_sampleUp()
 
     // Check phase returned; for SampleUp, it shouldn't change
     REQUIRE(phase == inputPhase); 
+
+    // Check error thrown when insufficient length
+    int dstLen = src.size()/(factor+1);
+    REQUIRE_THROWS_AS(
+        ippe::sampling::SampleDown(
+            src.data(), src.size(),
+            dst.data(), &dstLen,
+            factor, &phase
+        ),
+        std::out_of_range
+    );
 }
 
 template <typename T>
@@ -84,6 +95,17 @@ void test_sampleUp_cplx()
 
     // Check phase returned; for SampleUp, it shouldn't change
     REQUIRE(phase == inputPhase); 
+
+    // Check error thrown when insufficient length
+    int dstLen = src.size()/(factor+1);
+    REQUIRE_THROWS_AS(
+        ippe::sampling::SampleDown(
+            src.data(), src.size(),
+            dst.data(), &dstLen,
+            factor, &phase
+        ),
+        std::out_of_range
+    );
 }
 
 
