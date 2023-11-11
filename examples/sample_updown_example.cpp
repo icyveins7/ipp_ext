@@ -95,7 +95,7 @@ int main()
     printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
 
     ippe::sampling::SampleDown(
-        &a.at(a.size()/3), (int)a.size() / 3, // do the second half
+        &a.at(a.size()/3), (int)a.size() / 3, // do the second
         &b.at(bWritten), &blen,
         factor, &phase
     );
@@ -109,7 +109,7 @@ int main()
 
 
     ippe::sampling::SampleDown(
-        &a.at(2*a.size()/3), (int)a.size() / 3, // do the third half
+        &a.at(2*a.size()/3), (int)a.size() / 3, // do the third part
         &b.at(bWritten), &blen,
         factor, &phase
     );

@@ -112,36 +112,135 @@ TEST_CASE("ippe sampling SampleUp", "[sampling], [SampleUp]")
 template <typename T>
 void test_sampleDown()
 {
+    // For downsample, since phase and dstLen are not constant for different initial conditions,
+    // we loop over the phases, and pick a non-multiple-of-factor length
     int factor = 3;
-    int phase = 1;
-    ippe::vector<T> src(10);
-    ippe::vector<T> dst(src.size()*factor - (factor-1)); // this should cut off before the last one is written
-
+    ippe::vector<T> src(31);
+    ippe::vector<T> dst(src.size()/factor + 1); 
     // Set some values
     for (int i = 0; i < src.size(); i++)
         src[i] = i;
 
-    // Sample down
-    int dstlen = dst.size();
-    ippe::sampling::SampleDown(
-        src.data(), src.size(),
-        dst.data(), &dstlen,
-        factor, &phase
-    );
 
-    // Check values
-    for (int i = 0; i < dst.size(); i++)
+    for (int initialPhase = 0; initialPhase < factor; initialPhase++)
     {
-        if (i % factor == phase)
+        int phase = initialPhase;
+        
+        // Sample down
+        int dstlen = dst.size();
+        ippe::sampling::SampleDown(
+            src.data(), src.size(),
+            dst.data(), &dstlen,
+            factor, &phase
+        );
+
+        // Check values
+        for (int i = 0; i < dstlen; i++)
         {
-            REQUIRE(dst[i] == src[i / factor]);
+            REQUIRE(dst[i] == src[i * factor + initialPhase]);
         }
-        else
-        {
-            REQUIRE(dst[i] == 0);
-        }
+
+        // Check dstlen (which may be different for different phases)
+        REQUIRE(dstlen == src.size()/factor + (
+            src.size() % factor > initialPhase ? 1 : 0
+        ));
+
+        // check phase returned
+        int expectedPhase = initialPhase - src.size() % factor;
+        expectedPhase = expectedPhase < 0 ? expectedPhase + factor : expectedPhase;
+        REQUIRE( phase == expectedPhase);
     }
 
-    // Check phase returned; since we cut off before the last one, phase should be 0 now
-    // REQUIRE(phase == 0); // phase doesn't seem to change? test fails on this
+    // Demonstrate custom error throwing if too short dst length
+    int phase = 0;
+    int dstLen = src.size()/(factor+1);
+    REQUIRE_THROWS_AS(
+        ippe::sampling::SampleDown(
+            src.data(), src.size(),
+            dst.data(), &dstLen,
+            factor, &phase
+        ),
+        std::out_of_range
+    );
+}
+
+template <typename T>
+void test_sampleDown_cplx()
+{
+    // For downsample, since phase and dstLen are not constant for different initial conditions,
+    // we loop over the phases, and pick a non-multiple-of-factor length
+    int factor = 3;
+    ippe::vector<T> src(31);
+    ippe::vector<T> dst(src.size()/factor + 1); 
+    // Set some values
+    for (int i = 0; i < src.size(); i++)
+    {
+        src[i].re = i;
+        src[i].im = i;
+    }
+
+
+    for (int initialPhase = 0; initialPhase < factor; initialPhase++)
+    {
+        int phase = initialPhase;
+        
+        // Sample down
+        int dstlen = dst.size();
+        ippe::sampling::SampleDown(
+            src.data(), src.size(),
+            dst.data(), &dstlen,
+            factor, &phase
+        );
+
+        // Check values
+        for (int i = 0; i < dstlen; i++)
+        {
+            REQUIRE(dst[i].re == src[i * factor + initialPhase].re);
+            REQUIRE(dst[i].im == src[i * factor + initialPhase].im);
+        }
+
+        // Check dstlen (which may be different for different phases)
+        REQUIRE(dstlen == src.size()/factor + (
+            src.size() % factor > initialPhase? 1 : 0
+        ));
+
+        // check phase returned
+        int expectedPhase = initialPhase - src.size() % factor;
+        expectedPhase = expectedPhase < 0? expectedPhase + factor : expectedPhase;
+        REQUIRE( phase == expectedPhase);
+    }
+
+    // Demonstrate custom error throwing if too short dst length
+    int phase = 0;
+    int dstLen = src.size()/(factor+1);
+    REQUIRE_THROWS_AS(
+        ippe::sampling::SampleDown(
+            src.data(), src.size(),
+            dst.data(), &dstLen,
+            factor, &phase
+        ),
+        std::out_of_range
+    );
+}
+
+TEST_CASE("ippe sampling SampleDown", "[sampling], [SampleDown]")
+{
+    SECTION("Ipp16s"){
+        test_sampleDown<Ipp16s>();
+    }
+    SECTION("Ipp32f"){
+        test_sampleDown<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_sampleDown<Ipp64f>();
+    }
+    SECTION("Ipp16sc"){
+        test_sampleDown_cplx<Ipp16sc>();
+    }
+    SECTION("Ipp32fc"){
+        test_sampleDown_cplx<Ipp32fc>();
+    }
+    SECTION("Ipp64fc"){
+        test_sampleDown_cplx<Ipp64fc>();
+    }
 }
