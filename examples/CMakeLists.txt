@@ -61,3 +61,4 @@ target_link_libraries(sample_updown_example PUBLIC ${ippcorelib} ${ippslib} ${ip
 ###########################################################
 add_executable(heap_overflow_example heap_overflow_example.cpp)
 target_link_libraries(heap_overflow_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
+target_compile_options(heap_overflow_example PUBLIC -fsanitize=address)
