@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ipp.h"
 #include "../ipp_ext_errors.h"
 #include <stdexcept>

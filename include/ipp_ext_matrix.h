@@ -3,6 +3,8 @@
 #include "ipp_ext_vec.h"
 // We include math functions experimentally
 #include "ipp_ext_math.h"
+// #include "ipp_ext_sampling.h"
+// #include "ipp_ext_stats.h"
 
 #ifndef NDEBUG
 #define DEBUG(x) printf(x);
@@ -203,7 +205,10 @@ namespace ippe
                 return *this;
             }
 
-            matrix& operator*(matrix &other)
+            /// @brief Perform matrix multiplication.
+            /// @param other The other matrix.
+            /// @return New matrix containing the matrix multiplication result.
+            matrix operator*(matrix &other)
             {
                 // Ensure the rows of other match the columns of this
                 if (this->columns()!= other.rows())
@@ -213,7 +218,27 @@ namespace ippe
                 matrix result(this->rows(), other.columns());
 
                 // We don't have a matmul operation in IPP, so use dotproducts and sampledowns
-                // TODO: complete implementation
+                vector otherCol(other.rows()); // create a workspace vector to extract the 2nd matrix's columns
+                // Iterate over the other matrix's columns
+                for (size_t colIdx = 0; colIdx < other.columns(); colIdx++)
+                {
+                    // Use SampleDown to extract the 2nd matrix's column
+                    int dstLen = otherCol.size();
+                    int phase = colIdx;
+                    sampling::SampleDown(
+                        other.data(), static_cast<int>(other.size()),
+                        otherCol.data(), &dstLen,
+                        static_cast<int>(other.columns()), &colIdx
+                    );
+
+                    // Iterate over every row of this matrix
+                    for (size_t rowIdx = 0; rowIdx < this->rows(); rowIdx++)
+                    {
+                        stats::DotProd(
+                            this->row(rowIdx), otherCol.data(),
+                            static_cast<int>(this->columns()), &result.at(rowIdx, colIdx)
+                        );
+                    }
 
                 return result;
             }

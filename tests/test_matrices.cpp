@@ -222,4 +222,38 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
             REQUIRE(result.at(i) == x.at(i) + y);
         }
     }
+
+    // SECTION("32f operator*")
+    // {
+    //     ippe::matrix<Ipp32f> x(2,3);
+    //     ippe::matrix<Ipp32f> y(3,2);
+
+    //     for (int i = 0; i < x.size(); ++i)
+    //     {
+    //         x.at(i) = i;
+    //     }
+    //     for (int i = 0; i < y.size(); ++i)
+    //     {
+    //         y.at(i) = i + 1;
+    //     }
+        
+    //     // Perform matmul
+    //     ippe::matrix<Ipp32f> result = x * y;
+
+    //     int L = x.columns();
+
+    //     for (int i = 0; i < result.rows(); ++i)
+    //     {
+    //         for (int j = 0; j < result.columns(); ++j)
+    //         {
+    //             Ipp32f sum = 0;
+    //             for (int l = 0; l < L; ++l)
+    //             {
+    //                 sum += x.index(i, l) * y.index(l, j);
+    //             }
+    //             REQUIRE(result.index(i,j) == sum);
+    //         }
+    //     }
+
+    // }
 }
