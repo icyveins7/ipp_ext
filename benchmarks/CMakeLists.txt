@@ -90,6 +90,8 @@ if (DEFINED ENV{EIGEN_DIR})
     include_directories($ENV{EIGEN_DIR})
     add_executable(compare_eigen compare_eigen.cpp)
     target_link_libraries(compare_eigen PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
+else ()
+    message("Environment variable EIGEN_DIR not defined. Eigen benchmarks will not be compiled.")
 endif()
 
 # Other benchmarks
