@@ -3,8 +3,8 @@
 #include "ipp_ext_vec.h"
 // We include math functions experimentally
 #include "ipp_ext_math.h"
-// #include "ipp_ext_sampling.h"
-// #include "ipp_ext_stats.h"
+#include "ipp_ext_sampling.h"
+#include "ipp_ext_stats.h"
 
 #ifndef NDEBUG
 #define DEBUG(x) printf(x);
@@ -228,7 +228,7 @@ namespace ippe
                     sampling::SampleDown(
                         other.data(), static_cast<int>(other.size()),
                         otherCol.data(), &dstLen,
-                        static_cast<int>(other.columns()), &colIdx
+                        static_cast<int>(other.columns()), &phase
                     );
 
                     // Iterate over every row of this matrix
@@ -236,9 +236,10 @@ namespace ippe
                     {
                         stats::DotProd(
                             this->row(rowIdx), otherCol.data(),
-                            static_cast<int>(this->columns()), &result.at(rowIdx, colIdx)
+                            static_cast<int>(this->columns()), &result.index(rowIdx, colIdx)
                         );
                     }
+                }
 
                 return result;
             }
