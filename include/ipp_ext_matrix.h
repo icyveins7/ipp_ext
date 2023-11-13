@@ -231,6 +231,9 @@ namespace ippe
                 }
                 else // This can be very slow!
                 {
+                    /*
+                    Extract columns from second matrix and perform dot products.
+                    */
                     vector otherCol(other.rows()); // create a workspace vector to extract the 2nd matrix's columns
                     // Iterate over the other matrix's columns
                     for (size_t colIdx = 0; colIdx < other.columns(); colIdx++)
@@ -253,6 +256,23 @@ namespace ippe
                             );
                         }
                     }
+
+                    /*
+                    Accumulate results by summing over each row in the second matrix * corresponding index in first matrix.
+                    No extraction is necessary, so we can directly write into the output matrix,
+                    but it must be pre-zeroed.
+
+                    TODO: incomplete
+                    */
+
+                    // result.zero();
+                    // for (size_t rowIdx = 0; rowIdx < other.rows(); rowIdx++)
+                    // {
+                    //     for (size_t colIdx = 0; colIdx < this->columns(); colIdx++)
+                    //     {
+                    //         math::AddProductC
+                    //     }
+                    // }
                 }
                 
 

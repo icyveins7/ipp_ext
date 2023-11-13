@@ -4,6 +4,7 @@
 #include "math/AddC.h"
 
 #include "math/AddProduct.h"
+#include "math/AddProductC.h"
 
 #include "math/Mul.h"
 #include "math/MulC.h"

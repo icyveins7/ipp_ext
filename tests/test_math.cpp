@@ -2255,3 +2255,40 @@ TEST_CASE("ippe math Ln", "[math, Ln]")
 
 }
 
+// ===========================
+template <typename T>
+void test_AddProductC()
+{
+    // Make some vectors
+    ippe::vector<T> x(10);
+    ippe::vector<T> result(10);
+    ippe::vector<T> check(10);
+
+    // Set some values
+    for (int i = 0; i < x.size(); ++i)
+    {
+        x[i] = (T)(i + 1);
+        result[i] = (T)(i + 2); // set some initial values for result too
+        check[i] = result[i];
+    }
+
+    // Perform the operation
+    const T val = 12.0;
+    ippe::math::AddProductC(x.data(), val, result.data(), (int)x.size());
+
+    // Check the result
+    for (int i = 0; i < x.size(); ++i)
+    {
+        REQUIRE(result[i] == check[i] + val * x[i]);
+    }
+}
+
+TEST_CASE("ippe math AddProductC", "[math], [AddProductC]")
+{
+    SECTION("Ipp32f"){
+        test_AddProductC<Ipp32f>();
+    }
+    SECTION("Ipp64f"){
+        test_AddProductC<Ipp64f>();
+    }
+}
