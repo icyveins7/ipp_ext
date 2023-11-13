@@ -229,7 +229,30 @@ namespace ippe
                         );
                     }
                 }
-                else // This can be very slow!
+                else if (other.columns() >= other.rows()) // if it's a short but long matrix
+                {
+                    /*
+                    Accumulate results by summing over each row in the second matrix * corresponding index in first matrix.
+                    No extraction is necessary, so we can directly write into the output matrix,
+                    but it must be pre-zeroed.
+
+                    */
+
+                    result.zero();
+                    // Iterate over the second matrix rows
+                    for (size_t rowIdx = 0; rowIdx < other.rows(); rowIdx++)
+                    {
+                        // Then iterate over the values in the corresponding column of the first matrix
+                        for (size_t i = 0; i < this->rows(); i++)
+                        {
+                            math::AddProductC(
+                                other.row(rowIdx), this->index(i, rowIdx),
+                                result.row(i), static_cast<int>(result.columns())
+                            );
+                        }
+                    }
+                }
+                else // Finally if it's a tall but thin matrix (this method is only good for this case, otherwise it's slow)
                 {
                     /*
                     Extract columns from second matrix and perform dot products.
@@ -256,23 +279,6 @@ namespace ippe
                             );
                         }
                     }
-
-                    /*
-                    Accumulate results by summing over each row in the second matrix * corresponding index in first matrix.
-                    No extraction is necessary, so we can directly write into the output matrix,
-                    but it must be pre-zeroed.
-
-                    TODO: incomplete
-                    */
-
-                    // result.zero();
-                    // for (size_t rowIdx = 0; rowIdx < other.rows(); rowIdx++)
-                    // {
-                    //     for (size_t colIdx = 0; colIdx < this->columns(); colIdx++)
-                    //     {
-                    //         math::AddProductC
-                    //     }
-                    // }
                 }
                 
 

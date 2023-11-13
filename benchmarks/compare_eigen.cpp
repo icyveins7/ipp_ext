@@ -221,9 +221,18 @@ TEST_CASE("Benchmark with Eigen matrix multiplication", "[Matrix],[matmul]")
         bench_matmul_32f(3, 2, 3);
     }
 
-    // few long inner dimensions
+    // few long inner dimensions (this is when sampledown does well)
     SECTION("Matmul Ipp32f, 3x1000, 1000x3"){
         bench_matmul_32f(3, 1000, 3);
+    }
+
+    // few medium inner dimensions (find out when the breakeven point is)
+    SECTION("Matmul Ipp32f, 3x100, 100x3"){
+        bench_matmul_32f(3, 100, 3);
+    }
+
+    SECTION("Matmul Ipp32f, 3x10, 10x3"){
+        bench_matmul_32f(3, 10, 3);
     }
 
     // many short inner dimensions
