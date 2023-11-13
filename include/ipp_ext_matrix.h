@@ -218,28 +218,43 @@ namespace ippe
                 matrix result(this->rows(), other.columns());
 
                 // We don't have a matmul operation in IPP, so use dotproducts and sampledowns
-                vector otherCol(other.rows()); // create a workspace vector to extract the 2nd matrix's columns
-                // Iterate over the other matrix's columns
-                for (size_t colIdx = 0; colIdx < other.columns(); colIdx++)
+                if (other.columns() == 1) // if it's a single column vector, we already have a contiguous array
                 {
-                    // Use SampleDown to extract the 2nd matrix's column
-                    int dstLen = otherCol.size();
-                    int phase = colIdx;
-                    sampling::SampleDown(
-                        other.data(), static_cast<int>(other.size()),
-                        otherCol.data(), &dstLen,
-                        static_cast<int>(other.columns()), &phase
-                    );
-
-                    // Iterate over every row of this matrix
-                    for (size_t rowIdx = 0; rowIdx < this->rows(); rowIdx++)
+                    // Simply dot prod every row into the other matrix
+                    for (int i = 0; i < this->rows(); i++)
                     {
                         stats::DotProd(
-                            this->row(rowIdx), otherCol.data(),
-                            static_cast<int>(this->columns()), &result.index(rowIdx, colIdx)
+                            this->row(i), other.data(),
+                            static_cast<int>(this->columns()), &result.index(i, 0)
                         );
                     }
                 }
+                else // This can be very slow!
+                {
+                    vector otherCol(other.rows()); // create a workspace vector to extract the 2nd matrix's columns
+                    // Iterate over the other matrix's columns
+                    for (size_t colIdx = 0; colIdx < other.columns(); colIdx++)
+                    {
+                        // Use SampleDown to extract the 2nd matrix's column
+                        int dstLen = otherCol.size();
+                        int phase = colIdx;
+                        sampling::SampleDown(
+                            other.data(), static_cast<int>(other.size()),
+                            otherCol.data(), &dstLen,
+                            static_cast<int>(other.columns()), &phase
+                        );
+
+                        // Iterate over every row of this matrix
+                        for (size_t rowIdx = 0; rowIdx < this->rows(); rowIdx++)
+                        {
+                            stats::DotProd(
+                                this->row(rowIdx), otherCol.data(),
+                                static_cast<int>(this->columns()), &result.index(rowIdx, colIdx)
+                            );
+                        }
+                    }
+                }
+                
 
                 return result;
             }

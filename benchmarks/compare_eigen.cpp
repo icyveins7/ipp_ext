@@ -211,6 +211,11 @@ void bench_matmul_32f(int ii, int jj, int kk)
 
 TEST_CASE("Benchmark with Eigen matrix multiplication", "[Matrix],[matmul]")
 {
+    // many rows, against 1 column vector
+    SECTION("Matmul Ipp32f, 3x1000, 1000x1"){
+        bench_matmul_32f(3, 1000, 1);
+    }
+
     // few short inner dimensions
     SECTION("Matmul Ipp32f, 3x2, 2x3"){
         bench_matmul_32f(3, 2, 3);

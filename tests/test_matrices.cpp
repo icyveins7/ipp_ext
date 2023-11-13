@@ -255,5 +255,27 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
             }
         }
 
+        // Perform mat-vec mul
+        ippe::matrix<Ipp32f> c(3,1);
+
+        for (int i = 0; i < c.size(); ++i)
+        {
+            c.at(i) = i + 2;
+        }
+
+        ippe::matrix<Ipp32f> matvecresult = x * c;
+
+        for (int i = 0; i < matvecresult.rows(); ++i)
+        {
+            for (int j = 0; j < matvecresult.columns(); ++j)
+            {
+                Ipp32f sum = 0;
+                for (int l = 0; l < L; ++l)
+                {
+                    sum += x.index(i, l) * c.index(l, j);
+                }
+                REQUIRE(matvecresult.index(i,j) == sum);
+            }
+        }
     }
 }
