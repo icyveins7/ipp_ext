@@ -33,31 +33,6 @@ namespace ippe
                 prepare_dft();
             }
 
-            // // Copy constructor
-            // DFTCToC(const DFTCToC& other)
-            // {
-            //     m_length = other.m_length;
-            //     m_flag = other.m_flag;
-            //     prepare_dft();
-            // }
-
-            // // Assignment operator
-            // DFTCToC& operator=(const DFTCToC& other)
-            // {
-            //     m_length = other.m_length;
-            //     m_flag = other.m_flag;
-            //     prepare_dft();
-            //     return *this;
-            // }
-
-            // // Destructor
-            // ~DFTCToC()
-            // {
-            //     ippsFree(m_pDFTSpec);
-            //     ippsFree(m_pDFTBuf);
-            //     ippsFree(m_pMemInit);
-            // }
-
             // Main runtime methods (see below for the specializations)
 
             /// @brief Runs the forward DFT on the data.
@@ -83,9 +58,6 @@ namespace ippe
             // Some getters
             size_t getLength() const { return m_length; }
             int getFlag() const { return m_flag; }
-            // Ipp8u *getDFTSpec() { return m_pDFTSpec; }
-            // Ipp8u *getDFTBuf() { return m_pDFTBuf; }
-            // Ipp8u *getMemInit() { return m_pMemInit; }
             const vector<Ipp8u>& getDFTSpec() const { return m_pDFTSpec; }
             const vector<Ipp8u>& getDFTBuf() const { return m_pDFTBuf; }
             const vector<Ipp8u>& getMemInit() const { return m_pMemInit; }
@@ -100,11 +72,6 @@ namespace ippe
             vector<Ipp8u> m_pDFTSpec;
             vector<Ipp8u> m_pDFTBuf;
             vector<Ipp8u> m_pMemInit;
-
-
-            // Ipp8u *m_pDFTSpec = nullptr;
-            // Ipp8u *m_pDFTBuf = nullptr;
-            // Ipp8u *m_pMemInit = nullptr;
 
             // the constructor will call this, and this will contain the specializations
             void prepare_dft();
@@ -144,9 +111,6 @@ namespace ippe
         }
 
         // Then allocate the memory required
-        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
         allocate_vectors();
 
         // And finally create the DFT transform
@@ -180,9 +144,6 @@ namespace ippe
         }
         
         // Then allocate the memory required
-        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
         allocate_vectors();
         
         // And finally create the DFT transform
@@ -216,9 +177,6 @@ namespace ippe
         }
         
         // Then allocate the memory required
-        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
         allocate_vectors();
         
         // And finally create the DFT transform
@@ -253,9 +211,6 @@ namespace ippe
         }
         
         // Then allocate the memory required
-        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
         allocate_vectors();
         
         // And finally create the DFT transform
