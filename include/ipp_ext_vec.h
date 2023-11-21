@@ -95,7 +95,7 @@ namespace ippe
 
             // Move constructor
             vector(vector &&other)
-                : m_data(other.m_data), numel(other.numel), cap(other.cap)
+                : numel(other.numel), cap(other.cap), m_data(other.m_data)
             {
                 DEBUG("vector(vector &&other)\n");
                 

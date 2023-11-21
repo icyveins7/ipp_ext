@@ -257,7 +257,7 @@ namespace ippe
                     /*
                     Extract columns from second matrix and perform dot products.
                     */
-                    vector otherCol(other.rows()); // create a workspace vector to extract the 2nd matrix's columns
+                    vector<T> otherCol(other.rows()); // create a workspace vector to extract the 2nd matrix's columns
                     // Iterate over the other matrix's columns
                     for (size_t colIdx = 0; colIdx < other.columns(); colIdx++)
                     {
