@@ -32,95 +32,45 @@ TEST_CASE("ippe dft instantiation", "[dft],[instantiation]")
     }
 }
 
-// Test copy and assignment constructors
-TEST_CASE("ippe dft copy and assignment", "[dft],[copy],[assignment]")
+
+// Test copy and assignment
+template<typename T>
+void test_dft_copy_assign()
 {
-    SECTION("Ipp32f copy"){
-        std::vector<ippe::DFTCToC<Ipp32f>> dfts;
-        ippe::DFTCToC<Ipp32f> dft(1000);
-        dfts.push_back(dft);
+    std::vector<ippe::DFTCToC<T>> dfts;
+    // Copy
+    ippe::DFTCToC<T> dft(1000);
+    dfts.push_back(dft);
 
-        REQUIRE(dft.getDFTSpec() != dfts.at(0).getDFTSpec());
-        REQUIRE(dft.getDFTBuf() != dfts.at(0).getDFTBuf());
-        REQUIRE(dft.getMemInit() != dfts.at(0).getMemInit());
+    REQUIRE(dft.getDFTSpec().data() != dfts.at(0).getDFTSpec().data());
+    REQUIRE(dft.getDFTBuf().data() != dfts.at(0).getDFTBuf().data());
+    REQUIRE(dft.getMemInit().data() != dfts.at(0).getMemInit().data());
+
+    // Assign
+    dfts.resize(2);
+    for (int i = 0; i < dfts.size(); i++)
+    {
+        dfts.at(i) = dft;
+        REQUIRE(dfts.at(i).getDFTSpec().data() != dft.getDFTSpec().data());
+        REQUIRE(dfts.at(i).getDFTBuf().data() != dft.getDFTBuf().data());
+        REQUIRE(dfts.at(i).getMemInit().data() != dft.getMemInit().data());
     }
 
-    SECTION("Ipp32f assignment"){
-        std::vector<ippe::DFTCToC<Ipp32f>> dfts(2);
-        ippe::DFTCToC<Ipp32f> dft(1000);
-        
-        for (int i = 0; i < dfts.size(); ++i){
-            dfts.at(i) = dft;
-            REQUIRE(dft.getDFTSpec()!= dfts.at(i).getDFTSpec());
-            REQUIRE(dft.getDFTBuf()!= dfts.at(i).getDFTBuf());
-            REQUIRE(dft.getMemInit()!= dfts.at(i).getMemInit());
-        }
-    }
+}
 
-    SECTION("Ipp64f copy"){
-        std::vector<ippe::DFTCToC<Ipp64f>> dfts;
-        ippe::DFTCToC<Ipp64f> dft(1000);
-        dfts.push_back(dft);
-        
-        REQUIRE(dft.getDFTSpec()!= dfts.at(0).getDFTSpec());
-        REQUIRE(dft.getDFTBuf()!= dfts.at(0).getDFTBuf());
-        REQUIRE(dft.getMemInit()!= dfts.at(0).getMemInit());
+TEST_CASE("ippe dft copy and assignment", "[dft], [copy],[assignment]")
+{
+    SECTION("Ipp32f"){
+        test_dft_copy_assign<Ipp32f>();
     }
-
-    SECTION("Ipp64f assignment"){
-        std::vector<ippe::DFTCToC<Ipp64f>> dfts(2);
-        ippe::DFTCToC<Ipp64f> dft(1000);
-        
-        for (int i = 0; i < dfts.size(); ++i){
-            dfts.at(i) = dft;
-            REQUIRE(dft.getDFTSpec()!= dfts.at(i).getDFTSpec());
-            REQUIRE(dft.getDFTBuf()!= dfts.at(i).getDFTBuf());
-            REQUIRE(dft.getMemInit()!= dfts.at(i).getMemInit());
-        }
+    SECTION("Ipp64f"){
+        test_dft_copy_assign<Ipp64f>();
     }
-
-    SECTION("Ipp32fc copy"){
-        std::vector<ippe::DFTCToC<Ipp32fc>> dfts;
-        ippe::DFTCToC<Ipp32fc> dft(1000);
-        dfts.push_back(dft);
-        
-        REQUIRE(dft.getDFTSpec()!= dfts.at(0).getDFTSpec());
-        REQUIRE(dft.getDFTBuf()!= dfts.at(0).getDFTBuf());
-        REQUIRE(dft.getMemInit()!= dfts.at(0).getMemInit());
+    SECTION("Ipp32fc"){
+        test_dft_copy_assign<Ipp32fc>();
     }
-
-    SECTION("Ipp32fc assignment"){
-        std::vector<ippe::DFTCToC<Ipp32fc>> dfts(2);
-        ippe::DFTCToC<Ipp32fc> dft(1000);
-        
-        for (int i = 0; i < dfts.size(); ++i){
-            dfts.at(i) = dft;
-            REQUIRE(dft.getDFTSpec()!= dfts.at(i).getDFTSpec());
-            REQUIRE(dft.getDFTBuf()!= dfts.at(i).getDFTBuf());
-            REQUIRE(dft.getMemInit()!= dfts.at(i).getMemInit());
-        }
-    }
-
-    SECTION("Ipp64fc copy"){
-        std::vector<ippe::DFTCToC<Ipp64fc>> dfts;
-        ippe::DFTCToC<Ipp64fc> dft(1000);
-        dfts.push_back(dft);
-        
-        REQUIRE(dft.getDFTSpec()!= dfts.at(0).getDFTSpec());
-        REQUIRE(dft.getDFTBuf()!= dfts.at(0).getDFTBuf());
-        REQUIRE(dft.getMemInit()!= dfts.at(0).getMemInit());
-    }
-
-    SECTION("Ipp64fc assignment"){
-        std::vector<ippe::DFTCToC<Ipp64fc>> dfts(2);
-        ippe::DFTCToC<Ipp64fc> dft(1000);
-        
-        for (int i = 0; i < dfts.size(); ++i){
-            dfts.at(i) = dft;
-            REQUIRE(dft.getDFTSpec()!= dfts.at(i).getDFTSpec());
-            REQUIRE(dft.getDFTBuf()!= dfts.at(i).getDFTBuf());
-            REQUIRE(dft.getMemInit()!= dfts.at(i).getMemInit());
-        }
+    SECTION("Ipp64fc"){
+        test_dft_copy_assign<Ipp64fc>();
     }
 }
 

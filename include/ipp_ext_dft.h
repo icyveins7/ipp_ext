@@ -8,6 +8,7 @@ multiply defined symbols errors do not occur.
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
+#include "ipp_ext_vec.h"
 
 namespace ippe
 {
@@ -32,30 +33,30 @@ namespace ippe
                 prepare_dft();
             }
 
-            // Copy constructor
-            DFTCToC(const DFTCToC& other)
-            {
-                m_length = other.m_length;
-                m_flag = other.m_flag;
-                prepare_dft();
-            }
+            // // Copy constructor
+            // DFTCToC(const DFTCToC& other)
+            // {
+            //     m_length = other.m_length;
+            //     m_flag = other.m_flag;
+            //     prepare_dft();
+            // }
 
-            // Assignment operator
-            DFTCToC& operator=(const DFTCToC& other)
-            {
-                m_length = other.m_length;
-                m_flag = other.m_flag;
-                prepare_dft();
-                return *this;
-            }
+            // // Assignment operator
+            // DFTCToC& operator=(const DFTCToC& other)
+            // {
+            //     m_length = other.m_length;
+            //     m_flag = other.m_flag;
+            //     prepare_dft();
+            //     return *this;
+            // }
 
-            // Destructor
-            ~DFTCToC()
-            {
-                ippsFree(m_pDFTSpec);
-                ippsFree(m_pDFTBuf);
-                ippsFree(m_pMemInit);
-            }
+            // // Destructor
+            // ~DFTCToC()
+            // {
+            //     ippsFree(m_pDFTSpec);
+            //     ippsFree(m_pDFTBuf);
+            //     ippsFree(m_pMemInit);
+            // }
 
             // Main runtime methods (see below for the specializations)
 
@@ -80,11 +81,14 @@ namespace ippe
             }
 
             // Some getters
-            size_t getLength() { return m_length; }
-            int getFlag() { return m_flag; }
-            Ipp8u *getDFTSpec() { return m_pDFTSpec; }
-            Ipp8u *getDFTBuf() { return m_pDFTBuf; }
-            Ipp8u *getMemInit() { return m_pMemInit; }
+            size_t getLength() const { return m_length; }
+            int getFlag() const { return m_flag; }
+            // Ipp8u *getDFTSpec() { return m_pDFTSpec; }
+            // Ipp8u *getDFTBuf() { return m_pDFTBuf; }
+            // Ipp8u *getMemInit() { return m_pMemInit; }
+            const vector<Ipp8u>& getDFTSpec() const { return m_pDFTSpec; }
+            const vector<Ipp8u>& getDFTBuf() const { return m_pDFTBuf; }
+            const vector<Ipp8u>& getMemInit() const { return m_pMemInit; }
 
         private:
             size_t m_length;
@@ -92,12 +96,25 @@ namespace ippe
             int m_SizeSpec;
             int m_SizeInit;
             int m_SizeBuf;
-            Ipp8u *m_pDFTSpec = nullptr;
-            Ipp8u *m_pDFTBuf = nullptr;
-            Ipp8u *m_pMemInit = nullptr;
+
+            vector<Ipp8u> m_pDFTSpec;
+            vector<Ipp8u> m_pDFTBuf;
+            vector<Ipp8u> m_pMemInit;
+
+
+            // Ipp8u *m_pDFTSpec = nullptr;
+            // Ipp8u *m_pDFTBuf = nullptr;
+            // Ipp8u *m_pMemInit = nullptr;
 
             // the constructor will call this, and this will contain the specializations
             void prepare_dft();
+            // which in turn calls this after it discovers the sizes, along with other things
+            void allocate_vectors()
+            {
+                m_pDFTSpec.resize(m_SizeSpec);
+                m_pDFTBuf.resize(m_SizeBuf);
+                m_pMemInit.resize(m_SizeInit);
+            }
     };
 
     /*
@@ -127,17 +144,18 @@ namespace ippe
         }
 
         // Then allocate the memory required
-        m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
+        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
+        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        allocate_vectors();
 
         // And finally create the DFT transform
         IppStatus status2 = ippsDFTInit_C_32f(
             (int)m_length,
             m_flag,
             ippAlgHintNone, // deprecated according to docs
-            (IppsDFTSpec_C_32f*) m_pDFTSpec, // explicit casting required
-            m_pMemInit // technically don't need this any more?
+            (IppsDFTSpec_C_32f*) m_pDFTSpec.data(), // explicit casting required
+            m_pMemInit.data() // technically don't need this any more?
         );
         if (status2 != ippStsNoErr){
             throw std::runtime_error("ippsDFTInit_C_32f failed with error code " + std::to_string(status2));
@@ -162,17 +180,18 @@ namespace ippe
         }
         
         // Then allocate the memory required
-        m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
+        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
+        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        allocate_vectors();
         
         // And finally create the DFT transform
         IppStatus status2 = ippsDFTInit_C_64f(
             (int)m_length,
             m_flag,
             ippAlgHintNone, // deprecated according to docs
-            (IppsDFTSpec_C_64f*) m_pDFTSpec, // explicit casting required
-            m_pMemInit // technically don't need this any more?
+            (IppsDFTSpec_C_64f*) m_pDFTSpec.data(), // explicit casting required
+            m_pMemInit.data() // technically don't need this any more?
         );
         if (status2!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInit_C_64f failed with error code " + std::to_string(status2));
@@ -197,17 +216,18 @@ namespace ippe
         }
         
         // Then allocate the memory required
-        m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
+        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
+        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        allocate_vectors();
         
         // And finally create the DFT transform
         IppStatus status2 = ippsDFTInit_C_32fc(
             (int)m_length,
             m_flag,
             ippAlgHintNone, // deprecated according to docs
-            (IppsDFTSpec_C_32fc*) m_pDFTSpec, // explicit casting required
-            m_pMemInit // technically don't need this any more?
+            (IppsDFTSpec_C_32fc*) m_pDFTSpec.data(), // explicit casting required
+            m_pMemInit.data() // technically don't need this any more?
         );
         if (status2!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInit_C_32fc failed with error code " + std::to_string(status2));
@@ -233,17 +253,18 @@ namespace ippe
         }
         
         // Then allocate the memory required
-        m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
-        m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
-        m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        // m_pDFTSpec = ippsMalloc_8u(m_SizeSpec);
+        // m_pDFTBuf = ippsMalloc_8u(m_SizeBuf);
+        // m_pMemInit = ippsMalloc_8u(m_SizeInit);
+        allocate_vectors();
         
         // And finally create the DFT transform
         IppStatus status2 = ippsDFTInit_C_64fc(
             (int)m_length,
             m_flag,
             ippAlgHintNone, // deprecated according to docs
-            (IppsDFTSpec_C_64fc*) m_pDFTSpec, // explicit casting required
-            m_pMemInit // technically don't need this any more?
+            (IppsDFTSpec_C_64fc*) m_pDFTSpec.data(), // explicit casting required
+            m_pMemInit.data() // technically don't need this any more?
         );
         if (status2!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInit_C_64fc failed with error code " + std::to_string(status2));
@@ -269,8 +290,8 @@ namespace ippe
             srcIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
             dst, 
             dstIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
-            (const IppsDFTSpec_C_32f*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_32f*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTFwd_C_32f failed with error code " + std::to_string(status));
@@ -287,8 +308,8 @@ namespace ippe
             srcIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
             dst, 
             dstIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
-            (const IppsDFTSpec_C_64f*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_64f*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTFwd_C_64f failed with error code " + std::to_string(status));
@@ -303,8 +324,8 @@ namespace ippe
         IppStatus status = ippsDFTFwd_CToC_32fc(
             src, 
             dst, // we ignore the srcIm and dstIm parameters (should have been left as nullptr by the user)
-            (const IppsDFTSpec_C_32fc*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_32fc*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTFwd_C_32fc failed with error code " + std::to_string(status));
@@ -319,8 +340,8 @@ namespace ippe
         IppStatus status = ippsDFTFwd_CToC_64fc(
             src, 
             dst, // we ignore the srcIm and dstIm parameters (should have been left as nullptr by the user)
-            (const IppsDFTSpec_C_64fc*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_64fc*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTFwd_C_64fc failed with error code " + std::to_string(status));
@@ -346,8 +367,8 @@ namespace ippe
             srcIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
             dst, 
             dstIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
-            (const IppsDFTSpec_C_32f*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_32f*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInv_C_32f failed with error code " + std::to_string(status));
@@ -364,8 +385,8 @@ namespace ippe
             srcIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
             dst, 
             dstIm, // this must be supplied for Ipp32f/Ipp64f i.e. the non-complex data types
-            (const IppsDFTSpec_C_64f*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_64f*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInv_C_64f failed with error code " + std::to_string(status));
@@ -380,8 +401,8 @@ namespace ippe
         IppStatus status = ippsDFTInv_CToC_32fc(
             src, 
             dst, // we ignore the srcIm and dstIm parameters (should have been left as nullptr by the user)
-            (const IppsDFTSpec_C_32fc*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_32fc*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInv_C_32fc failed with error code " + std::to_string(status));
@@ -396,8 +417,8 @@ namespace ippe
         IppStatus status = ippsDFTInv_CToC_64fc(
             src, 
             dst, // we ignore the srcIm and dstIm parameters (should have been left as nullptr by the user)
-            (const IppsDFTSpec_C_64fc*) m_pDFTSpec,
-            m_pDFTBuf
+            (const IppsDFTSpec_C_64fc*) m_pDFTSpec.data(),
+            m_pDFTBuf.data()
         );
         if (status!= ippStsNoErr){
             throw std::runtime_error("ippsDFTInv_C_64fc failed with error code " + std::to_string(status));
