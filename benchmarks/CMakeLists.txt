@@ -98,6 +98,9 @@ endif()
 add_executable(benchmark_upfirdn benchmark_upfirdn.cpp)
 target_link_libraries(benchmark_upfirdn PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
 
+add_executable(benchmark_ops benchmark_ops.cpp)
+target_link_libraries(benchmark_ops PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 # catch_discover_tests(benchmark_dft) # don't need to add this because we running each individually
