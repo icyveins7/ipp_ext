@@ -11,7 +11,14 @@ namespace ippe{
         template <typename T, typename U>
         void Slope(T *dst, int length, U offset, U slope);
 
-        // Specializations for Slope
+        template <typename T, typename U, typename V>
+        void Tone(T* dst, int len, U magn, V freq, V *phase, IppHintAlgorithm hint=IppHintAlgorithm::ippAlgHintAccurate);
+
+        // ============================
+        // ============================ 
+        //  Slope Specializations
+        // ============================
+        // ============================
 
         template <typename T, typename U>
         inline void Slope(T *dst, int length, U offset, U slope)
@@ -94,6 +101,72 @@ namespace ippe{
                 dst, length, offset, slope
             );
             IPP_NO_ERROR(sts, "ippsVectorSlope_64f");
+        }
+
+        // ============================
+        // ============================ 
+        //  Tone Specializations
+        // ============================
+        // ============================
+
+        // Ipp16s, Ipp16s, Ipp32f
+        template <>
+        inline void Tone(Ipp16s *dst, int len, Ipp16s magn, Ipp32f freq, Ipp32f *phase, IppHintAlgorithm hint)
+        {
+            IppStatus sts = ippsTone_16s(
+                dst, len, magn, freq, phase, hint
+            );
+            IPP_NO_ERROR(sts, "ippsTone_16s");
+        }
+
+        // Ipp16sc, Ipp16s, Ipp32f
+        template <>
+        inline void Tone(Ipp16sc *dst, int len, Ipp16s magn, Ipp32f freq, Ipp32f *phase, IppHintAlgorithm hint)
+        {
+            IppStatus sts = ippsTone_16sc(
+                dst, len, magn, freq, phase, hint
+            );
+            IPP_NO_ERROR(sts, "ippsTone_16sc");
+        }
+
+        // Ipp32f, Ipp32f, Ipp32f
+        template <>
+        inline void Tone(Ipp32f *dst, int len, Ipp32f magn, Ipp32f freq, Ipp32f *phase, IppHintAlgorithm hint)
+        {
+            IppStatus sts = ippsTone_32f(
+                dst, len, magn, freq, phase, hint
+            );
+            IPP_NO_ERROR(sts, "ippsTone_32f");
+        }
+
+        // Ipp32fc, Ipp32f, Ipp32f
+        template <>
+        inline void Tone(Ipp32fc *dst, int len, Ipp32f magn, Ipp32f freq, Ipp32f *phase, IppHintAlgorithm hint)
+        {
+            IppStatus sts = ippsTone_32fc(
+                dst, len, magn, freq, phase, hint
+            );
+            IPP_NO_ERROR(sts, "ippsTone_32fc");
+        }
+
+        // Ipp64f, Ipp64f, Ipp64f
+        template <>
+        inline void Tone(Ipp64f *dst, int len, Ipp64f magn, Ipp64f freq, Ipp64f *phase, IppHintAlgorithm hint)
+        {
+            IppStatus sts = ippsTone_64f(
+                dst, len, magn, freq, phase, hint
+            );
+            IPP_NO_ERROR(sts, "ippsTone_64f");
+        }
+
+        // Ipp64fc, Ipp64f, Ipp64f
+        template <>
+        inline void Tone(Ipp64fc *dst, int len, Ipp64f magn, Ipp64f freq, Ipp64f *phase, IppHintAlgorithm hint)
+        {
+            IppStatus sts = ippsTone_64fc(
+                dst, len, magn, freq, phase, hint
+            );
+            IPP_NO_ERROR(sts, "ippsTone_64fc");
         }
     }
 }
