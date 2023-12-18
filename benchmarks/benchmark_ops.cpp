@@ -87,3 +87,26 @@ TEST_CASE("Benchmark conversions between complex and real arrays, length 100000"
         );
     };
 }
+
+TEST_CASE("Benchmark generators, length 100000", "[generators]")
+{
+    // Setup
+    const int length = 100000;
+    ippe::vector<Ipp32f> real1(length);
+    ippe::vector<Ipp32fc> complex1(length);
+
+    BENCHMARK("ippsTone_32fc")
+    {
+        Ipp32f phase = 0.0f;
+        return ippe::generator::Tone(
+            complex1.data(), complex1.size(), 1.0f, 0.1f, &phase
+        );
+    };
+
+    BENCHMARK("ippsSlope_32f")
+    {
+        return ippe::generator::Slope(
+            real1.data(), real1.size(), 0.0f, 1.0f
+        );
+    };
+}
