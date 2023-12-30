@@ -10,6 +10,8 @@ void test_PolarToCart()
     ippe::vector<T> srcMag(10);
     ippe::vector<T> srcPhase(10);
     ippe::vector<U> dst(10);
+    ippe::vector<T> dstRe(10);
+    ippe::vector<T> dstIm(10);
 
     for (int i = 0; i < 10; i++)
     {
@@ -23,6 +25,16 @@ void test_PolarToCart()
     {
         REQUIRE(std::abs(dst[i].re - srcMag[i] * std::cos(srcPhase[i])) < 1e-6);
         REQUIRE(std::abs(dst[i].im - srcMag[i] * std::sin(srcPhase[i])) < 1e-6);
+    }
+
+    // Also check that the deinterleaved version is equal
+    ippe::convert::PolarToCartDeinterleaved(
+        srcMag.data(), srcPhase.data(), dstRe.data(), dstIm.data(), dstRe.size()
+    );
+    for (int i = 0; i < 10; i++)
+    {
+        REQUIRE(dst.at(i).re == dstRe.at(i));
+        REQUIRE(dst.at(i).im == dstIm.at(i));
     }
 }
 

@@ -11,6 +11,9 @@ namespace ippe{
         template <typename T, typename U>
         void CartToPolar(const T* src, U* dstMagn, U* dstPhase, int len);
 
+        template <typename T>
+        void PolarToCartDeinterleaved(const T* srcMagn, const T* srcPhase, T* dstRe, T* dstIm, int len);
+
         // ============================
         // ============================ 
         //  PolarToCart Specializations
@@ -82,6 +85,38 @@ namespace ippe{
                 len
             );
             IPP_NO_ERROR(status, "ippsCartToPolar_64fc");
+        }
+
+        // ============================
+        // ============================ 
+        //  PolarToCartDeInterleaved Specializations
+        // ============================
+        // ============================
+
+        // 32f
+        template <>
+        inline void PolarToCartDeinterleaved(const Ipp32f* srcMagn, const Ipp32f* srcPhase, Ipp32f* dstRe, Ipp32f* dstIm, int len){
+            IppStatus status = ippsPolarToCart_32f(
+                srcMagn,
+                srcPhase,
+                dstRe,
+                dstIm,
+                len
+            );
+            IPP_NO_ERROR(status, "ippsPolarToCart_32f");
+        }
+
+        // 64f
+        template <>
+        inline void PolarToCartDeinterleaved(const Ipp64f* srcMagn, const Ipp64f* srcPhase, Ipp64f* dstRe, Ipp64f* dstIm, int len){
+            IppStatus status = ippsPolarToCart_64f(
+                srcMagn,
+                srcPhase,
+                dstRe,
+                dstIm,
+                len
+            );
+            IPP_NO_ERROR(status, "ippsPolarToCart_64f");
         }
     }
 }
