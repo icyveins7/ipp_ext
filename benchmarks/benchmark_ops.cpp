@@ -72,6 +72,8 @@ TEST_CASE("Benchmark conversions between complex and real arrays, length 100000"
     ippe::vector<Ipp32f> real1(length);
     ippe::vector<Ipp32f> real2(length);
     ippe::vector<Ipp32fc> complex1(length);
+    ippe::vector<Ipp32f> real3(length);
+    ippe::vector<Ipp32f> real4(length);
 
     BENCHMARK("ippsPolarToCart_32fc")
     {
@@ -80,10 +82,31 @@ TEST_CASE("Benchmark conversions between complex and real arrays, length 100000"
         );
     };
 
+    BENCHMARK("ippsPolarToCart_32fc deinterleaved")
+    {
+        return ippe::convert::PolarToCartDeinterleaved(
+            real1.data(), real2.data(), real3.data(), real4.data(), length
+        );
+    };
+
     BENCHMARK("ippsCartToPolar_32fc")
     {
         return ippe::convert::CartToPolar(
             complex1.data(), real1.data(), real2.data(), length
+        );
+    };
+
+    BENCHMARK("ippsCplxToReal_32fc")
+    {
+        return ippe::convert::CplxToReal(
+            complex1.data(), real1.data(), real2.data(), length
+        );
+    };
+
+    BENCHMARK("ippsRealToCplx_32f")
+    {
+        return ippe::convert::RealToCplx(
+            real1.data(), real2.data(), complex1.data(), length
         );
     };
 }
