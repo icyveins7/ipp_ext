@@ -176,235 +176,270 @@ assertions: - none -
 
 ## Eigen Benchmark
 
-### GCC, i7-8565UC, -O3 -mavx2
-
-```
-Randomness seeded to: 1502030075
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compare_eigen is a Catch2 v3.3.2 host application.
-Run with -? for options
-
--------------------------------------------------------------------------------
-Benchmark with Eigen Vector
-  Add, length 100000
--------------------------------------------------------------------------------
-/home/seoxubuntu/gitrepos/ipp_ext/benchmarks/compare_eigen.cpp:19
-...............................................................................
-
-benchmark name                       samples       iterations    estimated
-                                     mean          low mean      high mean
-                                     std dev       low std dev   high std dev
--------------------------------------------------------------------------------
-Eigen Vector Add                               100             1     3.0578 ms 
-                                        30.7693 us     29.465 us    36.1006 us 
-                                        10.9814 us    255.573 ns    25.6479 us 
-                                                                               
-IPP Vector Add                                 100             1     1.8323 ms 
-                                        18.0329 us    17.9409 us     18.331 us 
-                                        721.605 ns     53.565 ns    1.60573 us 
-                                                                               
-Raw Loop                                       100             1     3.3399 ms 
-                                        32.7682 us    32.1941 us    34.1398 us 
-                                        4.30973 us    2.15422 us    7.99879 us 
-                                                                               
-
--------------------------------------------------------------------------------
-Benchmark with Eigen Vector
-  Add, length 1000000
--------------------------------------------------------------------------------
-/home/seoxubuntu/gitrepos/ipp_ext/benchmarks/compare_eigen.cpp:59
-...............................................................................
-
-benchmark name                       samples       iterations    estimated
-                                     mean          low mean      high mean
-                                     std dev       low std dev   high std dev
--------------------------------------------------------------------------------
-Eigen Vector Add                               100             1    86.4121 ms 
-                                        860.113 us    840.069 us    921.139 us 
-                                        161.027 us    58.6004 us    350.828 us 
-                                                                               
-IPP Vector Add                                 100             1    58.1658 ms 
-                                        594.183 us    577.401 us    628.644 us 
-                                        117.893 us    69.6488 us    226.894 us 
-                                                                               
-Raw Loop                                       100             1    114.686 ms 
-                                        1.16465 ms    1.14504 ms    1.20911 ms 
-                                        142.938 us    72.3016 us     276.94 us
-```
-
-### MSVC, Ryzen 5600X, /O2, /m:AVX2 (only matmul)
+### MSVC, Ryzen 5600X, /O2, /m:AVX2 
 
 Notes:
 1. The matmul implementation fully uses IPP only, but has separate implementations depending on the sizes of the matrix.
 2. This favours the tall, thin matrices on the second matrix the most; ```A*B``` where B is tall and thin, or better still, just a column vector.
 3. For the other cases, this can be up to 3x slower than Eigen, which isn't too bad.
+4. Some of the test cases may not reflect the actual performance; Catch2 tends to perform copies if an object like a vector is returned, even if it's a reference.
+5. Eigen is optimized well enough to be equivalent to IPP, at least on the vector operations.
 
 ```
-Benchmark with Eigen matrix multiplication
-  Matmul Ipp32f, 3x1000, 1000x1
+
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(215)
+Benchmark with Eigen Vector
+  Add, length 100000
+-------------------------------------------------------------------------------
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(30)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100             7     2.2736 ms
-                                        3.23114 us    3.22343 us    3.25357 us
-                                        61.1674 ns    22.8321 ns    131.197 ns
+Eigen Vector Add                               100             3     2.9535 ms
+                                        12.0197 us     11.418 us    12.8663 us
+                                        3.61992 us    2.82197 us    4.96243 us
 
-IPP Matrix Multiply                            100            89     2.0025 ms
-                                        226.146 ns    225.045 ns    230.371 ns
-                                        9.63993 ns    1.84253 ns    22.3668 ns
+IPP Vector Add                                 100             3     2.9643 ms
+                                        11.1563 us    10.8527 us    11.7353 us
+                                        2.06448 us    1.30594 us     3.8668 us
 
-Raw loop                                       100             9     2.1762 ms
-                                          2.374 us    2.36667 us    2.39044 us
-                                        54.8933 ns    31.7786 ns    87.2824 ns
+Raw Loop                                       100             1     3.6133 ms
+                                         35.875 us     35.685 us     36.213 us
+                                        1.25872 us    829.416 ns    2.01243 us
+
+
+-------------------------------------------------------------------------------
+Benchmark with Eigen Vector
+  Add, length 1000000
+-------------------------------------------------------------------------------
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(69)
+...............................................................................
+
+benchmark name                       samples       iterations    estimated
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+Eigen Vector Add                               100             1    10.6233 ms
+                                        115.006 us    109.396 us    134.423 us
+                                          46.89 us    13.9629 us    105.428 us
+
+IPP Vector Add                                 100             1    10.8597 ms
+                                        117.709 us    113.424 us    129.193 us
+                                        33.0088 us    15.4474 us    68.6478 us
+
+Raw Loop                                       100             1    36.3201 ms
+                                        364.557 us    360.502 us    383.149 us
+                                        37.8588 us    3.97065 us    89.7761 us
+
+Raw loop with explicit pointer cast            100             1    44.2088 ms
+                                         440.98 us    438.216 us    447.889 us
+                                        20.7609 us    7.86218 us    39.2606 us
+
+Raw loop with explicit pointer cast
+and explicit 4x UNROLL                         100             1    28.9216 ms
+                                        288.622 us     285.95 us    300.322 us
+                                        24.3777 us    3.41214 us    57.4255 us
+
+
+-------------------------------------------------------------------------------
+Benchmark with Eigen Array
+  Element-wise multiply, length 100000
+-------------------------------------------------------------------------------
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(146)
+...............................................................................
+
+benchmark name                       samples       iterations    estimated
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+Eigen Array Multiply                           100             3      2.991 ms
+                                         10.598 us    10.3433 us    10.9123 us
+                                         1.4426 us    1.24141 us    1.64196 us
+
+IPP Array Multiply                             100             3     2.9934 ms
+                                         10.556 us    10.3543 us     10.807 us
+                                        1.14843 us     997.48 ns    1.42483 us
+
+Raw Loop                                       100             1     3.6127 ms
+                                         35.681 us     35.599 us     35.852 us
+                                        579.655 ns    339.816 ns    1.10919 us
+
+
+-------------------------------------------------------------------------------
+Benchmark with Eigen matrix multiplication
+  Matmul Ipp32f, 3x1000, 1000x1
+-------------------------------------------------------------------------------
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(256)
+...............................................................................
+
+benchmark name                       samples       iterations    estimated
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+Eigen Matrix Multiply                          100             7      2.247 ms
+                                          3.223 us    3.21186 us      3.246 us
+                                        78.4545 ns    45.0859 ns     124.43 ns
+
+IPP Matrix Multiply                            100           108     2.0304 ms
+                                         243.12 ns    233.074 ns    252.963 ns
+                                        50.9258 ns    49.2346 ns     55.736 ns
+
+Raw loop                                       100             9      2.133 ms
+                                        2.32767 us      2.323 us    2.33433 us
+                                        28.0599 ns    19.6312 ns    42.5245 ns
 
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen matrix multiplication
   Matmul Ipp32f, 3x2, 2x3
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(220)
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(261)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100           334      2.004 ms
-                                        58.5808 ns    58.3054 ns    59.3204 ns
-                                        2.11301 ns   0.741131 ns    4.25792 ns
+Eigen Matrix Multiply                          100          1050      1.995 ms
+                                        19.0171 ns    18.9943 ns    19.0648 ns
+                                       0.160868 ns  0.0711168 ns   0.273137 ns
 
-IPP Matrix Multiply                            100           164     2.0008 ms
-                                        120.159 ns     119.22 ns    122.512 ns
-                                        6.83763 ns    1.44515 ns    12.3972 ns
+IPP Matrix Multiply                            100           274     2.0276 ms
+                                        70.1752 ns    69.8577 ns    71.2482 ns
+                                        2.67369 ns   0.900033 ns    5.99165 ns
 
-Raw loop                                       100           326     1.9886 ms
-                                        60.9509 ns    60.7209 ns    61.8313 ns
-                                        1.99405 ns   0.420357 ns    4.59838 ns
+Raw loop                                       100           899     1.9778 ms
+                                        22.4638 ns    22.4349 ns    22.5239 ns
+                                       0.205119 ns  0.0988112 ns   0.344179 ns
 
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen matrix multiplication
   Matmul Ipp32f, 3x1000, 1000x3
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(225)
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(266)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100             3     2.1234 ms
-                                        7.80467 us    7.59967 us    8.24733 us
-                                        1.46735 us    865.205 ns    2.91634 us
+Eigen Matrix Multiply                          100             3     2.1168 ms
+                                          7.093 us      7.065 us    7.14567 us
+                                        190.728 ns    117.195 ns    294.652 ns
 
-IPP Matrix Multiply                            100            21     2.0601 ms
-                                        981.714 ns    976.143 ns    1.00452 us
-                                        50.5273 ns    7.52486 ns    118.795 ns
+IPP Matrix Multiply                            100            22     2.0636 ms
+                                        943.864 ns      940.5 ns    955.182 ns
+                                        27.8182 ns    8.33493 ns    62.1166 ns
 
-Raw loop                                       100             3     2.1543 ms
-                                          7.094 us      7.053 us      7.193 us
-                                        322.059 ns     186.88 ns    514.374 ns
+Raw loop                                       100             3     2.1237 ms
+                                        7.00833 us      6.963 us    7.16233 us
+                                        374.739 ns    91.6582 ns    833.451 ns
 
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen matrix multiplication
   Matmul Ipp32f, 3x100, 100x3
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(230)
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(271)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100            32     2.0256 ms
-                                        634.875 ns    633.531 ns    638.156 ns
-                                        10.0524 ns    4.64554 ns    19.5282 ns
+Eigen Matrix Multiply                          100            35     2.0895 ms
+                                        598.057 ns    595.629 ns    606.686 ns
+                                        20.6051 ns    5.91166 ns    46.4703 ns
 
-IPP Matrix Multiply                            100            77     2.0097 ms
-                                        263.403 ns    259.065 ns    273.844 ns
-                                         31.483 ns    14.3158 ns    59.4529 ns
+IPP Matrix Multiply                            100            93      2.046 ms
+                                        221.978 ns    220.785 ns    225.215 ns
+                                        9.01388 ns    2.19363 ns     18.717 ns
 
-Raw loop                                       100            25     2.0225 ms
-                                            791 ns     788.04 ns     801.32 ns
-                                        24.9275 ns    6.74282 ns    56.3665 ns
+Raw loop                                       100            27     2.0655 ms
+                                        743.778 ns    742.852 ns    745.926 ns
+                                        6.71781 ns    2.88675 ns    11.4623 ns
 
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen matrix multiplication
   Matmul Ipp32f, 3x10, 10x3
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(234)
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(275)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100           256     1.9968 ms
-                                        77.9727 ns    77.5352 ns    79.2383 ns
-                                        3.44415 ns    1.30991 ns    7.33733 ns
+Eigen Matrix Multiply                          100           534     2.0292 ms
+                                         37.882 ns    37.5131 ns    38.8464 ns
+                                        2.78044 ns   0.635866 ns    5.58849 ns
 
-IPP Matrix Multiply                            100           106      2.014 ms
-                                        187.925 ns    187.075 ns     191.33 ns
-                                        7.52815 ns     1.5292 ns    17.4355 ns
+IPP Matrix Multiply                            100           134     2.0368 ms
+                                        152.306 ns    151.701 ns    154.657 ns
+                                        5.28544 ns    1.11781 ns    12.2156 ns
 
-Raw loop                                       100           170      2.006 ms
-                                        116.882 ns    116.471 ns    118.418 ns
-                                        3.55568 ns   0.871284 ns    8.12944 ns
+Raw loop                                       100           258     2.0382 ms
+                                        77.6202 ns    77.3333 ns    78.8295 ns
+                                        2.57708 ns   0.410194 ns    6.02931 ns
 
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen matrix multiplication
   Matmul Ipp32f, 1000x3, 3x1000
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(239)
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(280)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100             1    98.6574 ms
-                                        1.04931 ms    1.04564 ms    1.06373 ms
-                                        32.8096 us    6.41253 us    76.7465 us
+Eigen Matrix Multiply                          100             1    17.8916 ms
+                                        179.896 us    178.889 us    183.607 us
+                                        8.72944 us    2.15979 us    20.0513 us
 
-IPP Matrix Multiply                            100             1    210.377 ms
-                                        2.00162 ms    1.96822 ms    2.05518 ms
-                                        212.145 us    148.363 us    375.862 us
+IPP Matrix Multiply                            100             1    113.756 ms
+                                        1.25755 ms    1.25047 ms     1.2674 ms
+                                        42.3542 us    30.8873 us    58.4462 us
 
-Raw loop                                       100             1    392.576 ms
-                                          3.985 ms    3.96645 ms    4.00431 ms
-                                        96.6704 us    84.2217 us    110.996 us
+Raw loop                                       100             1    313.328 ms
+                                        3.11445 ms    3.11128 ms    3.11789 ms
+                                         16.829 us    14.1414 us    20.2533 us
 
 
 -------------------------------------------------------------------------------
 Benchmark with Eigen matrix multiplication
   Matmul Ipp32f, 1000x1000, 1000x1000
 -------------------------------------------------------------------------------
-E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(244)
+E:\gitrepos\ipp_ext\benchmarks\compare_eigen.cpp(285)
 ...............................................................................
 
 benchmark name                       samples       iterations    estimated
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-Eigen Matrix Multiply                          100             1     1.69859 s
-                                        17.1672 ms    17.1137 ms    17.2512 ms
-                                         336.86 us    241.731 us    539.114 us
+Eigen Matrix Multiply                          100             1     1.64233 s
+                                        16.3359 ms    16.3069 ms    16.3688 ms
+                                        157.096 us    134.286 us    196.166 us
 
-IPP Matrix Multiply                            100             1      5.7703 s
-                                        57.7854 ms    57.6533 ms     57.945 ms
-                                        740.364 us    617.156 us    926.916 us
+IPP Matrix Multiply                            100             1     5.61637 s
+                                        56.1902 ms    56.0563 ms    56.3575 ms
+                                        758.579 us    621.178 us    958.462 us
 
-Raw loop                                       100             1      1.9176 m
-                                         1.15157 s     1.15087 s     1.15288 s
-                                        4.74635 ms    2.95273 ms    7.94557 ms
+Raw loop                                       100             1     1.90362 m
+                                         1.14816 s     1.14626 s     1.15107 s
+                                        11.8863 ms    8.60212 ms    16.6594 ms
+
+
+===============================================================================
+test cases: 3 | 3 passed
+assertions: - none -
+
+
 ```
 

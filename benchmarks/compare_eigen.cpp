@@ -17,6 +17,15 @@ This is not strictly an ipp_ext benchmark, but rather just a benchmark of IPP vs
 #include <catch2/benchmark/catch_benchmark.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
+Eigen::VectorXf* add_eigen(
+    const Eigen::VectorXf &e_a,
+    const Eigen::VectorXf &e_b,
+    Eigen::VectorXf &e_out
+){
+    e_out = e_a + e_b;
+    return &e_out;
+}
+
 TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
     SECTION("Add, length 100000"){
         // Create eigen vector
@@ -31,8 +40,7 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
         }
 
         BENCHMARK("Eigen Vector Add") {
-            e_out = e_a + e_b;
-            return e_out;
+            return add_eigen(e_a, e_b, e_out);
         };
 
         // Create ipp vectors
@@ -54,7 +62,7 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
             for (int i = 0; i < i_a.size(); i++) {
                 i_out[i] = i_a[i] + i_b[i];
             }
-            return i_out;
+            return i_out.data();
         };
     }
 
@@ -71,8 +79,7 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
         }
 
         BENCHMARK("Eigen Vector Add") {
-            e_out = e_a + e_b;
-            return e_out;
+            return add_eigen(e_a, e_b, e_out);
         };
         
         // Create ipp vectors
@@ -94,12 +101,47 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
             for (int i = 0; i < i_a.size(); i++) {
                 i_out[i] = i_a[i] + i_b[i];
             }
-            return i_out;
+            return i_out.data();
+        };
+
+        BENCHMARK("Raw loop with explicit pointer cast"){
+            // This may help for MSVC, where loop vectorisation doesn't seem to work very well for vectors
+            Ipp32f* i_out_ptr = (Ipp32f*) i_out.data();
+            Ipp32f* i_a_ptr  = (Ipp32f*) i_a.data();
+            Ipp32f* i_b_ptr  = (Ipp32f*) i_b.data();
+            for (int i = 0; i < i_a.size(); i++) {
+                i_out_ptr[i] = i_a_ptr[i] + i_b_ptr[i];
+            }
+            return i_out.data();
+        };
+
+        BENCHMARK("Raw loop with explicit pointer cast and explicit 4x UNROLL"){
+            Ipp32f* i_out_ptr = (Ipp32f*) i_out.data();
+            Ipp32f* i_a_ptr  = (Ipp32f*) i_a.data();
+            Ipp32f* i_b_ptr  = (Ipp32f*) i_b.data();
+
+            for (int i = 0; i < i_a.size() / 4; ++i){
+                i_out_ptr[i*4 + 0] = i_a_ptr[i*4 + 0] + i_b_ptr[i*4 + 0];
+                i_out_ptr[i*4 + 1] = i_a_ptr[i*4 + 1] + i_b_ptr[i*4 + 1];
+                i_out_ptr[i*4 + 2] = i_a_ptr[i*4 + 1] + i_b_ptr[i*4 + 2];
+                i_out_ptr[i*4 + 3] = i_a_ptr[i*4 + 3] + i_b_ptr[i*4 + 3]; 
+            }
+            return i_out.data();
         };
     }  
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+Eigen::ArrayXf* multiply_eigen(
+    const Eigen::ArrayXf &e_a,
+    const Eigen::ArrayXf &e_b,
+    Eigen::ArrayXf &e_out
+){
+    e_out = e_a * e_b;
+    return &e_out;
+}
+
 TEST_CASE("Benchmark with Eigen Array", "[Array]") {
     SECTION("Element-wise multiply, length 100000"){
         // Create eigen array, for element-wise multiply
@@ -114,8 +156,7 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         }
         
         BENCHMARK("Eigen Array Multiply") {
-            e_out = e_a * e_b;
-            return e_out;
+            return multiply_eigen(e_a, e_b, e_out);
         };
 
         // Create ipp vectors
@@ -137,7 +178,7 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
             for (int i = 0; i < i_a.size(); i++) {
                 i_out[i] = i_a[i] * i_b[i];
             }
-            return i_out;
+            return i_out.data();
         };
     }
 }
@@ -167,7 +208,7 @@ void bench_matmul_32f(int ii, int jj, int kk)
 
     BENCHMARK("Eigen Matrix Multiply") {
         e_out.noalias() = e_a * e_b; // use noalias to avoid temporary copies according to Eigen?
-        return e_out;
+        return &e_out;
     };
 
     // Create ipp matrix
@@ -190,7 +231,7 @@ void bench_matmul_32f(int ii, int jj, int kk)
 
     BENCHMARK("IPP Matrix Multiply") {
         i_out = i_a * i_b;
-        return i_out;
+        return i_out.data();
     };
 
     BENCHMARK("Raw loop")
@@ -205,7 +246,7 @@ void bench_matmul_32f(int ii, int jj, int kk)
                 i_out.index(i, j) = sum;
             }
         }
-        return i_out;
+        return i_out.data();
     };
 }
 

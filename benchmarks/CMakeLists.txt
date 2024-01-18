@@ -7,7 +7,7 @@ project(ipp_ext_catch2_benchmarks)
 
 # Add compile options so instruction sets are explicitly enabled
 if (MSVC)
-    add_compile_options(/arch:AVX2)
+    add_compile_options(/arch:AVX2 /FA)
 elseif (APPLE)
     add_compile_definitions(NDEBUG)
 else()
