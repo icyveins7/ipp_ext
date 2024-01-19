@@ -144,13 +144,16 @@ Eigen::ArrayXf* multiply_eigen(
 
 TEST_CASE("Benchmark with Eigen Array", "[Array]") {
     SECTION("Element-wise multiply, length 100000"){
+
+        size_t len = 100000;
+
         // Create eigen array, for element-wise multiply
-        Eigen::ArrayXf e_a(100000);
-        Eigen::ArrayXf e_b(100000);
-        Eigen::ArrayXf e_out(100000);
+        Eigen::ArrayXf e_a(len);
+        Eigen::ArrayXf e_b(len);
+        Eigen::ArrayXf e_out(len);
         
         // Set some values
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < len; i++) {
             e_a[i] = (float)i;
             e_b[i] = (float)(i*2 + 0.1);
         }
@@ -160,9 +163,51 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         };
 
         // Create ipp vectors
-        ippe::vector<Ipp32f> i_a(100000);
-        ippe::vector<Ipp32f> i_b(100000);
-        ippe::vector<Ipp32f> i_out(100000);
+        ippe::vector<Ipp32f> i_a(len);
+        ippe::vector<Ipp32f> i_b(len);
+        ippe::vector<Ipp32f> i_out(len);
+
+        // Set some values
+        for (int i = 0; i < i_a.size(); i++) {
+            i_a[i] = (float)i;
+            i_b[i] = (float)(i*2 + 0.1);
+        }
+
+        BENCHMARK("IPP Array Multiply") {
+            return ippsMul_32f(i_a.data(), i_b.data(), i_out.data(), i_out.size());
+        };
+
+        BENCHMARK("Raw Loop"){
+            for (int i = 0; i < i_a.size(); i++) {
+                i_out[i] = i_a[i] * i_b[i];
+            }
+            return i_out.data();
+        };
+    }
+
+    SECTION("Element-wise multiply, length 1000000"){
+
+        size_t len = 1000000;
+
+        // Create eigen array, for element-wise multiply
+        Eigen::ArrayXf e_a(len);
+        Eigen::ArrayXf e_b(len);
+        Eigen::ArrayXf e_out(len);
+        
+        // Set some values
+        for (int i = 0; i < len; i++) {
+            e_a[i] = (float)i;
+            e_b[i] = (float)(i*2 + 0.1);
+        }
+        
+        BENCHMARK("Eigen Array Multiply") {
+            return multiply_eigen(e_a, e_b, e_out);
+        };
+
+        // Create ipp vectors
+        ippe::vector<Ipp32f> i_a(len);
+        ippe::vector<Ipp32f> i_b(len);
+        ippe::vector<Ipp32f> i_out(len);
 
         // Set some values
         for (int i = 0; i < i_a.size(); i++) {
