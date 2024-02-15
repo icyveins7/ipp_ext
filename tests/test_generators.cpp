@@ -98,8 +98,8 @@ void test_tone_sample_generator_complex()
     // Check if the samples are correct
     for (int i = 0; i < out.size(); ++i)
     {
-        double real = magn * std::cos(2*M_PI*freq*i + phase);
-        double imag = magn * std::sin(2*M_PI*freq*i + phase);
+        double real = magn * std::cos(IPP_2PI*freq*i + phase);
+        double imag = magn * std::sin(IPP_2PI*freq*i + phase);
         REQUIRE(out[i].re - real < 1e-5);
         REQUIRE(out[i].im - imag < 1e-5); // arbitrary threshold
     }

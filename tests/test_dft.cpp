@@ -35,8 +35,12 @@ TEST_CASE("ippe dft instantiation", "[dft],[instantiation]")
 
 // Test copy and assignment
 template<typename T>
-void test_dft_copy_assign()
+void test_dft_copy_assign_use(bool test_run)
 {
+    // Make some data
+    ippe::vector<T> data(1000);
+    ippe::vector<T> out(1000);
+
     std::vector<ippe::DFTCToC<T>> dfts;
     // Copy
     ippe::DFTCToC<T> dft(1000);
@@ -45,6 +49,11 @@ void test_dft_copy_assign()
     REQUIRE(dft.getDFTSpec().data() != dfts.at(0).getDFTSpec().data());
     REQUIRE(dft.getDFTBuf().data() != dfts.at(0).getDFTBuf().data());
     REQUIRE(dft.getMemInit().data() != dfts.at(0).getMemInit().data());
+
+
+    // Use both dfts and run it
+    if (test_run)
+        dfts.at(0).fwd(data.data(), out.data());
 
     // Assign
     dfts.resize(2);
@@ -56,21 +65,29 @@ void test_dft_copy_assign()
         REQUIRE(dfts.at(i).getMemInit().data() != dft.getMemInit().data());
     }
 
+    // Run using both objects in the vector
+    if (test_run)
+    {
+        for (int i = 0; i < dfts.size(); i++)
+        {
+            dfts.at(i).fwd(data.data(), out.data());
+        }
+    }
 }
 
 TEST_CASE("ippe dft copy and assignment", "[dft], [copy],[assignment]")
 {
     SECTION("Ipp32f"){
-        test_dft_copy_assign<Ipp32f>();
+        test_dft_copy_assign_use<Ipp32f>(false);
     }
     SECTION("Ipp64f"){
-        test_dft_copy_assign<Ipp64f>();
+        test_dft_copy_assign_use<Ipp64f>(false);
     }
     SECTION("Ipp32fc"){
-        test_dft_copy_assign<Ipp32fc>();
+        test_dft_copy_assign_use<Ipp32fc>(true);
     }
     SECTION("Ipp64fc"){
-        test_dft_copy_assign<Ipp64fc>();
+        test_dft_copy_assign_use<Ipp64fc>(true);
     }
 }
 
