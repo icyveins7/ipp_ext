@@ -49,6 +49,15 @@ void test_dft_copy_assign_use(bool test_run)
     REQUIRE(dft.getDFTSpec().data() != dfts.at(0).getDFTSpec().data());
     REQUIRE(dft.getDFTBuf().data() != dfts.at(0).getDFTBuf().data());
     REQUIRE(dft.getMemInit().data() != dfts.at(0).getMemInit().data());
+    // Check that these internal vectors contain the same data
+    for (size_t i = 0; i < dft.getDFTSpec().size(); ++i)
+        REQUIRE(dft.getDFTSpec().at(i) == dfts.at(0).getDFTSpec().at(i));
+
+    for (size_t i = 0; i < dft.getDFTBuf().size(); ++i)
+        REQUIRE(dft.getDFTBuf().at(i) == dfts.at(0).getDFTBuf().at(i));
+
+    for (size_t i = 0; i < dft.getMemInit().size(); ++i)
+        REQUIRE(dft.getMemInit().at(i) == dfts.at(0).getMemInit().at(i));
 
 
     // Use both dfts and run it
@@ -63,6 +72,15 @@ void test_dft_copy_assign_use(bool test_run)
         REQUIRE(dfts.at(i).getDFTSpec().data() != dft.getDFTSpec().data());
         REQUIRE(dfts.at(i).getDFTBuf().data() != dft.getDFTBuf().data());
         REQUIRE(dfts.at(i).getMemInit().data() != dft.getMemInit().data());
+
+        for (size_t i = 0; i < dft.getDFTSpec().size(); ++i)
+            REQUIRE(dft.getDFTSpec().at(i) == dfts.at(0).getDFTSpec().at(i));
+
+        for (size_t i = 0; i < dft.getDFTBuf().size(); ++i)
+            REQUIRE(dft.getDFTBuf().at(i) == dfts.at(0).getDFTBuf().at(i));
+
+        for (size_t i = 0; i < dft.getMemInit().size(); ++i)
+            REQUIRE(dft.getMemInit().at(i) == dfts.at(0).getMemInit().at(i));
     }
 
     // Run using both objects in the vector
