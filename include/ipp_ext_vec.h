@@ -128,11 +128,13 @@ namespace ippe
 
 			~vector()
 			{
+                DEBUG("~vector()\n");
 				ippsFree(m_data);
 			}
 
 			void resize(size_t new_count)
 			{
+                DEBUG("void resize(size_t new_count)\n");
 				// if count is more than capacity then reserve more
 				if (new_count > cap)
 					reserve(new_count); // this sets cap to new_count
@@ -143,6 +145,7 @@ namespace ippe
 
             void resize(size_t new_count, const T& value)
             {
+                DEBUG("void resize(size_t new_count, const T& value)\n");
                 // keep the old size
                 size_t oldsize = numel;
 

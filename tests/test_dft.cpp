@@ -38,12 +38,13 @@ template<typename T>
 void test_dft_copy_assign_use(bool test_run)
 {
     // Make some data
-    ippe::vector<T> data(1000);
-    ippe::vector<T> out(1000);
+    size_t len = 2016;
+    ippe::vector<T> data(len);
+    ippe::vector<T> out(len);
 
     std::vector<ippe::DFTCToC<T>> dfts;
     // Copy
-    ippe::DFTCToC<T> dft(1000);
+    ippe::DFTCToC<T> dft(len);
     dfts.push_back(dft);
 
     REQUIRE(dft.getDFTSpec().data() != dfts.at(0).getDFTSpec().data());
@@ -81,6 +82,19 @@ void test_dft_copy_assign_use(bool test_run)
 
         for (size_t i = 0; i < dft.getMemInit().size(); ++i)
             REQUIRE(dft.getMemInit().at(i) == dfts.at(0).getMemInit().at(i));
+    }
+
+    // Change after assignment
+    if (test_run)
+    {
+        dfts.at(0) = ippe::DFTCToC<T>(len+10);
+        ippe::vector<T> datalong(len+10);
+        ippe::vector<T> outlong(len+10);
+        dfts.at(0).fwd(datalong.data(), outlong.data());
+
+        // Then change back with another assignment
+        dfts.at(0) = dft;
+        dfts.at(0).fwd(data.data(), out.data());
     }
 
     // Run using both objects in the vector
