@@ -1281,6 +1281,12 @@ void test_Mul()
     }
 
     // Perform the operation
+
+    // undefined template for const results
+    // const V* const_result = result.data();
+    // ippe::math::Mul(x.data(), y.data(), const_result, x.size());
+
+    // correct usage
     ippe::math::Mul(x.data(), y.data(), result.data(), x.size());
 
     // Check the result
