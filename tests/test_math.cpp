@@ -1,3 +1,10 @@
+/*
+Notes:
+1) There is an example of undefined behaviour i.e. no template exists for specified types, 
+in the Mul test-case. This uses a const pointer on the result, which will fail to compile,
+but is left there to showcase the behaviour.
+*/
+
 #include <iostream>
 #include <cmath>
 #include "ipp_ext.h"

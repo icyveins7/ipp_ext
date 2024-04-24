@@ -16,7 +16,7 @@ namespace ippe{
         /// @param result Output pointer.
         /// @param length Length of all arrays.
         template <typename T, typename U>
-        void Add(T* x, T* y, U* result, int length);
+        void Add(const T* x, const T* y, U* result, int length);
 
         /// @brief Templated function to call ippsAdd_Sfs.
         /// @tparam T Input/output type.
@@ -26,7 +26,7 @@ namespace ippe{
         /// @param length Length of all arrays.
         /// @param scaleFactor 2^(-scaleFactor) is applied.
         template <typename T>
-        void Add_Sfs(T* x, T* y, T* result, int length, int scaleFactor);
+        void Add_Sfs(const T* x, const T* y, T* result, int length, int scaleFactor);
 
 
         /// @brief Templated function to call ippsAdd_I.
@@ -36,7 +36,7 @@ namespace ippe{
         /// @param result Input and output pointer. Result is accumulated in place.
         /// @param length Length of all arrays.
         template <typename T, typename U>
-        void Add_I(T* x, U* result, int length);
+        void Add_I(const T* x, U* result, int length);
 
         /// @brief Templated function to call ippsAdd_I_Sfs.
         /// @tparam T Input/output type.
@@ -45,7 +45,7 @@ namespace ippe{
         /// @param length Length of all arrays.
         /// @param scaleFactor 2^(-scaleFactor) is applied.
         template <typename T>
-        void Add_ISfs(T* x, T* result, int length, int scaleFactor);
+        void Add_ISfs(const T* x, T* result, int length, int scaleFactor);
 
         // ============================
         // ============================ 
@@ -53,16 +53,16 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T, typename U>
-        inline void Add(T* x, T* y, U* result, int length)
-        {
-            throw std::runtime_error("ippsAdd only implemented for specific types.");
-        }
+        // template <typename T, typename U>
+        // inline void Add(T* x, T* y, U* result, int length)
+        // {
+        //     throw std::runtime_error("ippsAdd only implemented for specific types.");
+        // }
 
         // Ipp16s
 
         template <>
-        inline void Add(Ipp16s* x, Ipp16s* y, Ipp16s* result, int length)
+        inline void Add(const Ipp16s* x, const Ipp16s* y, Ipp16s* result, int length)
         {
             IppStatus sts = ippsAdd_16s(
                 x, y, result, length);
@@ -72,7 +72,7 @@ namespace ippe{
         // Ipp32f
 
         template <>
-        inline void Add(Ipp32f* x, Ipp32f* y, Ipp32f* result, int length)
+        inline void Add(const Ipp32f* x, const Ipp32f* y, Ipp32f* result, int length)
         {
             IppStatus sts = ippsAdd_32f(
                 x, y, result, length);
@@ -82,7 +82,7 @@ namespace ippe{
         // Ipp64f
 
         template <>
-        inline void Add(Ipp64f* x, Ipp64f* y, Ipp64f* result, int length)
+        inline void Add(const Ipp64f* x, const Ipp64f* y, Ipp64f* result, int length)
         {
             IppStatus sts = ippsAdd_64f(
                 x, y, result, length);
@@ -92,7 +92,7 @@ namespace ippe{
         // Ipp32fc
 
         template <>
-        inline void Add(Ipp32fc* x, Ipp32fc* y, Ipp32fc* result, int length)
+        inline void Add(const Ipp32fc* x, const Ipp32fc* y, Ipp32fc* result, int length)
         {
             IppStatus sts = ippsAdd_32fc(
                 x, y, result, length);
@@ -102,7 +102,7 @@ namespace ippe{
         // Ipp64fc
 
         template <>
-        inline void Add(Ipp64fc* x, Ipp64fc* y, Ipp64fc* result, int length)
+        inline void Add(const Ipp64fc* x, const Ipp64fc* y, Ipp64fc* result, int length)
         {
             IppStatus sts = ippsAdd_64fc(
                 x, y, result, length);
@@ -112,7 +112,7 @@ namespace ippe{
         // Ipp8u to Ipp16u
 
         template <>
-        inline void Add(Ipp8u* x, Ipp8u* y, Ipp16u* result, int length)
+        inline void Add(const Ipp8u* x, const Ipp8u* y, Ipp16u* result, int length)
         {
             IppStatus sts = ippsAdd_8u16u(
                 x, y, result, length);
@@ -122,7 +122,7 @@ namespace ippe{
         // Ipp16u
 
         template <>
-        inline void Add(Ipp16u* x, Ipp16u* y, Ipp16u* result, int length)
+        inline void Add(const Ipp16u* x, const Ipp16u* y, Ipp16u* result, int length)
         {
             IppStatus sts = ippsAdd_16u(
                 x, y, result, length);
@@ -132,7 +132,7 @@ namespace ippe{
         // Ipp32u
 
         template <>
-        inline void Add(Ipp32u* x, Ipp32u* y, Ipp32u* result, int length)
+        inline void Add(const Ipp32u* x, const Ipp32u* y, Ipp32u* result, int length)
         {
             IppStatus sts = ippsAdd_32u(
                 x, y, result, length);
@@ -142,7 +142,7 @@ namespace ippe{
         // Ipp16s to Ipp32f
 
         template <>
-        inline void Add(Ipp16s* x, Ipp16s* y, Ipp32f* result, int length)
+        inline void Add(const Ipp16s* x, const Ipp16s* y, Ipp32f* result, int length)
         {
             IppStatus sts = ippsAdd_16s32f(
                 x, y, result, length);
@@ -155,16 +155,16 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void Add_Sfs(T* x, T* y, T* result, int length, int scaleFactor)
-        {
-            throw std::runtime_error("ippsAdd_Sfs only implemented for specific types.");
-        }
+        // template <typename T>
+        // inline void Add_Sfs(T* x, T* y, T* result, int length, int scaleFactor)
+        // {
+        //     throw std::runtime_error("ippsAdd_Sfs only implemented for specific types.");
+        // }
 
         // Ipp8u
 
         template <>
-        inline void Add_Sfs(Ipp8u* x, Ipp8u* y, Ipp8u* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp8u* x, const Ipp8u* y, Ipp8u* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_8u_Sfs(
                 x, y, result, length, scaleFactor);
@@ -174,7 +174,7 @@ namespace ippe{
         // Ipp16u
 
         template <>
-        inline void Add_Sfs(Ipp16u* x, Ipp16u* y, Ipp16u* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp16u* x, const Ipp16u* y, Ipp16u* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_16u_Sfs(
                 x, y, result, length, scaleFactor);
@@ -184,7 +184,7 @@ namespace ippe{
         // Ipp16s
 
         template <>
-        inline void Add_Sfs(Ipp16s* x, Ipp16s* y, Ipp16s* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp16s* x, const Ipp16s* y, Ipp16s* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_16s_Sfs(
                 x, y, result, length, scaleFactor);
@@ -194,7 +194,7 @@ namespace ippe{
         // Ipp32s
 
         template <>
-        inline void Add_Sfs(Ipp32s* x, Ipp32s* y, Ipp32s* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp32s* x, const Ipp32s* y, Ipp32s* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_32s_Sfs(
                 x, y, result, length, scaleFactor);
@@ -204,7 +204,7 @@ namespace ippe{
         // Ipp16sc
 
         template <>
-        inline void Add_Sfs(Ipp16sc* x, Ipp16sc* y, Ipp16sc* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp16sc* x, const Ipp16sc* y, Ipp16sc* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_16sc_Sfs(
                 x, y, result, length, scaleFactor);
@@ -214,7 +214,7 @@ namespace ippe{
         // Ipp32sc
 
         template <>
-        inline void Add_Sfs(Ipp32sc* x, Ipp32sc* y, Ipp32sc* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp32sc* x, const Ipp32sc* y, Ipp32sc* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_32sc_Sfs(
                 x, y, result, length, scaleFactor);
@@ -224,7 +224,7 @@ namespace ippe{
         // Ipp64s
 
         template <>
-        inline void Add_Sfs(Ipp64s* x, Ipp64s* y, Ipp64s* result, int length, int scaleFactor)
+        inline void Add_Sfs(const Ipp64s* x, const Ipp64s* y, Ipp64s* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_64s_Sfs(
                 x, y, result, length, scaleFactor);
@@ -237,16 +237,16 @@ namespace ippe{
         // ============================
         // ============================
 
-        template<typename T, typename U>
-        inline void Add_I(T* x, U* result, int length)
-        {
-            throw std::runtime_error("ippsAdd_I only implemented for specific types.");
-        }
+        // template<typename T, typename U>
+        // inline void Add_I(const T* x, U* result, int length)
+        // {
+        //     throw std::runtime_error("ippsAdd_I only implemented for specific types.");
+        // }
 
         // Ipp16s
 
         template <>
-        inline void Add_I(Ipp16s* x, Ipp16s* result, int length)
+        inline void Add_I(const Ipp16s* x, Ipp16s* result, int length)
         {
             IppStatus sts = ippsAdd_16s_I(
                 x, result, length);
@@ -256,7 +256,7 @@ namespace ippe{
         // Ipp32f
 
         template <>
-        inline void Add_I(Ipp32f* x, Ipp32f* result, int length)
+        inline void Add_I(const Ipp32f* x, Ipp32f* result, int length)
         {
             IppStatus sts = ippsAdd_32f_I(
                 x, result, length);
@@ -266,7 +266,7 @@ namespace ippe{
         // Ipp64f
 
         template <>
-        inline void Add_I(Ipp64f* x, Ipp64f* result, int length)
+        inline void Add_I(const Ipp64f* x, Ipp64f* result, int length)
         {
             IppStatus sts = ippsAdd_64f_I(
                 x, result, length);
@@ -276,7 +276,7 @@ namespace ippe{
         // Ipp32fc
 
         template <>
-        inline void Add_I(Ipp32fc* x, Ipp32fc* result, int length)
+        inline void Add_I(const Ipp32fc* x, Ipp32fc* result, int length)
         {
             IppStatus sts = ippsAdd_32fc_I(
                 x, result, length);
@@ -286,7 +286,7 @@ namespace ippe{
         // Ipp64fc
 
         template <>
-        inline void Add_I(Ipp64fc* x, Ipp64fc* result, int length)
+        inline void Add_I(const Ipp64fc* x, Ipp64fc* result, int length)
         {
             IppStatus sts = ippsAdd_64fc_I(
                 x, result, length);
@@ -296,7 +296,7 @@ namespace ippe{
         // Ipp16s to Ipp32s
 
         template <>
-        inline void Add_I(Ipp16s* x, Ipp32s* result, int length)
+        inline void Add_I(const Ipp16s* x, Ipp32s* result, int length)
         {
             IppStatus sts = ippsAdd_16s32s_I(
                 x, result, length);
@@ -306,7 +306,7 @@ namespace ippe{
         // Ipp32u
 
         template <>
-        inline void Add_I(Ipp32u* x, Ipp32u* result, int length)
+        inline void Add_I(const Ipp32u* x, Ipp32u* result, int length)
         {
             IppStatus sts = ippsAdd_32u_I(
                 x, result, length);
@@ -319,16 +319,16 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void Add_ISfs(T* x, T* result, int length, int scaleFactor)
-        {
-            throw std::runtime_error("ippsAdd_ISfs only implemented for specific types.");
-        }
+        // template <typename T>
+        // inline void Add_ISfs(T* x, T* result, int length, int scaleFactor)
+        // {
+        //     throw std::runtime_error("ippsAdd_ISfs only implemented for specific types.");
+        // }
 
         // Ipp8u
 
         template <>
-        inline void Add_ISfs(Ipp8u* x, Ipp8u* result, int length, int scaleFactor)
+        inline void Add_ISfs(const Ipp8u* x, Ipp8u* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_8u_ISfs(
                 x, result, length, scaleFactor);
@@ -338,7 +338,7 @@ namespace ippe{
         // Ipp16u
 
         template <>
-        inline void Add_ISfs(Ipp16u* x, Ipp16u* result, int length, int scaleFactor)
+        inline void Add_ISfs(const Ipp16u* x, Ipp16u* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_16u_ISfs(
                 x, result, length, scaleFactor);
@@ -348,7 +348,7 @@ namespace ippe{
         // Ipp16s
 
         template <>
-        inline void Add_ISfs(Ipp16s* x, Ipp16s* result, int length, int scaleFactor)
+        inline void Add_ISfs(const Ipp16s* x, Ipp16s* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_16s_ISfs(
                 x, result, length, scaleFactor);
@@ -356,9 +356,9 @@ namespace ippe{
         }
 
         // Ipp32s
-        
+
         template <>
-        inline void Add_ISfs(Ipp32s* x, Ipp32s* result, int length, int scaleFactor)
+        inline void Add_ISfs(const Ipp32s* x, Ipp32s* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_32s_ISfs(
                 x, result, length, scaleFactor);
@@ -368,7 +368,7 @@ namespace ippe{
         // Ipp16sc
 
         template <>
-        inline void Add_ISfs(Ipp16sc* x, Ipp16sc* result, int length, int scaleFactor)
+        inline void Add_ISfs(const Ipp16sc* x, Ipp16sc* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_16sc_ISfs(
                 x, result, length, scaleFactor);
@@ -378,7 +378,7 @@ namespace ippe{
         // Ipp32sc
 
         template <>
-        inline void Add_ISfs(Ipp32sc* x, Ipp32sc* result, int length, int scaleFactor)
+        inline void Add_ISfs(const Ipp32sc* x, Ipp32sc* result, int length, int scaleFactor)
         {
             IppStatus sts = ippsAdd_32sc_ISfs(
                 x, result, length, scaleFactor);
