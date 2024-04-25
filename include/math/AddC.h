@@ -9,10 +9,10 @@ namespace ippe{
     namespace math{
 
         template <typename T>
-        void AddC(T* src, T val, T* dst, int len);
+        void AddC(const T* src, T val, T* dst, int len);
 
         template <typename T, typename U>
-        void AddC_Sfs(T* src, T val, T* dst, U len, int scaleFactor, IppRoundMode rndMode=ippRndZero);
+        void AddC_Sfs(const T* src, T val, T* dst, U len, int scaleFactor, IppRoundMode rndMode=ippRndZero);
 
         template <typename T>
         void AddC_I(T val, T* srcDst, int len);
@@ -26,35 +26,35 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void AddC(T* src, T val, T* dst, int len){
-            throw std::runtime_error("ippsAddC only implemented for specific types.");
-        }
+        // template <typename T>
+        // inline void AddC(T* src, T val, T* dst, int len){
+        //     throw std::runtime_error("ippsAddC only implemented for specific types.");
+        // }
 
         // Ipp32f
         template <>
-        inline void AddC(Ipp32f* src, Ipp32f val, Ipp32f* dst, int len){
+        inline void AddC(const Ipp32f* src, Ipp32f val, Ipp32f* dst, int len){
             IppStatus sts = ippsAddC_32f(src, val, dst, len);
             IPP_NO_ERROR(sts, "ippsAddC_32f");
         }
 
         // Ipp64f
         template <>
-        inline void AddC(Ipp64f* src, Ipp64f val, Ipp64f* dst, int len){
+        inline void AddC(const Ipp64f* src, Ipp64f val, Ipp64f* dst, int len){
             IppStatus sts = ippsAddC_64f(src, val, dst, len);
             IPP_NO_ERROR(sts, "ippsAddC_64f");
         }
 
         // Ipp32fc
         template <>
-        inline void AddC(Ipp32fc* src, Ipp32fc val, Ipp32fc* dst, int len){
+        inline void AddC(const Ipp32fc* src, Ipp32fc val, Ipp32fc* dst, int len){
             IppStatus sts = ippsAddC_32fc(src, val, dst, len);
             IPP_NO_ERROR(sts, "ippsAddC_32fc");
         }
 
         // Ipp64fc
         template <>
-        inline void AddC(Ipp64fc* src, Ipp64fc val, Ipp64fc* dst, int len){
+        inline void AddC(const Ipp64fc* src, Ipp64fc val, Ipp64fc* dst, int len){
             IppStatus sts = ippsAddC_64fc(src, val, dst, len);
             IPP_NO_ERROR(sts, "ippsAddC_64fc");
         }
@@ -66,63 +66,63 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T, typename U>
-        inline void AddC_Sfs(T* src, T val, T* dst, U len, int scaleFactor, IppRoundMode rndMode){
-            throw std::runtime_error("ippsAddC_Sfs only implemented for specific types.");
-        }
+        // template <typename T, typename U>
+        // inline void AddC_Sfs(T* src, T val, T* dst, U len, int scaleFactor, IppRoundMode rndMode){
+        //     throw std::runtime_error("ippsAddC_Sfs only implemented for specific types.");
+        // }
 
         // Ipp8u
         template <>
-        inline void AddC_Sfs(Ipp8u* src, Ipp8u val, Ipp8u* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp8u* src, Ipp8u val, Ipp8u* dst, int len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_8u_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_8u_Sfs");
         }
 
         // Ipp16s
         template <>
-        inline void AddC_Sfs(Ipp16s* src, Ipp16s val, Ipp16s* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp16s* src, Ipp16s val, Ipp16s* dst, int len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_16s_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_16s_Sfs");
         }
 
         // Ipp16u
         template <>
-        inline void AddC_Sfs(Ipp16u* src, Ipp16u val, Ipp16u* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp16u* src, Ipp16u val, Ipp16u* dst, int len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_16u_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_16u_Sfs");
         }
 
         // Ipp32s
         template <>
-        inline void AddC_Sfs(Ipp32s* src, Ipp32s val, Ipp32s* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp32s* src, Ipp32s val, Ipp32s* dst, int len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_32s_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_32s_Sfs");
         }
 
         // Ipp16sc
         template <>
-        inline void AddC_Sfs(Ipp16sc* src, Ipp16sc val, Ipp16sc* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp16sc* src, Ipp16sc val, Ipp16sc* dst, int len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_16sc_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_16sc_Sfs");
         }
 
         // Ipp32sc
         template <>
-        inline void AddC_Sfs(Ipp32sc* src, Ipp32sc val, Ipp32sc* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp32sc* src, Ipp32sc val, Ipp32sc* dst, int len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_32sc_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_32sc_Sfs");
         }
 
         // Ipp64u
         template <>
-        inline void AddC_Sfs(Ipp64u* src, Ipp64u val, Ipp64u* dst, Ipp32u len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp64u* src, Ipp64u val, Ipp64u* dst, Ipp32u len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_64u_Sfs(src, val, dst, len, scaleFactor, rndMode);
             IPP_NO_ERROR(sts, "ippsAddC_64u_Sfs");
         }
 
         // Ipp64s
         template <>
-        inline void AddC_Sfs(Ipp64s* src, Ipp64s val, Ipp64s* dst, Ipp32u len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp64s* src, Ipp64s val, Ipp64s* dst, Ipp32u len, int scaleFactor, IppRoundMode rndMode){
             IppStatus sts = ippsAddC_64s_Sfs(src, val, dst, len, scaleFactor, rndMode);
             IPP_NO_ERROR(sts, "ippsAddC_64s_Sfs");
         }
@@ -134,10 +134,10 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void AddC_I(T val, T* srcDst, int len){
-            throw std::runtime_error("ippsAddC_I only implemented for specific types.");
-        }
+        // template <typename T>
+        // inline void AddC_I(T val, T* srcDst, int len){
+        //     throw std::runtime_error("ippsAddC_I only implemented for specific types.");
+        // }
 
         // Ipp16s
         template <>
