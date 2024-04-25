@@ -12,7 +12,7 @@ namespace ippe{
         void Norm_L2(const T* src, int len, U* norm);
 
         // TODO: implement the other norm flavours?
-        
+
         // ============================
         // ============================ 
         //  Norm_L2 Specializations
