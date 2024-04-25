@@ -26,10 +26,10 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void SubC(const T* src, T val, T* dst, int len){
-            throw std::runtime_error("ippsSubC not implemented for specific types");
-        }
+        // template <typename T>
+        // inline void SubC(const T* src, T val, T* dst, int len){
+        //     throw std::runtime_error("ippsSubC not implemented for specific types");
+        // }
 
         // Ipp32f
         template <>
@@ -65,10 +65,10 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void SubC_Sfs(const T* src, T val, T* dst, int len, int scaleFactor){
-            throw std::runtime_error("ippsSubC_Sfs not implemented for specific types");
-        }
+        // template <typename T>
+        // inline void SubC_Sfs(const T* src, T val, T* dst, int len, int scaleFactor){
+        //     throw std::runtime_error("ippsSubC_Sfs not implemented for specific types");
+        // }
 
         // Ipp8u
         template <>
@@ -118,10 +118,10 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void SubC_I(T val, T* dst, int len){
-            throw std::runtime_error("ippsSubC_I not implemented for specific types");
-        }
+        // template <typename T>
+        // inline void SubC_I(T val, T* dst, int len){
+        //     throw std::runtime_error("ippsSubC_I not implemented for specific types");
+        // }
 
         // Ipp16s
         template <>
@@ -164,10 +164,10 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T>
-        inline void SubC_ISfs(T val, T* dst, int len, int scaleFactor){
-            throw std::runtime_error("ippsSubC_I_Sfs not implemented for specific types");
-        }
+        // template <typename T>
+        // inline void SubC_ISfs(T val, T* dst, int len, int scaleFactor){
+        //     throw std::runtime_error("ippsSubC_I_Sfs not implemented for specific types");
+        // }
 
         // Ipp8u
         template <>

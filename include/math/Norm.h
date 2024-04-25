@@ -7,9 +7,9 @@
 
 namespace ippe{
     namespace math{
-        
+
         template <typename T, typename U>
-        void Norm_L2(T* src, int len, U* norm);
+        void Norm_L2(const T* src, int len, U* norm);
 
         // ============================
         // ============================ 
@@ -17,16 +17,16 @@ namespace ippe{
         // ============================
         // ============================
 
-        template <typename T, typename U>
-        inline void Norm_L2(T* src, int len, U* norm)
-        {
-            throw std::runtime_error("Norm_L2 not implemented for generic types");
-        }
+        // template <typename T, typename U>
+        // inline void Norm_L2(T* src, int len, U* norm)
+        // {
+        //     throw std::runtime_error("Norm_L2 not implemented for generic types");
+        // }
 
         // Ipp32f
 
         template <>
-        inline void Norm_L2(Ipp32f* src, int len, Ipp32f* norm)
+        inline void Norm_L2(const Ipp32f* src, int len, Ipp32f* norm)
         {
             IppStatus sts = ippsNorm_L2_32f(src, len, norm);
             IPP_NO_ERROR(sts, "ippsNorm_L2_32f");
@@ -35,7 +35,7 @@ namespace ippe{
         // Ipp64f
 
         template <>
-        inline void Norm_L2(Ipp64f* src, int len, Ipp64f* norm)
+        inline void Norm_L2(const Ipp64f* src, int len, Ipp64f* norm)
         {
             IppStatus sts = ippsNorm_L2_64f(src, len, norm);
             IPP_NO_ERROR(sts, "ippsNorm_L2_64f");
@@ -44,7 +44,7 @@ namespace ippe{
         // Ipp16s -> Ipp32f
 
         template <>
-        inline void Norm_L2(Ipp16s* src, int len, Ipp32f* norm)
+        inline void Norm_L2(const Ipp16s* src, int len, Ipp32f* norm)
         {
             IppStatus sts = ippsNorm_L2_16s32f(src, len, norm);
             IPP_NO_ERROR(sts, "ippsNorm_L2_16s32f");
@@ -53,7 +53,7 @@ namespace ippe{
         // Ipp32fc -> Ipp64f
 
         template <>
-        inline void Norm_L2(Ipp32fc* src, int len, Ipp64f* norm)
+        inline void Norm_L2(const Ipp32fc* src, int len, Ipp64f* norm)
         {
             IppStatus sts = ippsNorm_L2_32fc64f(src, len, norm);
             IPP_NO_ERROR(sts, "ippsNorm_L2_32fc64f");
@@ -62,7 +62,7 @@ namespace ippe{
         // Ipp64fc -> Ipp64f
 
         template <>
-        inline void Norm_L2(Ipp64fc* src, int len, Ipp64f* norm)
+        inline void Norm_L2(const Ipp64fc* src, int len, Ipp64f* norm)
         {
             IppStatus sts = ippsNorm_L2_64fc64f(src, len, norm);
             IPP_NO_ERROR(sts, "ippsNorm_L2_64fc64f");
