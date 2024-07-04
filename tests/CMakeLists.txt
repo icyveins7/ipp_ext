@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(ipp_ext_catch2_tests)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 11)
 

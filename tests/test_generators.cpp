@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ipp_ext.h"
+#include <cmath>
 
 #include <catch2/catch_test_macros.hpp>
 
