@@ -16,7 +16,7 @@ namespace ipps
 {
     /// @brief Matrix class that inherits from vector.
     /// This class has a concept of dimensions (rows and columns), along with appropriate accessors.
-    /// @tparam T Type of the matrix elements. Must be a type that satisfies ippe::vector.
+    /// @tparam T Type of the matrix elements. Must be a type that satisfies vector.
     template <typename T>
     class matrix : public vector<T>
     {
@@ -145,7 +145,7 @@ namespace ipps
 
                 // Perform add using the ippe math functions
                 matrix result(this->rows(), this->columns());
-                ippe::math::Add(this->data(), other.data(), result.data(), result.size());
+                math::Add(this->data(), other.data(), result.data(), result.size());
 
                 return result;
             }
@@ -153,7 +153,7 @@ namespace ipps
             matrix operator+(const T& value)
             {
                 matrix result(this->rows(), this->columns());
-                ippe::math::AddC(this->data(), value, result.data(), result.size());
+                math::AddC(this->data(), value, result.data(), result.size());
 
                 return result;
             }
@@ -170,7 +170,7 @@ namespace ipps
 
                 // Perform sub using the ippe math functions
                 matrix result(this->rows(), this->columns());
-                ippe::math::Sub(other.data(), this->data(), result.data(), result.size());
+                math::Sub(other.data(), this->data(), result.data(), result.size());
 
                 return result;
             }
@@ -185,7 +185,7 @@ namespace ipps
                     throw std::out_of_range("Dimension mismatch for operator+");
 
                 // Perform add using the ippe math functions
-                ippe::math::Add_I(other.data(), this->data(), this->size());
+                math::Add_I(other.data(), this->data(), this->size());
 
                 return *this;
             }
@@ -200,7 +200,7 @@ namespace ipps
                     throw std::out_of_range("Dimension mismatch for operator+");
 
                 // Perform sub using the ippe math functions
-                ippe::math::Sub_I(other.data(), this->data(), this->size());
+                math::Sub_I(other.data(), this->data(), this->size());
 
                 return *this;
             }

@@ -7,7 +7,7 @@
 
 struct EncapsulateVector
 {
-    ippe::vector<Ipp32fc> v;
+    ipps::vector<Ipp32fc> v;
 
     void setValue(Ipp32fc x);
 };
