@@ -3,7 +3,7 @@
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
-#include "../ipp_ext_errors.h"
+#include "../../ipp_ext_errors.h"
 
 namespace ipps{
     namespace logical{
