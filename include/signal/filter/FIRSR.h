@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ipp.h"
-#include "../ipp_ext_errors.h"
+#include "../../ipp_ext_errors.h"
 #include "../ipp_ext_vec.h" // use ippe vectors
 #include <stdexcept>
 #include <string>

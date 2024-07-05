@@ -6,7 +6,7 @@ See FIR.h for an example of a container that will encapsulate this generator fun
 #pragma once
 
 #include "ipp.h"
-#include "../ipp_ext_errors.h"
+#include "../../ipp_ext_errors.h"
 #include "../ipp_ext_vec.h"
 #include "../ipp_ext_convert.h"
 #include <stdexcept>
