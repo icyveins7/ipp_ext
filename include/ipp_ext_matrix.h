@@ -96,16 +96,16 @@ namespace ippe
             // Destructor
             ~matrix()
             {
-                
+
             }
 
             // Extra accessors
-            const size_t rows()
+            size_t rows()
             {
                 return m_rows;
             }
 
-            const size_t columns()
+            size_t columns()
             {
                 return m_columns;
             }
