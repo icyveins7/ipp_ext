@@ -7,6 +7,18 @@ See below for the available extensions. All individual extensions are under the 
 #include "ipp_ext.h"
 ```
 
+# Why use this? Doesn't IPP have it's own 'Integration Wrapper' interface?
+
+For now, the wrappers in IPP appear to have very little coverage; that means most functions are not available to you (for example, the DFT which I use very often).
+
+Also, I'm not a fan of their containers. This project really started with the `vector` container, and I tried very hard to make it as close to the `std` flavour as possible, so that it would be simpler to drop in and use.
+
+There's also namespaces here, which I'm a bigger fan of than pre-pending all classes and functions with `Iws` or something like that.
+
+And finally, there's no extra linking steps. This is a header-only library, so if you're used to building with just the raw functions then you don't need to change any libraries.
+
+The day Intel decides to do all (or most) of the above, I'll switch back.
+
 ## Easy Compile Command (Example for MSVC)
 
 ```bash
