@@ -11,8 +11,8 @@ void test_sampleUp()
     int factor = 3;
     int phase = 1;
     int inputPhase = phase;
-    ippe::vector<T> src(10);
-    ippe::vector<T> dst(src.size()*factor); 
+    ipps::vector<T> src(10);
+    ipps::vector<T> dst(src.size()*factor); 
 
     // Set some values
     for (int i = 0; i < src.size(); i++)
@@ -20,7 +20,7 @@ void test_sampleUp()
 
     // Sample up
     int dstlen = dst.size();
-    ippe::sampling::SampleUp(
+    ipps::sampling::SampleUp(
         src.data(), src.size(),
         dst.data(), &dstlen,
         factor, &phase
@@ -45,7 +45,7 @@ void test_sampleUp()
     // Check error thrown when insufficient length
     int dstLen = src.size()/(factor+1);
     REQUIRE_THROWS_AS(
-        ippe::sampling::SampleDown(
+        ipps::sampling::SampleDown(
             src.data(), src.size(),
             dst.data(), &dstLen,
             factor, &phase
@@ -60,8 +60,8 @@ void test_sampleUp_cplx()
     int factor = 3;
     int phase = 1;
     int inputPhase = phase;
-    ippe::vector<T> src(10);
-    ippe::vector<T> dst(src.size()*factor); 
+    ipps::vector<T> src(10);
+    ipps::vector<T> dst(src.size()*factor); 
 
     // Set some values
     for (int i = 0; i < src.size(); i++)
@@ -72,7 +72,7 @@ void test_sampleUp_cplx()
         
     // Sample up
     int dstlen = dst.size();
-    ippe::sampling::SampleUp(
+    ipps::sampling::SampleUp(
         src.data(), src.size(),
         dst.data(), &dstlen,
         factor, &phase
@@ -99,7 +99,7 @@ void test_sampleUp_cplx()
     // Check error thrown when insufficient length
     int dstLen = src.size()/(factor+1);
     REQUIRE_THROWS_AS(
-        ippe::sampling::SampleDown(
+        ipps::sampling::SampleDown(
             src.data(), src.size(),
             dst.data(), &dstLen,
             factor, &phase
@@ -137,8 +137,8 @@ void test_sampleDown()
     // For downsample, since phase and dstLen are not constant for different initial conditions,
     // we loop over the phases, and pick a non-multiple-of-factor length
     int factor = 3;
-    ippe::vector<T> src(31);
-    ippe::vector<T> dst(src.size()/factor + 1); 
+    ipps::vector<T> src(31);
+    ipps::vector<T> dst(src.size()/factor + 1); 
     // Set some values
     for (int i = 0; i < src.size(); i++)
         src[i] = i;
@@ -150,7 +150,7 @@ void test_sampleDown()
         
         // Sample down
         int dstlen = dst.size();
-        ippe::sampling::SampleDown(
+        ipps::sampling::SampleDown(
             src.data(), src.size(),
             dst.data(), &dstlen,
             factor, &phase
@@ -177,7 +177,7 @@ void test_sampleDown()
     int phase = 0;
     int dstLen = src.size()/(factor+1);
     REQUIRE_THROWS_AS(
-        ippe::sampling::SampleDown(
+        ipps::sampling::SampleDown(
             src.data(), src.size(),
             dst.data(), &dstLen,
             factor, &phase
@@ -192,8 +192,8 @@ void test_sampleDown_cplx()
     // For downsample, since phase and dstLen are not constant for different initial conditions,
     // we loop over the phases, and pick a non-multiple-of-factor length
     int factor = 3;
-    ippe::vector<T> src(31);
-    ippe::vector<T> dst(src.size()/factor + 1); 
+    ipps::vector<T> src(31);
+    ipps::vector<T> dst(src.size()/factor + 1); 
     // Set some values
     for (int i = 0; i < src.size(); i++)
     {
@@ -208,7 +208,7 @@ void test_sampleDown_cplx()
         
         // Sample down
         int dstlen = dst.size();
-        ippe::sampling::SampleDown(
+        ipps::sampling::SampleDown(
             src.data(), src.size(),
             dst.data(), &dstlen,
             factor, &phase
@@ -236,7 +236,7 @@ void test_sampleDown_cplx()
     int phase = 0;
     int dstLen = src.size()/(factor+1);
     REQUIRE_THROWS_AS(
-        ippe::sampling::SampleDown(
+        ipps::sampling::SampleDown(
             src.data(), src.size(),
             dst.data(), &dstLen,
             factor, &phase

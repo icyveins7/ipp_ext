@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace math{
         /// @brief Templated function to call ippsAdd.
         /// Some flavours may change the resulting type.

@@ -5,7 +5,7 @@
 #include <string>
 #include "ipp_ext_errors.h"
 
-namespace ippe{
+namespace ipps{
     namespace logical{
 
         template <typename T>

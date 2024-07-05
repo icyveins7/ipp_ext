@@ -7,7 +7,7 @@
 template <typename T, typename U>
 void test_Norm_L2()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -15,7 +15,7 @@ void test_Norm_L2()
     }
 
     U norm;
-    ippe::stats::Norm_L2(x.data(), x.size(), &norm);
+    ipps::stats::Norm_L2(x.data(), x.size(), &norm);
 
     U checkNorm = 0;
     for (int i = 0; i < 10; i++)
@@ -29,7 +29,7 @@ void test_Norm_L2()
 template <typename T, typename U>
 void test_Norm_L2_complex()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -38,7 +38,7 @@ void test_Norm_L2_complex()
     }
 
     U norm;
-    ippe::stats::Norm_L2(x.data(), x.size(), &norm);
+    ipps::stats::Norm_L2(x.data(), x.size(), &norm);
 
     U checkNorm = 0;
     for (int i = 0; i < 10; i++)
@@ -73,7 +73,7 @@ TEST_CASE("ippe stats Norm_L2", "[stats], [Norm_L2]")
 template <typename T>
 void test_Sum()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -81,7 +81,7 @@ void test_Sum()
     }
     
     T sum;
-    ippe::stats::Sum(x.data(), x.size(), &sum);
+    ipps::stats::Sum(x.data(), x.size(), &sum);
     
     T checkSum = 0;
     for (int i = 0; i < 10; i++){
@@ -93,7 +93,7 @@ void test_Sum()
 template <typename T>
 void test_Sum_complex()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -102,7 +102,7 @@ void test_Sum_complex()
     }
     
     T sum;
-    ippe::stats::Sum(x.data(), x.size(), &sum);
+    ipps::stats::Sum(x.data(), x.size(), &sum);
     
     T checkSum = {0.0, 0.0};
     for (int i = 0; i < 10; i++){
@@ -133,7 +133,7 @@ TEST_CASE("ippe stats Sum", "[stats], [Sum]")
 template <typename T>
 void test_Max()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -141,7 +141,7 @@ void test_Max()
     }
     
     T max;
-    ippe::stats::Max(x.data(), x.size(), &max);
+    ipps::stats::Max(x.data(), x.size(), &max);
     
     T checkMax = 0;
     for (int i = 0; i < 10; i++){
@@ -170,7 +170,7 @@ TEST_CASE("ippe stats Max", "[stats], [Max]")
 template <typename T>
 void test_MaxIndx()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -179,7 +179,7 @@ void test_MaxIndx()
     
     T max;
     int idx;
-    ippe::stats::MaxIndx(x.data(), x.size(), &max, &idx);
+    ipps::stats::MaxIndx(x.data(), x.size(), &max, &idx);
     
     T checkMax = 0;
     int checkIdx = 0;
@@ -214,7 +214,7 @@ TEST_CASE("ippe stats MaxIndx", "[stats], [MaxIndx]")
 template <typename T>
 void test_Min()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -222,7 +222,7 @@ void test_Min()
     }
     
     T min;
-    ippe::stats::Min(x.data(), x.size(), &min);
+    ipps::stats::Min(x.data(), x.size(), &min);
     
     T checkMin = 0;
     for (int i = 0; i < 10; i++){
@@ -251,7 +251,7 @@ TEST_CASE("ippe stats Min", "[stats], [Min]")
 template <typename T>
 void test_MinIndx()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     
     for (int i = 0; i < 10; i++)
     {
@@ -260,7 +260,7 @@ void test_MinIndx()
     
     T min;
     int idx;
-    ippe::stats::MinIndx(x.data(), x.size(), &min, &idx);
+    ipps::stats::MinIndx(x.data(), x.size(), &min, &idx);
     
     T checkMin = 0;
     int checkIdx = 0;
@@ -294,8 +294,8 @@ TEST_CASE("ippe stats MinIndx", "[stats], [MinIndx]")
 template <typename T, typename U, typename V>
 void test_DotProd_realreal_real()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
     V z;
 
     // Make some values
@@ -305,7 +305,7 @@ void test_DotProd_realreal_real()
         y[i] = (U)(i+1);
     }
 
-    ippe::stats::DotProd(x.data(), y.data(), x.size(), &z);
+    ipps::stats::DotProd(x.data(), y.data(), x.size(), &z);
 
     V checkZ = 0;
     for (int i = 0; i < 10; i++){
@@ -317,8 +317,8 @@ void test_DotProd_realreal_real()
 template <typename T, typename U, typename V>
 void test_DotProd_realcomplex_complex()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
     V z;
 
     // Make some values
@@ -329,7 +329,7 @@ void test_DotProd_realcomplex_complex()
         y[i].im = (i+2);
     }
 
-    ippe::stats::DotProd(x.data(), y.data(), x.size(), &z);
+    ipps::stats::DotProd(x.data(), y.data(), x.size(), &z);
 
     V checkZ = {0, 0};
     for (int i = 0; i < 10; i++){
@@ -343,8 +343,8 @@ void test_DotProd_realcomplex_complex()
 template <typename T, typename U, typename V>
 void test_DotProd_complexcomplex_complex()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
     V z;
 
     // Make some values
@@ -356,7 +356,7 @@ void test_DotProd_complexcomplex_complex()
         y[i].im = (i+4);
     }
 
-    ippe::stats::DotProd(x.data(), y.data(), x.size(), &z);
+    ipps::stats::DotProd(x.data(), y.data(), x.size(), &z);
 
     V checkZ = {0, 0};
     for (int i = 0; i < 10; i++){
@@ -418,8 +418,8 @@ TEST_CASE("ippe stats DotProd", "[stats], [DotProd]")
 template <typename T, typename U, typename V>
 void test_DotProdSfs()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
     V z;
 
     // Make some values
@@ -429,7 +429,7 @@ void test_DotProdSfs()
         y[i] = (U)(i+1);
     }
 
-    ippe::stats::DotProd_Sfs(x.data(), y.data(), x.size(), &z, -1);
+    ipps::stats::DotProd_Sfs(x.data(), y.data(), x.size(), &z, -1);
 
     V checkZ = 0;
     for (int i = 0; i < 10; i++){

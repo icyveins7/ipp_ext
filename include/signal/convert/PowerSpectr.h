@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace convert{
         // we use template overloads here
 

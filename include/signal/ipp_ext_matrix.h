@@ -12,7 +12,7 @@
 #define DEBUG(x)
 #endif
 
-namespace ippe
+namespace ipps
 {
     /// @brief Matrix class that inherits from vector.
     /// This class has a concept of dimensions (rows and columns), along with appropriate accessors.

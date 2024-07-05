@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace convert{
         template <typename T, typename U>
         void RealToCplx(const T* srcRe, const T* srcIm, U* dst, int len);

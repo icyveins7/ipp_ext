@@ -44,9 +44,9 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
         };
 
         // Create ipp vectors
-        ippe::vector<Ipp32f> i_a(100000);
-        ippe::vector<Ipp32f> i_b(100000);
-        ippe::vector<Ipp32f> i_out(100000);
+        ipps::vector<Ipp32f> i_a(100000);
+        ipps::vector<Ipp32f> i_b(100000);
+        ipps::vector<Ipp32f> i_out(100000);
 
         // Set some values
         for (int i = 0; i < i_a.size(); i++) {
@@ -83,9 +83,9 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
         };
         
         // Create ipp vectors
-        ippe::vector<Ipp32f> i_a(1000000);
-        ippe::vector<Ipp32f> i_b(1000000);
-        ippe::vector<Ipp32f> i_out(1000000);
+        ipps::vector<Ipp32f> i_a(1000000);
+        ipps::vector<Ipp32f> i_b(1000000);
+        ipps::vector<Ipp32f> i_out(1000000);
 
         // Set some values
         for (int i = 0; i < i_a.size(); i++) {
@@ -163,9 +163,9 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         };
 
         // Create ipp vectors
-        ippe::vector<Ipp32f> i_a(len);
-        ippe::vector<Ipp32f> i_b(len);
-        ippe::vector<Ipp32f> i_out(len);
+        ipps::vector<Ipp32f> i_a(len);
+        ipps::vector<Ipp32f> i_b(len);
+        ipps::vector<Ipp32f> i_out(len);
 
         // Set some values
         for (int i = 0; i < i_a.size(); i++) {
@@ -205,9 +205,9 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         };
 
         // Create ipp vectors
-        ippe::vector<Ipp32f> i_a(len);
-        ippe::vector<Ipp32f> i_b(len);
-        ippe::vector<Ipp32f> i_out(len);
+        ipps::vector<Ipp32f> i_a(len);
+        ipps::vector<Ipp32f> i_b(len);
+        ipps::vector<Ipp32f> i_out(len);
 
         // Set some values
         for (int i = 0; i < i_a.size(); i++) {
@@ -257,9 +257,9 @@ void bench_matmul_32f(int ii, int jj, int kk)
     };
 
     // Create ipp matrix
-    ippe::matrix<Ipp32f> i_a(ii, jj);
-    ippe::matrix<Ipp32f> i_b(jj, kk);
-    ippe::matrix<Ipp32f> i_out(ii, kk);
+    ipps::matrix<Ipp32f> i_a(ii, jj);
+    ipps::matrix<Ipp32f> i_b(jj, kk);
+    ipps::matrix<Ipp32f> i_out(ii, kk);
 
     // Set some values
     for (int i = 0; i < ii; i++) {

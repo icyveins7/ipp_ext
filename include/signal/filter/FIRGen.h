@@ -12,7 +12,7 @@ See FIR.h for an example of a container that will encapsulate this generator fun
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace filter{
 
         template <typename T>

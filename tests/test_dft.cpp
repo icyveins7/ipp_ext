@@ -9,25 +9,25 @@ TEST_CASE("ippe dft instantiation", "[dft],[instantiation]")
 {
     SECTION("Ipp32f"){
         {
-            ippe::DFTCToC<Ipp32f> dft(1000);
+            ipps::DFTCToC<Ipp32f> dft(1000);
         }
     }
 
     SECTION("Ipp64f"){
         {
-            ippe::DFTCToC<Ipp64f> dft(1000);
+            ipps::DFTCToC<Ipp64f> dft(1000);
         }
     }
 
     SECTION("Ipp32fc"){
         {
-            ippe::DFTCToC<Ipp32fc> dft(1000);
+            ipps::DFTCToC<Ipp32fc> dft(1000);
         }
     }
 
     SECTION("Ipp64fc"){
         {
-            ippe::DFTCToC<Ipp64fc> dft(1000);
+            ipps::DFTCToC<Ipp64fc> dft(1000);
         }
     }
 }
@@ -39,12 +39,12 @@ void test_dft_copy_assign_use(bool test_run)
 {
     // Make some data
     size_t len = 2016;
-    ippe::vector<T> data(len);
-    ippe::vector<T> out(len);
+    ipps::vector<T> data(len);
+    ipps::vector<T> out(len);
 
-    std::vector<ippe::DFTCToC<T>> dfts;
+    std::vector<ipps::DFTCToC<T>> dfts;
     // Copy
-    ippe::DFTCToC<T> dft(len);
+    ipps::DFTCToC<T> dft(len);
     dfts.push_back(dft);
 
     REQUIRE(dft.getDFTSpec().data() != dfts.at(0).getDFTSpec().data());
@@ -87,9 +87,9 @@ void test_dft_copy_assign_use(bool test_run)
     // Change after assignment
     if (test_run)
     {
-        dfts.at(0) = ippe::DFTCToC<T>(len+10);
-        ippe::vector<T> datalong(len+10);
-        ippe::vector<T> outlong(len+10);
+        dfts.at(0) = ipps::DFTCToC<T>(len+10);
+        ipps::vector<T> datalong(len+10);
+        ipps::vector<T> outlong(len+10);
         dfts.at(0).fwd(datalong.data(), outlong.data());
 
         // Then change back with another assignment
@@ -130,15 +130,15 @@ TEST_CASE("ippe dft execution", "[dft],[execution]")
     double tolerance = 1e-4; // tolerance for floating point comparison
 
     SECTION("Ipp32f"){
-        ippe::DFTCToC<Ipp32f> dft(length);
+        ipps::DFTCToC<Ipp32f> dft(length);
         // make some data for input and output
-        ippe::vector<Ipp32f> in_re(length);
-        ippe::vector<Ipp32f> in_im(length);
-        ippe::vector<Ipp32f> out_re(length);
-        ippe::vector<Ipp32f> out_im(length);
+        ipps::vector<Ipp32f> in_re(length);
+        ipps::vector<Ipp32f> in_im(length);
+        ipps::vector<Ipp32f> out_re(length);
+        ipps::vector<Ipp32f> out_im(length);
         // we need 2 output vectors..
-        ippe::vector<Ipp32f> out_re2(length);
-        ippe::vector<Ipp32f> out_im2(length);
+        ipps::vector<Ipp32f> out_re2(length);
+        ipps::vector<Ipp32f> out_im2(length);
         for (int i = 0; i < length; i++) {
             in_re[i] = (Ipp32f)i;
             in_im[i] = 0;
@@ -154,15 +154,15 @@ TEST_CASE("ippe dft execution", "[dft],[execution]")
     }
 
     SECTION("Ipp64f"){
-        ippe::DFTCToC<Ipp64f> dft(length);
+        ipps::DFTCToC<Ipp64f> dft(length);
         // make some data for input and output
-        ippe::vector<Ipp64f> in_re(length);
-        ippe::vector<Ipp64f> in_im(length);
-        ippe::vector<Ipp64f> out_re(length);
-        ippe::vector<Ipp64f> out_im(length);
+        ipps::vector<Ipp64f> in_re(length);
+        ipps::vector<Ipp64f> in_im(length);
+        ipps::vector<Ipp64f> out_re(length);
+        ipps::vector<Ipp64f> out_im(length);
         // we need 2 output vectors..
-        ippe::vector<Ipp64f> out_re2(length);
-        ippe::vector<Ipp64f> out_im2(length);
+        ipps::vector<Ipp64f> out_re2(length);
+        ipps::vector<Ipp64f> out_im2(length);
         for (int i = 0; i < length; i++) {
             in_re[i] = i;
             in_im[i] = 0;
@@ -178,12 +178,12 @@ TEST_CASE("ippe dft execution", "[dft],[execution]")
     }
 
     SECTION("Ipp32fc"){
-        ippe::DFTCToC<Ipp32fc> dft(length);
+        ipps::DFTCToC<Ipp32fc> dft(length);
         // make some data for input and output
-        ippe::vector<Ipp32fc> in(length);
-        ippe::vector<Ipp32fc> out(length);
+        ipps::vector<Ipp32fc> in(length);
+        ipps::vector<Ipp32fc> out(length);
         // we need 2 output vectors..
-        ippe::vector<Ipp32fc> out2(length);
+        ipps::vector<Ipp32fc> out2(length);
         for (int i = 0; i < length; i++) {
             in[i].re = (Ipp32f)i;
             in[i].im = 0;
@@ -200,12 +200,12 @@ TEST_CASE("ippe dft execution", "[dft],[execution]")
     }
 
     SECTION("Ipp64fc"){
-        ippe::DFTCToC<Ipp64fc> dft(length);
+        ipps::DFTCToC<Ipp64fc> dft(length);
         // make some data for input and output
-        ippe::vector<Ipp64fc> in(length);
-        ippe::vector<Ipp64fc> out(length);
+        ipps::vector<Ipp64fc> in(length);
+        ipps::vector<Ipp64fc> out(length);
         // we need 2 output vectors..
-        ippe::vector<Ipp64fc> out2(length);
+        ipps::vector<Ipp64fc> out2(length);
         for (int i = 0; i < length; i++) {
             in[i].re = i;
             in[i].im = 0;

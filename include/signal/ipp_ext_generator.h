@@ -3,9 +3,9 @@
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
-#include "ipp_ext_errors.h"
+#include "../ipp_ext_errors.h"
 
-namespace ippe{
+namespace ipps{
     namespace generator{
 
         template <typename T, typename U>

@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace convert{
         template <typename T, typename U>
         void PolarToCart(const T* srcMagn, const T* srcPhase, U* dst, int len);

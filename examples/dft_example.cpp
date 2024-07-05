@@ -7,16 +7,16 @@ cl /EHsc /O2 dft_example.cpp ippcore.lib ipps.lib /I"../include/"
 int main()
 {
     // some data
-    ippe::vector<Ipp32fc> in(20);
+    ipps::vector<Ipp32fc> in(20);
     for (int i = 0; i < in.size(); i++)
     {
         in[i].re = i;
         in[i].im = i;
     }
-    ippe::vector<Ipp32fc> out(in.size(), {0.0f, 0.0f});
+    ipps::vector<Ipp32fc> out(in.size(), {0.0f, 0.0f});
 
     // make the DFT object
-    ippe::DFTCToC<Ipp32fc> dft(out.size());
+    ipps::DFTCToC<Ipp32fc> dft(out.size());
 
     // execute it
     dft.fwd(in.data(), out.data());
@@ -26,7 +26,7 @@ int main()
     printf("\n\n");
 
     // you can also reassign the dft object
-    dft = ippe::DFTCToC<Ipp32fc>(out.size()/2);
+    dft = ipps::DFTCToC<Ipp32fc>(out.size()/2);
 
     // execute it
     dft.fwd(in.data(), out.data());

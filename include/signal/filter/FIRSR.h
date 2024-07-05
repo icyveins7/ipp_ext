@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace filter
     {
         /// @brief Class for filtering single-rate.

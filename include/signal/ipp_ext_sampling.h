@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ipp.h"
-#include "ipp_ext_errors.h"
+#include "../ipp_ext_errors.h"
 #include <stdexcept>
 #include <string>
 
@@ -22,7 +22,7 @@ Instead, I will check the initial value of dstLen to see if there is sufficient 
 to hold the written elements, and if not, I will throw an std::out_of_range exception.
 */
 
-namespace ippe{
+namespace ipps{
     namespace sampling{
 
         /// @brief Performs downsampling with additional checks on memory.

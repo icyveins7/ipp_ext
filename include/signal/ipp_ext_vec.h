@@ -8,7 +8,7 @@ multiply defined symbols errors do not occur.
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
-#include "ipp_ext_errors.h"
+#include "../ipp_ext_errors.h"
 #include "ipp_ext_copy.h"
 
 #ifndef NDEBUG
@@ -17,7 +17,7 @@ multiply defined symbols errors do not occur.
 #define DEBUG(x)
 #endif
 
-namespace ippe
+namespace ipps
 {
 const size_t INITIAL_CAP = 128;
 

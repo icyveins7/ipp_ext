@@ -8,9 +8,9 @@ template <typename T>
 void test_Xor()
 {
     // Create 3 vectors
-    ippe::vector<T> a(256);
-    ippe::vector<T> b(256);
-    ippe::vector<T> c(256);
+    ipps::vector<T> a(256);
+    ipps::vector<T> b(256);
+    ipps::vector<T> c(256);
 
     // Fill first 2 vectors
     for (int i = 0; i < a.size(); i++)
@@ -20,7 +20,7 @@ void test_Xor()
     }
 
     // XOR with IPPE
-    ippe::logical::Xor(a.data(), b.data(), c.data(), (int)c.size());
+    ipps::logical::Xor(a.data(), b.data(), c.data(), (int)c.size());
 
     // Check results
     for (int i = 0; i < a.size(); i++)
@@ -46,9 +46,9 @@ template <typename T>
 void test_Xor_I()
 {
     // Create 3 vectors
-    ippe::vector<T> a(256);
-    ippe::vector<T> b(256);
-    ippe::vector<T> c(256);
+    ipps::vector<T> a(256);
+    ipps::vector<T> b(256);
+    ipps::vector<T> c(256);
 
     // Fill first 2 vectors
     for (int i = 0; i < a.size(); i++)
@@ -60,7 +60,7 @@ void test_Xor_I()
     }
 
     // XOR_I with IPPE
-    ippe::logical::Xor_I(a.data(), b.data(), (int)b.size());
+    ipps::logical::Xor_I(a.data(), b.data(), (int)b.size());
 
     // Check results
     for (int i = 0; i < a.size(); i++)

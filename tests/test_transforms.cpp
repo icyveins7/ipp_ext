@@ -7,7 +7,7 @@
 template <typename T, typename U, typename V>
 void test_Goertz_real()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     U val;
     V rFreq = 0.1;
 
@@ -19,7 +19,7 @@ void test_Goertz_real()
     U sum = {0.0, 0.0};
     
     // invoke the function
-    ippe::transform::Goertz(x.data(), x.size(), &val, rFreq);
+    ipps::transform::Goertz(x.data(), x.size(), &val, rFreq);
 
     // calculate manually
     for (int i = 0; i < x.size(); i++)
@@ -34,7 +34,7 @@ void test_Goertz_real()
 template <typename T, typename U, typename V>
 void test_Goertz_complex()
 {
-    ippe::vector<T> x(10);
+    ipps::vector<T> x(10);
     U val;
     V rFreq = 0.1;
 
@@ -47,7 +47,7 @@ void test_Goertz_complex()
     U sum = {0.0, 0.0};
     
     // invoke the function
-    ippe::transform::Goertz(x.data(), x.size(), &val, rFreq);
+    ipps::transform::Goertz(x.data(), x.size(), &val, rFreq);
 
     // calculate manually
     for (int i = 0; i < x.size(); i++)

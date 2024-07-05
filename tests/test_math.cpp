@@ -48,17 +48,17 @@ TEST_CASE("ippe math Add", "[math, Add]")
 {
     SECTION("Errors")
     {
-        ippe::vector<Ipp16s> x(10);
-        ippe::vector<Ipp16s> y(10);
-        ippe::vector<Ipp16s> z(10);
+        ipps::vector<Ipp16s> x(10);
+        ipps::vector<Ipp16s> y(10);
+        ipps::vector<Ipp16s> z(10);
         // Throw when null pointer
         Ipp16s *nptr = nullptr;
         REQUIRE_THROWS_AS(
-            ippe::math::Add(nptr, x.data(), z.data(), x.size()), std::runtime_error);
+            ipps::math::Add(nptr, x.data(), z.data(), x.size()), std::runtime_error);
 
         // Throw when 0 length
         REQUIRE_THROWS_AS(
-            ippe::math::Add(x.data(), y.data(), z.data(), 0), std::runtime_error);
+            ipps::math::Add(x.data(), y.data(), z.data(), 0), std::runtime_error);
     }
 
     /*
@@ -75,9 +75,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
     */
    SECTION("Ipp16s")
    {
-       ippe::vector<Ipp16s> x(10);
-       ippe::vector<Ipp16s> y(10);
-       ippe::vector<Ipp16s> result(10);
+       ipps::vector<Ipp16s> x(10);
+       ipps::vector<Ipp16s> y(10);
+       ipps::vector<Ipp16s> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -85,7 +85,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -95,9 +95,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp32f")
    {
-       ippe::vector<Ipp32f> x(10);
-       ippe::vector<Ipp32f> y(10);
-       ippe::vector<Ipp32f> result(10);
+       ipps::vector<Ipp32f> x(10);
+       ipps::vector<Ipp32f> y(10);
+       ipps::vector<Ipp32f> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -105,7 +105,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -115,9 +115,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp64f")
    {
-       ippe::vector<Ipp64f> x(10);
-       ippe::vector<Ipp64f> y(10);
-       ippe::vector<Ipp64f> result(10);
+       ipps::vector<Ipp64f> x(10);
+       ipps::vector<Ipp64f> y(10);
+       ipps::vector<Ipp64f> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -125,7 +125,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -135,9 +135,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp32fc")
    {
-       ippe::vector<Ipp32fc> x(10);
-       ippe::vector<Ipp32fc> y(10);
-       ippe::vector<Ipp32fc> result(10);
+       ipps::vector<Ipp32fc> x(10);
+       ipps::vector<Ipp32fc> y(10);
+       ipps::vector<Ipp32fc> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -145,7 +145,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = {(Ipp32f)(i*2), (Ipp32f)(i*2+1)};
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -156,9 +156,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp64fc")
    {
-       ippe::vector<Ipp64fc> x(10);
-       ippe::vector<Ipp64fc> y(10);
-       ippe::vector<Ipp64fc> result(10);
+       ipps::vector<Ipp64fc> x(10);
+       ipps::vector<Ipp64fc> y(10);
+       ipps::vector<Ipp64fc> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -166,7 +166,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = {(Ipp64f)(i*2), (Ipp64f)(i*2+1)};
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -177,9 +177,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp8u to Ipp16u")
    {
-       ippe::vector<Ipp8u> x(10);
-       ippe::vector<Ipp8u> y(10);
-       ippe::vector<Ipp16u> result(10);
+       ipps::vector<Ipp8u> x(10);
+       ipps::vector<Ipp8u> y(10);
+       ipps::vector<Ipp16u> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -187,7 +187,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -197,9 +197,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp16u")
    {
-       ippe::vector<Ipp16u> x(10);
-       ippe::vector<Ipp16u> y(10);
-       ippe::vector<Ipp16u> result(10);
+       ipps::vector<Ipp16u> x(10);
+       ipps::vector<Ipp16u> y(10);
+       ipps::vector<Ipp16u> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -207,7 +207,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -217,9 +217,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp32u")
    {
-       ippe::vector<Ipp32u> x(10);
-       ippe::vector<Ipp32u> y(10);
-       ippe::vector<Ipp32u> result(10);
+       ipps::vector<Ipp32u> x(10);
+       ipps::vector<Ipp32u> y(10);
+       ipps::vector<Ipp32u> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -227,7 +227,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -237,9 +237,9 @@ TEST_CASE("ippe math Add", "[math, Add]")
 
    SECTION("Ipp16s to Ipp32f")
    {
-       ippe::vector<Ipp16s> x(10);
-       ippe::vector<Ipp16s> y(10);
-       ippe::vector<Ipp32f> result(10);
+       ipps::vector<Ipp16s> x(10);
+       ipps::vector<Ipp16s> y(10);
+       ipps::vector<Ipp32f> result(10);
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
@@ -247,7 +247,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ippe::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -271,9 +271,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp8u")
    {
-        ippe::vector<Ipp8u> x(10);
-        ippe::vector<Ipp8u> y(10);
-        ippe::vector<Ipp8u> result(10);
+        ipps::vector<Ipp8u> x(10);
+        ipps::vector<Ipp8u> y(10);
+        ipps::vector<Ipp8u> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -283,7 +283,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp8u z;
@@ -308,9 +308,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp16u")
    {
-        ippe::vector<Ipp16u> x(10);
-        ippe::vector<Ipp16u> y(10);
-        ippe::vector<Ipp16u> result(10);
+        ipps::vector<Ipp16u> x(10);
+        ipps::vector<Ipp16u> y(10);
+        ipps::vector<Ipp16u> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -320,7 +320,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp16u z;
@@ -345,9 +345,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp16s")
    {
-        ippe::vector<Ipp16s> x(10);
-        ippe::vector<Ipp16s> y(10);
-        ippe::vector<Ipp16s> result(10);
+        ipps::vector<Ipp16s> x(10);
+        ipps::vector<Ipp16s> y(10);
+        ipps::vector<Ipp16s> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -357,7 +357,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp16s z;
@@ -382,9 +382,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp32s")
    {
-        ippe::vector<Ipp32s> x(10);
-        ippe::vector<Ipp32s> y(10);
-        ippe::vector<Ipp32s> result(10);
+        ipps::vector<Ipp32s> x(10);
+        ipps::vector<Ipp32s> y(10);
+        ipps::vector<Ipp32s> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -394,7 +394,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp32s z;
@@ -419,9 +419,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp16sc")
    {
-        ippe::vector<Ipp16sc> x(10);
-        ippe::vector<Ipp16sc> y(10);
-        ippe::vector<Ipp16sc> result(10);
+        ipps::vector<Ipp16sc> x(10);
+        ipps::vector<Ipp16sc> y(10);
+        ipps::vector<Ipp16sc> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -431,7 +431,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp16sc z;
@@ -471,9 +471,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp32sc")
    {
-        ippe::vector<Ipp32sc> x(10);
-        ippe::vector<Ipp32sc> y(10);
-        ippe::vector<Ipp32sc> result(10);
+        ipps::vector<Ipp32sc> x(10);
+        ipps::vector<Ipp32sc> y(10);
+        ipps::vector<Ipp32sc> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -483,7 +483,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp32sc z;
@@ -524,9 +524,9 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
 
    SECTION("Ipp64s")
    {
-        ippe::vector<Ipp64s> x(10);
-        ippe::vector<Ipp64s> y(10);
-        ippe::vector<Ipp64s> result(10);
+        ipps::vector<Ipp64s> x(10);
+        ipps::vector<Ipp64s> y(10);
+        ipps::vector<Ipp64s> result(10);
 
         // Set some values
         for (int i = 0; i < x.size(); ++i)
@@ -536,7 +536,7 @@ TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ippe::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
         // Check the result
         Ipp64s z;
@@ -568,11 +568,11 @@ template <typename T, typename U>
 void test_Add_I()
 {
     // Create two vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> result(10);
 
     // Create check vector for result
-    ippe::vector<U> check(10);
+    ipps::vector<U> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -583,7 +583,7 @@ void test_Add_I()
     }
 
     // Perform the operation
-    ippe::math::Add_I(x.data(), result.data(), x.size());
+    ipps::math::Add_I(x.data(), result.data(), x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -596,11 +596,11 @@ template <typename T, typename U>
 void test_Add_I_complex()
 {
     // Create two vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> result(10);
 
     // Create check vector for result
-    ippe::vector<U> check(10);
+    ipps::vector<U> check(10);
 
     // Set some values
     T valT;
@@ -617,7 +617,7 @@ void test_Add_I_complex()
     }
 
     // Perform the operation
-    ippe::math::Add_I(x.data(), result.data(), x.size());
+    ipps::math::Add_I(x.data(), result.data(), x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -676,10 +676,10 @@ template <typename T>
 void test_Add_ISfs()
 {
     // Create two vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
     // Create check vector for result
-    ippe::vector<T> check(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -690,7 +690,7 @@ void test_Add_ISfs()
     }
 
     // Perform the operation, scaling by half
-    ippe::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
+    ipps::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
     
     // Check the result
     T z;
@@ -718,10 +718,10 @@ template <typename T>
 void test_Add_ISfs_complex()
 {
     // Create two vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
     // Create check vector for result
-    ippe::vector<T> check(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     T val1, val2;
@@ -739,7 +739,7 @@ void test_Add_ISfs_complex()
     }
 
     // Perform the operation, scaling by half
-    ippe::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
+    ipps::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
     
     // Check the result
     T z;
@@ -826,8 +826,8 @@ template <typename T>
 void test_AddC()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -839,7 +839,7 @@ void test_AddC()
     T c = (T)(11);
 
     // Perform the operation
-    ippe::math::AddC(x.data(), c, result.data(), x.size());
+    ipps::math::AddC(x.data(), c, result.data(), x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -852,8 +852,8 @@ template <typename T>
 void test_AddC_complex()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -868,7 +868,7 @@ void test_AddC_complex()
     c.im = (12);
 
     // Perform the operation
-    ippe::math::AddC(x.data(), c, result.data(), x.size());
+    ipps::math::AddC(x.data(), c, result.data(), x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -901,8 +901,8 @@ template <typename T, typename U>
 void test_AddC_Sfs()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -914,7 +914,7 @@ void test_AddC_Sfs()
     T c = (T)(11);
 
     // Perform the operation
-    ippe::math::AddC_Sfs(x.data(), c, result.data(), (U)x.size(), 1);
+    ipps::math::AddC_Sfs(x.data(), c, result.data(), (U)x.size(), 1);
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -926,8 +926,8 @@ template <typename T, typename U>
 void test_AddC_Sfs_complex()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -942,7 +942,7 @@ void test_AddC_Sfs_complex()
     c.im = (12);
 
     // Perform the operation
-    ippe::math::AddC_Sfs(x.data(), c, result.data(), (U)x.size(), 1);
+    ipps::math::AddC_Sfs(x.data(), c, result.data(), (U)x.size(), 1);
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -988,8 +988,8 @@ template <typename T>
 void test_AddC_I()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -1002,7 +1002,7 @@ void test_AddC_I()
     T c = (T)(11);
 
     // Perform the operation
-    ippe::math::AddC_I(c, result.data(), result.size());
+    ipps::math::AddC_I(c, result.data(), result.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1014,8 +1014,8 @@ template <typename T>
 void test_AddC_I_complex()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -1031,7 +1031,7 @@ void test_AddC_I_complex()
     c.im = (12);
 
     // Perform the operation
-    ippe::math::AddC_I(c, result.data(), result.size());
+    ipps::math::AddC_I(c, result.data(), result.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1067,8 +1067,8 @@ template <typename T>
 void test_AddC_ISfs()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -1081,7 +1081,7 @@ void test_AddC_ISfs()
     T c = (T)(11);
 
     // Perform the operation
-    ippe::math::AddC_ISfs(c, result.data(), (int)x.size(), 1);
+    ipps::math::AddC_ISfs(c, result.data(), (int)x.size(), 1);
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1093,8 +1093,8 @@ template <typename T>
 void test_AddC_ISfs_complex()
 {
     // Make vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set values
     for (int i = 0; i < x.size(); ++i)
@@ -1110,7 +1110,7 @@ void test_AddC_ISfs_complex()
     c.im = (12);
 
     // Perform the operation
-    ippe::math::AddC_ISfs(c, result.data(), (int)x.size(), 1);
+    ipps::math::AddC_ISfs(c, result.data(), (int)x.size(), 1);
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1149,10 +1149,10 @@ template <typename T>
 void test_AddProduct()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<T> result(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<T> result(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1164,7 +1164,7 @@ void test_AddProduct()
     }
 
     // Perform the operation
-    ippe::math::AddProduct(x.data(), y.data(), result.data(), x.size());
+    ipps::math::AddProduct(x.data(), y.data(), result.data(), x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1177,10 +1177,10 @@ template <typename T>
 void test_AddProduct_complex()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<T> result(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<T> result(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1196,7 +1196,7 @@ void test_AddProduct_complex()
     }
 
     // Perform the operation
-    ippe::math::AddProduct(x.data(), y.data(), result.data(), x.size());
+    ipps::math::AddProduct(x.data(), y.data(), result.data(), x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1229,10 +1229,10 @@ template <typename T, typename U>
 void test_AddProduct_Sfs()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<U> result(10);
-    ippe::vector<U> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<U> result(10);
+    ipps::vector<U> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1244,7 +1244,7 @@ void test_AddProduct_Sfs()
     }
 
     // Perform the operation
-    ippe::math::AddProduct_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
+    ipps::math::AddProduct_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
     
     // Check the result
     U val;
@@ -1276,9 +1276,9 @@ template <typename T, typename U, typename V>
 void test_Mul()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
-    ippe::vector<V> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
+    ipps::vector<V> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1291,10 +1291,10 @@ void test_Mul()
 
     // undefined template for const results
     // const V* const_result = result.data();
-    // ippe::math::Mul(x.data(), y.data(), const_result, x.size());
+    // ipps::math::Mul(x.data(), y.data(), const_result, x.size());
 
     // correct usage
-    ippe::math::Mul(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Mul(x.data(), y.data(), result.data(), x.size());
 
     // Check the result
     V z;
@@ -1309,9 +1309,9 @@ template <typename T, typename U, typename V>
 void test_Mul_complex()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
-    ippe::vector<V> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
+    ipps::vector<V> result(10);
 
     // Set some values
     T valT;
@@ -1327,7 +1327,7 @@ void test_Mul_complex()
     }
 
     // Perform the operation
-    ippe::math::Mul(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Mul(x.data(), y.data(), result.data(), x.size());
 
     // Check the result
     V z;
@@ -1381,9 +1381,9 @@ TEST_CASE("ippe math Mul", "[math, Mul]")
     SECTION("Ipp32f,Ipp32fc -> Ipp32fc"){
         // This one is a bit special since not everything is complex..
         // Create vectors of the same size
-        ippe::vector<Ipp32f> x(10);
-        ippe::vector<Ipp32fc> y(10);
-        ippe::vector<Ipp32fc> result(10);
+        ipps::vector<Ipp32f> x(10);
+        ipps::vector<Ipp32fc> y(10);
+        ipps::vector<Ipp32fc> result(10);
 
         // Set some values
         Ipp32fc valU;
@@ -1396,7 +1396,7 @@ TEST_CASE("ippe math Mul", "[math, Mul]")
         }
 
         // Perform the operation
-        ippe::math::Mul(x.data(), y.data(), result.data(), x.size());
+        ipps::math::Mul(x.data(), y.data(), result.data(), x.size());
 
         // Check the result
         Ipp32fc z;
@@ -1421,9 +1421,9 @@ template <typename T, typename U, typename V>
 void test_Mul_Sfs()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
-    ippe::vector<V> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
+    ipps::vector<V> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1433,7 +1433,7 @@ void test_Mul_Sfs()
     }
 
     // Perform the operation
-    ippe::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+    ipps::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
      // Check the result
     V z;
@@ -1461,9 +1461,9 @@ template <typename T, typename U, typename V>
 void test_Mul_Sfs_complex()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
-    ippe::vector<V> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
+    ipps::vector<V> result(10);
 
     // Set some values
     T valT;
@@ -1479,7 +1479,7 @@ void test_Mul_Sfs_complex()
     }
 
     // Perform the operation
-    ippe::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+    ipps::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
 
      // Check the result
     V z;
@@ -1588,9 +1588,9 @@ template <typename T, typename U>
 void test_Mul_I()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> check(10);
-    ippe::vector<U> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> check(10);
+    ipps::vector<U> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1601,7 +1601,7 @@ void test_Mul_I()
     }
 
     // Perform the operation
-    ippe::math::Mul_I(x.data(), result.data(), x.size());
+    ipps::math::Mul_I(x.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1614,9 +1614,9 @@ template <typename T, typename U>
 void test_Mul_I_complex()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<U> check(10);
-    ippe::vector<U> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> check(10);
+    ipps::vector<U> result(10);
 
     // Set some values
     T valT;
@@ -1633,7 +1633,7 @@ void test_Mul_I_complex()
     }
 
     // Perform the operation
-    ippe::math::Mul_I(x.data(), result.data(), x.size());
+    ipps::math::Mul_I(x.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1678,9 +1678,9 @@ TEST_CASE("ippe math Mul_I", "[math, Mul_I]")
     SECTION("Ipp32f -> Ipp32fc"){
         // Need to specialise for this one
         // Create vectors of the same size
-        ippe::vector<Ipp32f> x(10);
-        ippe::vector<Ipp32fc> check(10);
-        ippe::vector<Ipp32fc> result(10);
+        ipps::vector<Ipp32f> x(10);
+        ipps::vector<Ipp32fc> check(10);
+        ipps::vector<Ipp32fc> result(10);
 
         // Set some values
         Ipp32f valT;
@@ -1696,7 +1696,7 @@ TEST_CASE("ippe math Mul_I", "[math, Mul_I]")
         }
 
         // Perform the operation
-        ippe::math::Mul_I(x.data(), result.data(), x.size());
+        ipps::math::Mul_I(x.data(), result.data(), x.size());
 
         // Check the result
         for (int i = 0; i < x.size(); ++i)
@@ -1716,9 +1716,9 @@ template <typename T>
 void test_Mul_ISfs()
 {
     // Create two vectors and a check
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1729,7 +1729,7 @@ void test_Mul_ISfs()
     }
 
     // Perform the operation
-    ippe::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
+    ipps::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
 
     // Check the result
     T z;
@@ -1757,9 +1757,9 @@ template <typename T>
 void test_Mul_ISfs_complex()
 {
     // Create two vectors and a check
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     T valT;
@@ -1776,7 +1776,7 @@ void test_Mul_ISfs_complex()
     }
 
     // Perform the operation
-    ippe::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
+    ipps::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
 
      // Check the result
     T z;
@@ -1879,9 +1879,9 @@ template <typename T, typename U>
 void test_Sub()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<U> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<U> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1891,7 +1891,7 @@ void test_Sub()
     }
 
     // Perform the operation
-    ippe::math::Sub(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Sub(x.data(), y.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1904,9 +1904,9 @@ template <typename T>
 void test_Sub_complex()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
+    ipps::vector<T> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1924,7 +1924,7 @@ void test_Sub_complex()
     }
 
     // Perform the operation
-    ippe::math::Sub(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Sub(x.data(), y.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1978,9 +1978,9 @@ template <typename T>
 void test_Sub_I()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -1991,7 +1991,7 @@ void test_Sub_I()
     }
 
     // Perform the operation
-    ippe::math::Sub_I(x.data(), result.data(), x.size());
+    ipps::math::Sub_I(x.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2004,9 +2004,9 @@ template <typename T>
 void test_Sub_I_complex()
 {
     // Create vectors of the same size
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -2023,7 +2023,7 @@ void test_Sub_I_complex()
     }
 
     // Perform the operation
-    ippe::math::Sub_I(x.data(), result.data(), x.size());
+    ipps::math::Sub_I(x.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2073,8 +2073,8 @@ template <typename T>
 void test_Ln()
 {
     // Make some vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -2083,7 +2083,7 @@ void test_Ln()
     }
 
     // Perform the operation
-    ippe::math::Ln(x.data(), result.data(), x.size());
+    ipps::math::Ln(x.data(), result.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2092,7 +2092,7 @@ void test_Ln()
     }
 
     // Perform in place version as well
-    ippe::math::Ln_I(x.data(), x.size());
+    ipps::math::Ln_I(x.data(), x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2105,8 +2105,8 @@ template <typename T>
 void test_Ln_Sfs()
 {
     // Make some vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -2116,7 +2116,7 @@ void test_Ln_Sfs()
 
     // Perform the operation
     int scaleFactor = 1;
-    ippe::math::Ln_Sfs(x.data(), result.data(), x.size(), scaleFactor);
+    ipps::math::Ln_Sfs(x.data(), result.data(), x.size(), scaleFactor);
 
     // Check the result (skip this because the integer scaling not as we coded) 
     // TODO: fix integer scaling for this
@@ -2129,7 +2129,7 @@ void test_Ln_Sfs()
     // }
 
     // Perform in place version as well
-    ippe::math::Ln_ISfs(x.data(), x.size(), scaleFactor);
+    ipps::math::Ln_ISfs(x.data(), x.size(), scaleFactor);
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2176,9 +2176,9 @@ template <typename T>
 void test_AddProductC()
 {
     // Make some vectors
-    ippe::vector<T> x(10);
-    ippe::vector<T> result(10);
-    ippe::vector<T> check(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> result(10);
+    ipps::vector<T> check(10);
 
     // Set some values
     for (int i = 0; i < x.size(); ++i)
@@ -2190,7 +2190,7 @@ void test_AddProductC()
 
     // Perform the operation
     const T val = 12.0;
-    ippe::math::AddProductC(x.data(), val, result.data(), (int)x.size());
+    ipps::math::AddProductC(x.data(), val, result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)

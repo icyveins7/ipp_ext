@@ -12,10 +12,10 @@ template <typename T, typename U>
 void test_slope_sample_generator()
 {
     // make a vector
-    ippe::vector<T> vec(10);
+    ipps::vector<T> vec(10);
 
     // generate slope samples into it
-    ippe::generator::Slope(vec.data(), 10, (U)1, (U)1);
+    ipps::generator::Slope(vec.data(), 10, (U)1, (U)1);
 
     // check if the samples are correct
     for (int i = 0; i < vec.size(); ++i)
@@ -81,7 +81,7 @@ template <typename T, typename U, typename V>
 void test_tone_sample_generator_complex()
 {
     // Make output vector
-    ippe::vector<T> out(10);
+    ipps::vector<T> out(10);
 
     // Define magn and freq
     U magn = 1;
@@ -91,7 +91,7 @@ void test_tone_sample_generator_complex()
     V phase = 0;
 
     // Generate tone samples into it
-    ippe::generator::Tone(
+    ipps::generator::Tone(
         out.data(), out.size(),
         magn, freq, &phase
     );

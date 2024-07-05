@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
     namespace math{
         
         template <typename T>

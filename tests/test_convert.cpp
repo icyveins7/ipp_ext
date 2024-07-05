@@ -7,11 +7,11 @@
 template<typename T, typename U>
 void test_PolarToCart()
 {
-    ippe::vector<T> srcMag(10);
-    ippe::vector<T> srcPhase(10);
-    ippe::vector<U> dst(10);
-    ippe::vector<T> dstRe(10);
-    ippe::vector<T> dstIm(10);
+    ipps::vector<T> srcMag(10);
+    ipps::vector<T> srcPhase(10);
+    ipps::vector<U> dst(10);
+    ipps::vector<T> dstRe(10);
+    ipps::vector<T> dstIm(10);
 
     for (int i = 0; i < 10; i++)
     {
@@ -19,7 +19,7 @@ void test_PolarToCart()
         srcPhase[i] = i*0.1;
     }
 
-    ippe::convert::PolarToCart(srcMag.data(), srcPhase.data(), dst.data(), dst.size());
+    ipps::convert::PolarToCart(srcMag.data(), srcPhase.data(), dst.data(), dst.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -28,7 +28,7 @@ void test_PolarToCart()
     }
 
     // Also check that the deinterleaved version is equal
-    ippe::convert::PolarToCartDeinterleaved(
+    ipps::convert::PolarToCartDeinterleaved(
         srcMag.data(), srcPhase.data(), dstRe.data(), dstIm.data(), dstRe.size()
     );
     for (int i = 0; i < 10; i++)
@@ -51,16 +51,16 @@ TEST_CASE("ippe convert PolarToCart", "[convert], [PolarToCart]")
 template<typename T, typename U>
 void test_CartToPolar()
 {
-    ippe::vector<T> src(10);
-    ippe::vector<U> dstMag(10);
-    ippe::vector<U> dstPhase(10);
+    ipps::vector<T> src(10);
+    ipps::vector<U> dstMag(10);
+    ipps::vector<U> dstPhase(10);
 
     for (int i = 0; i < 10; i++)
     {
         src[i].re = i;
         src[i].im = 1 + i;
     }
-    ippe::convert::CartToPolar(src.data(), dstMag.data(), dstPhase.data(), dstMag.size());
+    ipps::convert::CartToPolar(src.data(), dstMag.data(), dstPhase.data(), dstMag.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -84,16 +84,16 @@ TEST_CASE("ippe convert CartToPolar", "[convert], [CartToPolar]")
 template <typename T, typename U>
 void test_RealToCplx()
 {
-    ippe::vector<T> srcRe(10);
-    ippe::vector<T> srcIm(10);
-    ippe::vector<U> dst(10);
+    ipps::vector<T> srcRe(10);
+    ipps::vector<T> srcIm(10);
+    ipps::vector<U> dst(10);
 
     for (int i = 0; i < 10; i++)
     {
         srcRe[i] = 1 + i;
         srcIm[i] = i*0.1;
     }
-    ippe::convert::RealToCplx(srcRe.data(), srcIm.data(), dst.data(), dst.size());
+    ipps::convert::RealToCplx(srcRe.data(), srcIm.data(), dst.data(), dst.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dst[i].re == srcRe[i]);
@@ -102,14 +102,14 @@ void test_RealToCplx()
 
     // Also test zero conversions with null pointers
     // note that the static_cast is required as we didn't handle nullptrs in the template
-    ippe::convert::RealToCplx(static_cast<T*>(nullptr), srcIm.data(), dst.data(), dst.size());
+    ipps::convert::RealToCplx(static_cast<T*>(nullptr), srcIm.data(), dst.data(), dst.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dst[i].re == 0);
         REQUIRE(dst[i].im == srcIm[i]);
     }
 
-    ippe::convert::RealToCplx(srcRe.data(), static_cast<T*>(nullptr), dst.data(), dst.size());
+    ipps::convert::RealToCplx(srcRe.data(), static_cast<T*>(nullptr), dst.data(), dst.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dst[i].re == srcRe[i]);
@@ -133,9 +133,9 @@ TEST_CASE("ippe convert RealToCplx", "[convert], [RealToCplx]")
 template <typename T, typename U>
 void test_CplxToReal()
 {
-    ippe::vector<T> src(10);
-    ippe::vector<U> dstRe(10);
-    ippe::vector<U> dstIm(10);
+    ipps::vector<T> src(10);
+    ipps::vector<U> dstRe(10);
+    ipps::vector<U> dstIm(10);
 
     for (int i = 0; i < 10; i++)
     {
@@ -143,7 +143,7 @@ void test_CplxToReal()
         src[i].im = i*0.1;
     }
 
-    ippe::convert::CplxToReal(src.data(), dstRe.data(), dstIm.data(), src.size());
+    ipps::convert::CplxToReal(src.data(), dstRe.data(), dstIm.data(), src.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dstRe[i] == src[i].re);
@@ -169,8 +169,8 @@ template <typename T, typename U>
 void test_Convert()
 {
     // Make vectors for the src and dst types
-    ippe::vector<T> src(10);
-    ippe::vector<U> dst(10);
+    ipps::vector<T> src(10);
+    ipps::vector<U> dst(10);
 
     // Write values for src
     for (int i = 0; i < 10; i++)
@@ -179,7 +179,7 @@ void test_Convert()
     }
 
     // Run conversion
-    ippe::convert::Convert<T, U>(src.data(), dst.data(), src.size());
+    ipps::convert::Convert<T, U>(src.data(), dst.data(), src.size());
 
     // Check
     for (int i = 0; i < 10; i++)
@@ -248,8 +248,8 @@ template <typename T, typename U>
 void test_Convert_Sfs()
 {
     // Make vectors for the src and dst types
-    ippe::vector<T> src(10);
-    ippe::vector<U> dst(10);
+    ipps::vector<T> src(10);
+    ipps::vector<U> dst(10);
 
     // Write values for src
     for (int i = 0; i < 10; i++)
@@ -258,7 +258,7 @@ void test_Convert_Sfs()
     }
 
     // Run conversion
-    ippe::convert::Convert_Sfs<T, U>(src.data(), dst.data(), src.size(), 0); // ignore scalefactor and rndmode
+    ipps::convert::Convert_Sfs<T, U>(src.data(), dst.data(), src.size(), 0); // ignore scalefactor and rndmode
 
     // Check
     for (int i = 0; i < 10; i++)
@@ -370,8 +370,8 @@ TEST_CASE("ippe convert Convert_Sfs", "[convert], [Convert_Sfs]")
 template <typename T>
 void test_Conj()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
 
     for (int i = 0; i < 10; i++)
     {
@@ -379,7 +379,7 @@ void test_Conj()
         x[i].im = i;
     }
 
-    ippe::convert::Conj(x.data(), y.data(), x.size());
+    ipps::convert::Conj(x.data(), y.data(), x.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -403,8 +403,8 @@ TEST_CASE("ippe convert Conj", "[convert], [Conj]"){
 template <typename T>
 void test_Conj_I()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<T> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<T> y(10);
 
     for (int i = 0; i < 10; i++)
     {
@@ -414,7 +414,7 @@ void test_Conj_I()
         y[i].im = i;
     }
 
-    ippe::convert::Conj_I(y.data(), y.size());
+    ipps::convert::Conj_I(y.data(), y.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -439,9 +439,9 @@ TEST_CASE("ippe convert Conj_I", "[convert], [Conj_I]"){
 template <typename T, typename U>
 void test_PowerSpectr()
 {
-    ippe::vector<T> xRe(10);
-    ippe::vector<T> xIm(10);
-    ippe::vector<U> y(10);
+    ipps::vector<T> xRe(10);
+    ipps::vector<T> xIm(10);
+    ipps::vector<U> y(10);
 
     for (int i = 0; i < 10; ++i)
     {
@@ -449,7 +449,7 @@ void test_PowerSpectr()
         xIm[i] = i + 1;
     }
 
-    ippe::convert::PowerSpectr(xRe.data(), xIm.data(), y.data(), xRe.size());
+    ipps::convert::PowerSpectr(xRe.data(), xIm.data(), y.data(), xRe.size());
 
     for (int i = 0; i < 10; ++i)
     {
@@ -460,8 +460,8 @@ void test_PowerSpectr()
 template <typename T, typename U>
 void test_PowerSpectr_complex()
 {
-    ippe::vector<T> x(10);
-    ippe::vector<U> y(10);
+    ipps::vector<T> x(10);
+    ipps::vector<U> y(10);
 
     for (int i = 0; i < 10; ++i)
     {
@@ -469,7 +469,7 @@ void test_PowerSpectr_complex()
         x[i].im = i + 1;
     }
 
-    ippe::convert::PowerSpectr(x.data(), y.data(), x.size());
+    ipps::convert::PowerSpectr(x.data(), y.data(), x.size());
 
     for (int i = 0; i < 10; ++i)
     {

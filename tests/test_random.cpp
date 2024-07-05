@@ -11,7 +11,7 @@ template <typename T>
 void randUniform_test()
 {
     // Create generator with seed
-    ippe::RandUniform<T> gen(0, 1, 100);
+    ipps::RandUniform<T> gen(0, 1, 100);
 
     // Check internals
     REQUIRE(gen.getHigh() == 1);
@@ -19,7 +19,7 @@ void randUniform_test()
     REQUIRE(gen.getSeed() == 100);
 
     // Create without seed
-    ippe::RandUniform<T> gen2(0, 1);
+    ipps::RandUniform<T> gen2(0, 1);
 
     // Check internals
     REQUIRE(gen2.getHigh() == 1);
@@ -27,12 +27,12 @@ void randUniform_test()
     REQUIRE(gen2.getSeed() == 0);
 
     // Create another via automatic copy constructor
-    ippe::RandUniform<T> gen3 = gen2;
+    ipps::RandUniform<T> gen3 = gen2;
 
     // Generate some data
-    ippe::vector<T> data(1000);
-    ippe::vector<T> data2(1000);
-    ippe::vector<T> data3(1000);
+    ipps::vector<T> data(1000);
+    ipps::vector<T> data2(1000);
+    ipps::vector<T> data3(1000);
 
     gen.generate(data.data(), 1000);
     gen2.generate(data2.data(), 1000);
@@ -95,7 +95,7 @@ template <typename T>
 void randGauss_test()
 {
     // Create generator with seed
-    ippe::RandGauss<T> gen(10, 1, 100);
+    ipps::RandGauss<T> gen(10, 1, 100);
 
     // Check internals
     REQUIRE(gen.getMean() == 10);
@@ -103,7 +103,7 @@ void randGauss_test()
     REQUIRE(gen.getSeed() == 100);
 
     // Create without seed
-    ippe::RandGauss<T> gen2(0, 1);
+    ipps::RandGauss<T> gen2(0, 1);
 
     // Check internals
     REQUIRE(gen2.getMean() == 0);
@@ -111,12 +111,12 @@ void randGauss_test()
     REQUIRE(gen2.getSeed() == 0);
 
     // Create another via automatic copy constructor
-    ippe::RandGauss<T> gen3 = gen2;
+    ipps::RandGauss<T> gen3 = gen2;
 
     // Generate some data
-    ippe::vector<T> data(10);
-    ippe::vector<T> data2(10);
-    ippe::vector<T> data3(10);
+    ipps::vector<T> data(10);
+    ipps::vector<T> data2(10);
+    ipps::vector<T> data3(10);
 
     gen.generate(data.data(), 10);
     gen2.generate(data2.data(), 10);

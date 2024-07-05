@@ -13,14 +13,14 @@ TEST_CASE("Benchmark upfirdn implementations", "[upfirdn],[naive],[FIRMR]")
 {
     SECTION("Ipp32fc taps length 128, Ipp32fc data length 30000, factors 5/3")
     {
-        ippe::vector<Ipp32fc> data(30000);
+        ipps::vector<Ipp32fc> data(30000);
         int up = 5, down = 3;
-        ippe::filter::FIRMR<Ipp32fc, Ipp32fc> filter(
-            ippe::filter::generateLowpassTaps<Ipp32fc>(0.2/2, 128, ippWinHamming, ippTrue),
+        ipps::filter::FIRMR<Ipp32fc, Ipp32fc> filter(
+            ipps::filter::generateLowpassTaps<Ipp32fc>(0.2/2, 128, ippWinHamming, ippTrue),
             up, 0, down, 0
         );
 
-        ippe::vector<Ipp32fc> result(data.size() * up / down);
+        ipps::vector<Ipp32fc> result(data.size() * up / down);
 
         BENCHMARK("FIRMR")
         {

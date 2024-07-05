@@ -4,16 +4,16 @@
 int main()
 {
     // Make some data
-    ippe::vector<Ipp16s> x(10);
-    ippe::generator::Slope(x.data(), (int)x.size(), 0.0f, 1.0f);
+    ipps::vector<Ipp16s> x(10);
+    ipps::generator::Slope(x.data(), (int)x.size(), 0.0f, 1.0f);
 
     // Sample it up
     int factor = 3;
     int phase = 0;
-    ippe::vector<Ipp16s> y(x.size()*factor);
+    ipps::vector<Ipp16s> y(x.size()*factor);
 
     int ylen = y.size();
-    ippe::sampling::SampleUp(
+    ipps::sampling::SampleUp(
         x.data(), x.size(), 
         y.data(), &ylen, 
         factor, &phase);
@@ -28,7 +28,7 @@ int main()
     // This means that if the destination is not large enough, there will be leaks
     y.zero(); // zero it out again first
     ylen = y.size()/2;
-    ippe::sampling::SampleUp(
+    ipps::sampling::SampleUp(
         x.data(), x.size(), 
         y.data(), &ylen, 
         factor, &phase);
@@ -44,10 +44,10 @@ int main()
     // to fulfill the 64-byte alignment
     // hence it may not leak on all cases, or on all runs
 
-    // ippe::vector<Ipp16s> z(factor); // in this small test, it appears to seldom leak
+    // ipps::vector<Ipp16s> z(factor); // in this small test, it appears to seldom leak
     // printf("z.capacity() = %zd\n", z.capacity());
     // int zlen = z.size();
-    // ippe::sampling::SampleUp(
+    // ipps::sampling::SampleUp(
     //     x.data(), x.size(), 
     //     z.data(), &zlen, 
     //     factor, &phase);
@@ -58,9 +58,9 @@ int main()
     // printf("\nLength %d, Phase = %d, zlen = %d\n", (int)z.size(), phase, zlen);
 
     // Sample up to a longer length
-    ippe::vector<Ipp16s> w(x.size()*factor*2 - 1);
+    ipps::vector<Ipp16s> w(x.size()*factor*2 - 1);
     int wlen = w.size();
-    ippe::sampling::SampleUp(
+    ipps::sampling::SampleUp(
         x.data(), x.size(), 
         w.data(), &wlen, 
         factor, &phase);
@@ -72,16 +72,16 @@ int main()
 
     printf("===================================\n");
     // Create a long vector
-    ippe::vector<Ipp16s> a(150);
-    ippe::generator::Slope(a.data(), (int)a.size(), 0.0f, 1.0f);
+    ipps::vector<Ipp16s> a(150);
+    ipps::generator::Slope(a.data(), (int)a.size(), 0.0f, 1.0f);
 
     // Perform downsample
-    ippe::vector<Ipp16s> b(50);
+    ipps::vector<Ipp16s> b(50);
     int blen = 0;
     size_t bWritten = 0;
     printf("Complete step-wise in 3 blocks\n");
     printf("Phase = %d first\n", phase);
-    ippe::sampling::SampleDown(
+    ipps::sampling::SampleDown(
         a.data(), (int)a.size() / 3, // do the first half first
         b.data(), &blen,
         factor, &phase
@@ -94,7 +94,7 @@ int main()
     }
     printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
 
-    ippe::sampling::SampleDown(
+    ipps::sampling::SampleDown(
         &a.at(a.size()/3), (int)a.size() / 3, // do the second
         &b.at(bWritten), &blen,
         factor, &phase
@@ -108,7 +108,7 @@ int main()
     printf("\nLength %d, Phase = %d, blen = %d\n", (int)b.size(), phase, blen);
 
 
-    ippe::sampling::SampleDown(
+    ipps::sampling::SampleDown(
         &a.at(2*a.size()/3), (int)a.size() / 3, // do the third part
         &b.at(bWritten), &blen,
         factor, &phase

@@ -10,7 +10,7 @@ multiply defined symbols errors do not occur.
 #include <string>
 #include "ipp_ext_vec.h"
 
-namespace ippe
+namespace ipps
 {
     template <typename T>
     class DFTCToC

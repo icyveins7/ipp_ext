@@ -8,7 +8,7 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
 {
     SECTION("instantiate 8u")
     {
-        ippe::matrix<Ipp8u> m8u;
+        ipps::matrix<Ipp8u> m8u;
         // Matrix-specific
         REQUIRE(m8u.rows() == 0);
         REQUIRE(m8u.columns() == 0);
@@ -18,7 +18,7 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
         REQUIRE(m8u.data() == nullptr);
 
         // construct with only columns
-        ippe::matrix<Ipp8u> m8u_cols(2);
+        ipps::matrix<Ipp8u> m8u_cols(2);
         // Matrix-specific
         REQUIRE(m8u_cols.rows() == 1);
         REQUIRE(m8u_cols.columns() == 2);
@@ -28,7 +28,7 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
         REQUIRE(m8u_cols.data() != nullptr);
 
         // construct with rows/columns
-        ippe::matrix<Ipp8u> m8rc(2,2);
+        ipps::matrix<Ipp8u> m8rc(2,2);
         // Matrix-specific
         REQUIRE(m8rc.rows() == 2);
         REQUIRE(m8rc.columns() == 2);
@@ -38,7 +38,7 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
         REQUIRE(m8rc.data()!= nullptr);
 
         // construct with rows/columns and zeroed
-        ippe::matrix<Ipp8u> m8rcz(2,2,0);
+        ipps::matrix<Ipp8u> m8rcz(2,2,0);
         // Matrix-specific
         REQUIRE(m8rcz.rows() == 2);
         REQUIRE(m8rcz.columns() == 2);
@@ -53,7 +53,7 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
 
         // construct with rows/columns and filled
         Ipp8u v = 255;
-        ippe::matrix<Ipp8u> m8rcf(2,2,v);
+        ipps::matrix<Ipp8u> m8rcf(2,2,v);
         // Matrix-specific
         REQUIRE(m8rcf.rows() == 2);
         REQUIRE(m8rcf.columns() == 2);
@@ -71,7 +71,7 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
 {
     SECTION("access 8u")
     {
-        ippe::matrix<Ipp8u> m8u(3,5);
+        ipps::matrix<Ipp8u> m8u(3,5);
 
         // Check row access
         for (int i = 0; i < m8u.rows(); ++i)
@@ -94,7 +94,7 @@ TEST_CASE("ippe matrix resize", "[matrix],[resize]")
 {
     SECTION("Ipp8u")
     {
-        ippe::matrix<Ipp8u> m8u(3,5, 0);
+        ipps::matrix<Ipp8u> m8u(3,5, 0);
 
         m8u.redim(2,3);
         REQUIRE(m8u.rows() == 2);
@@ -122,47 +122,47 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
 {
     SECTION("16u operator+")
     {
-        ippe::matrix<Ipp16u> x(3,5);
-        ippe::matrix<Ipp16u> y(3,5);
+        ipps::matrix<Ipp16u> x(3,5);
+        ipps::matrix<Ipp16u> y(3,5);
         for (int i = 0; i < x.size(); ++i)
             x.at(i) = i;
         for (int i = 0; i < y.size(); ++i)
             y.at(i) = i + 1;
 
-        ippe::matrix<Ipp16u> z = x + y;
+        ipps::matrix<Ipp16u> z = x + y;
         for (int i = 0; i < z.size(); ++i)
             REQUIRE(z.at(i) == x.at(i) + y.at(i));
 
         // Demonstrate failure with mismatched shapes
-        ippe::matrix<Ipp16u> ywrong(5,3);
+        ipps::matrix<Ipp16u> ywrong(5,3);
 
         REQUIRE_THROWS_AS(z = x + ywrong, std::out_of_range);
     }
 
     SECTION("16s operator-")
     {
-        ippe::matrix<Ipp16s> x(3,5);
-        ippe::matrix<Ipp16s> y(3,5);
+        ipps::matrix<Ipp16s> x(3,5);
+        ipps::matrix<Ipp16s> y(3,5);
         for (int i = 0; i < x.size(); ++i)
             x.at(i) = i;
         for (int i = 0; i < y.size(); ++i)
             y.at(i) = i + 1;
 
-        ippe::matrix<Ipp16s> z = y - x;
+        ipps::matrix<Ipp16s> z = y - x;
         for (int i = 0; i < z.size(); ++i)
             REQUIRE(z.at(i) == y.at(i) - x.at(i));
 
         // Demonstrate failure with mismatched shapes
-        ippe::matrix<Ipp16s> ywrong(5,3);
+        ipps::matrix<Ipp16s> ywrong(5,3);
 
         REQUIRE_THROWS_AS(z = ywrong - x, std::out_of_range);
     }
 
     SECTION("16s operator+=")
     {
-        ippe::matrix<Ipp16s> x(3,5);
-        ippe::matrix<Ipp16s> y(3,5);
-        ippe::matrix<Ipp16s> check(3,5);
+        ipps::matrix<Ipp16s> x(3,5);
+        ipps::matrix<Ipp16s> y(3,5);
+        ipps::matrix<Ipp16s> check(3,5);
         for (int i = 0; i < x.size(); ++i)
         {
             x.at(i) = i;
@@ -176,16 +176,16 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
             REQUIRE(x.at(i) ==  y.at(i) + y.at(i) + check.at(i));
 
         // Demonstrate failure with mismatched shapes
-        ippe::matrix<Ipp16s> ywrong(5,3);
+        ipps::matrix<Ipp16s> ywrong(5,3);
 
         REQUIRE_THROWS_AS(x += ywrong, std::out_of_range);
     }
 
     SECTION("16s operator-=")
     {
-        ippe::matrix<Ipp16s> x(3,5);
-        ippe::matrix<Ipp16s> y(3,5);
-        ippe::matrix<Ipp16s> check(3,5);
+        ipps::matrix<Ipp16s> x(3,5);
+        ipps::matrix<Ipp16s> y(3,5);
+        ipps::matrix<Ipp16s> check(3,5);
         for (int i = 0; i < x.size(); ++i)
         {
             x.at(i) = i;
@@ -199,13 +199,13 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
             REQUIRE(y.at(i) == check.at(i) - x.at(i) - x.at(i));
 
         // Demonstrate failure with mismatched shapes
-        ippe::matrix<Ipp16s> ywrong(5,3);
+        ipps::matrix<Ipp16s> ywrong(5,3);
 
         REQUIRE_THROWS_AS(ywrong -= x, std::out_of_range);
     }
 
     SECTION("32f operator+ constant"){
-        ippe::matrix<Ipp32f> x(3,5);
+        ipps::matrix<Ipp32f> x(3,5);
         Ipp32f y = 22;
 
         for (int i = 0; i < x.size(); ++i)
@@ -214,8 +214,8 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         }
 
         // Perform operation
-        ippe::matrix<Ipp32f> result = x + y;
-        // ippe::matrix<Ipp32f> result = y + x; // Note that this doesn't compile..
+        ipps::matrix<Ipp32f> result = x + y;
+        // ipps::matrix<Ipp32f> result = y + x; // Note that this doesn't compile..
 
         for (int i = 0; i < result.size(); ++i)
         {
@@ -225,8 +225,8 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
 
     SECTION("32f operator*")
     {
-        ippe::matrix<Ipp32f> x(2,3);
-        ippe::matrix<Ipp32f> y(3,2);
+        ipps::matrix<Ipp32f> x(2,3);
+        ipps::matrix<Ipp32f> y(3,2);
 
         for (int i = 0; i < x.size(); ++i)
         {
@@ -238,7 +238,7 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         }
         
         // Perform matmul
-        ippe::matrix<Ipp32f> result = x * y;
+        ipps::matrix<Ipp32f> result = x * y;
 
         int L = x.columns();
 
@@ -256,14 +256,14 @@ TEST_CASE("ippe matrix math", "[matrix],[math]")
         }
 
         // Perform mat-vec mul
-        ippe::matrix<Ipp32f> c(3,1);
+        ipps::matrix<Ipp32f> c(3,1);
 
         for (int i = 0; i < c.size(); ++i)
         {
             c.at(i) = i + 2;
         }
 
-        ippe::matrix<Ipp32f> matvecresult = x * c;
+        ipps::matrix<Ipp32f> matvecresult = x * c;
 
         for (int i = 0; i < matvecresult.rows(); ++i)
         {

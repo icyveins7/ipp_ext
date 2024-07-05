@@ -2,7 +2,7 @@
 
 int main()
 {
-    ippe::vector<Ipp8u> v(1);
+    ipps::vector<Ipp8u> v(1);
     v.at(0) = 255;
     printf("Size of vector: %zd\n", v.size());
 

@@ -2,10 +2,10 @@
 #include "ipp.h"
 #include <stdexcept>
 #include <string>
-#include "ipp_ext_errors.h"
+#include "../ipp_ext_errors.h"
 #include "ipp_ext_vec.h"
 
-namespace ippe
+namespace ipps
 {
     /*
     =====================
@@ -63,7 +63,7 @@ namespace ippe
         T m_low = 0;
         T m_high = 1;
         unsigned int m_seed = 0;
-        ippe::vector<Ipp8u> rndObj;
+        vector<Ipp8u> rndObj;
 
         void prepare();
     };
@@ -249,7 +249,7 @@ namespace ippe
         T m_mean = 0;
         T m_stddev = 1;
         unsigned int m_seed = 0;
-        ippe::vector<Ipp8u> rndObj;
+        vector<Ipp8u> rndObj;
 
         void prepare();
     };

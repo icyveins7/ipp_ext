@@ -18,7 +18,7 @@ void test_gen_lowpass_taps()
     };
 
     // generate taps
-    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(window/2.0, tapsLen, ippWinHamming, ippTrue);
+    ipps::vector<T> taps = ipps::filter::generateLowpassTaps<T>(window/2.0, tapsLen, ippWinHamming, ippTrue);
 
     // check with threshold
     for (int i = 0; i < tapsLen; i++)
@@ -40,7 +40,7 @@ void test_gen_lowpass_taps_cplx()
     };
 
     // generate taps
-    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(window/2.0, tapsLen, ippWinHamming, ippTrue);
+    ipps::vector<T> taps = ipps::filter::generateLowpassTaps<T>(window/2.0, tapsLen, ippWinHamming, ippTrue);
 
     // check with threshold
     for (int i = 0; i < tapsLen; i++)
@@ -72,10 +72,10 @@ template <typename T, typename U>
 void test_FIRSR_lowpass()
 {
     // Create the taps
-    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
+    ipps::vector<T> taps = ipps::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
 
     // Create the filter with taps
-    ippe::filter::FIRSR<T, U> filter(taps);
+    ipps::filter::FIRSR<T, U> filter(taps);
 
     // Check that the delay is all zeros
     for (int i = 0; i < filter.getDelayVector().size(); i++)
@@ -90,14 +90,14 @@ void test_FIRSR_lowpass()
     }
 
     // Create some data
-    ippe::vector<U> data(16);
+    ipps::vector<U> data(16);
     for (int i = 0; i < data.size(); i++)
     {
         data[i] = i;
     }
 
     // Apply the filter
-    ippe::vector<U> result(data.size());
+    ipps::vector<U> result(data.size());
     filter.filter(data.data(), result.data(), (int)result.size());
 
     // Check that the result is correct
@@ -113,7 +113,7 @@ void test_FIRSR_lowpass()
     }
 
     // Check that the delay is set correctly
-    const ippe::vector<U> &delay = filter.getDelayVector();
+    const ipps::vector<U> &delay = filter.getDelayVector();
     for (int i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i] == data[data.size()-delay.size()+i]);
@@ -127,7 +127,7 @@ void test_FIRSR_lowpass()
     }
 
     // Test copy and assignment
-    std::vector<ippe::filter::FIRSR<T,U>> filters(1);
+    std::vector<ipps::filter::FIRSR<T,U>> filters(1);
     filters.at(0) = filter; // assignment
     filters.push_back(filter); // copy
 
@@ -147,10 +147,10 @@ template <typename T, typename U>
 void test_FIRSR_lowpass_cplx()
 {
     // Create the taps
-    ippe::vector<T> taps = ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
+    ipps::vector<T> taps = ipps::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue);
 
     // Create the filter with taps
-    ippe::filter::FIRSR<T, U> filter(taps);
+    ipps::filter::FIRSR<T, U> filter(taps);
 
     // Check that the delay is all zeros
     for (int i = 0; i < filter.getDelayVector().size(); i++)
@@ -167,7 +167,7 @@ void test_FIRSR_lowpass_cplx()
     }
 
     // Create some data
-    ippe::vector<U> data(16);
+    ipps::vector<U> data(16);
     for (int i = 0; i < data.size(); i++)
     {
         data[i].re = i;
@@ -175,7 +175,7 @@ void test_FIRSR_lowpass_cplx()
     }
 
     // Apply the filter
-    ippe::vector<U> result(data.size());
+    ipps::vector<U> result(data.size());
     filter.filter(data.data(), result.data(), (int)result.size());
 
     // Check that the result is correct
@@ -196,7 +196,7 @@ void test_FIRSR_lowpass_cplx()
     }
 
     // Check that the delay is set correctly
-    const ippe::vector<U> &delay = filter.getDelayVector();
+    const ipps::vector<U> &delay = filter.getDelayVector();
     for (int i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
@@ -212,7 +212,7 @@ void test_FIRSR_lowpass_cplx()
     }
 
     // Test copy and assignment
-    std::vector<ippe::filter::FIRSR<T,U>> filters(1);
+    std::vector<ipps::filter::FIRSR<T,U>> filters(1);
     filters.at(0) = filter; // assignment
     filters.push_back(filter); // copy
 
@@ -248,10 +248,10 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     // SECTION("Ipp32f taps, Ipp32fc data")
     // {
     //     // Create the taps
-    //     ippe::vector<Ipp32f> taps = ippe::filter::generateLowpassTaps<Ipp32f>(0.5/2.0, 8, ippWinHamming, ippTrue);
+    //     ipps::vector<Ipp32f> taps = ipps::filter::generateLowpassTaps<Ipp32f>(0.5/2.0, 8, ippWinHamming, ippTrue);
 
     //     // Create the filter with taps
-    //     ippe::filter::FIRSR<Ipp32f, Ipp32fc> filter(taps);
+    //     ipps::filter::FIRSR<Ipp32f, Ipp32fc> filter(taps);
 
     //     // Check that the delay is all zeros
     //     for (int i = 0; i < filter.getDelayVector().size(); i++)
@@ -267,7 +267,7 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     //     }
 
     //     // Create some data
-    //     ippe::vector<Ipp32fc> data(16);
+    //     ipps::vector<Ipp32fc> data(16);
     //     for (int i = 0; i < data.size(); i++)
     //     {
     //         data[i].re = i;
@@ -275,7 +275,7 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     //     }
 
     //     // Apply the filter
-    //     ippe::vector<Ipp32fc> result(data.size());
+    //     ipps::vector<Ipp32fc> result(data.size());
     //     filter.filter(data.data(), result.data(), (int)result.size());
 
     //     // Check that the result is correct
@@ -296,7 +296,7 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     //     }
 
     //     // Check that the delay is set correctly
-    //     const ippe::vector<Ipp32fc> &delay = filter.getDelayVector();
+    //     const ipps::vector<Ipp32fc> &delay = filter.getDelayVector();
     //     for (int i = 0; i < delay.size(); i++)
     //     {
     //         REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
@@ -312,7 +312,7 @@ TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
     //     }
 
     //     // Test copy and assignment
-    //     std::vector<ippe::filter::FIRSR<Ipp32f, Ipp32fc>> filters(1);
+    //     std::vector<ipps::filter::FIRSR<Ipp32f, Ipp32fc>> filters(1);
     //     filters.at(0) = filter; // assignment
     //     filters.push_back(filter); // copy
 
@@ -343,20 +343,20 @@ void test_FIRMR_lowpass()
     // Create filter and taps
     int up = 5;
     int down = 3;
-    ippe::filter::FIRMR<T,U> filter(
-        ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue),
+    ipps::filter::FIRMR<T,U> filter(
+        ipps::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue),
         up, 0, down, 0
     );
 
     // Create some data
-    ippe::vector<U> data(30);
+    ipps::vector<U> data(30);
     for (int i = 0; i < data.size(); i++)
     {
         data[i] = 10 + i;
     }
 
     // Apply the filter
-    ippe::vector<U> result(data.size() * up / down);
+    ipps::vector<U> result(data.size() * up / down);
     filter.filter(data.data(), result.data(), data.size(), result.size());
 
     // Check results
@@ -374,7 +374,7 @@ void test_FIRMR_lowpass()
     }
 
     // Check that the delay is set correctly
-    const ippe::vector<U> &delay = filter.getDelayVector();
+    const ipps::vector<U> &delay = filter.getDelayVector();
     for (int i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i] == data[data.size()-delay.size()+i]);
@@ -388,14 +388,14 @@ void test_FIRMR_lowpass()
     }
 
     // Check that it will throw if the output is not long enough
-    ippe::vector<U> tooshortresult(data.size());
+    ipps::vector<U> tooshortresult(data.size());
     REQUIRE_THROWS_AS(
         filter.filter(data.data(), tooshortresult.data(), data.size(), tooshortresult.size()),
         std::invalid_argument
     );
 
     // Make a vector of filter objects
-    std::vector<ippe::filter::FIRMR<T,U>> filters(1);
+    std::vector<ipps::filter::FIRMR<T,U>> filters(1);
     // First show that it will throw if not constructed directly
     REQUIRE_THROWS_AS(
         filters.at(0).filter(data.data(), result.data(), data.size(), result.size()), 
@@ -429,13 +429,13 @@ void test_FIRMR_lowpass_cplx()
         // Create filter and taps
     int up = 5;
     int down = 3;
-    ippe::filter::FIRMR<T,U> filter(
-        ippe::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue),
+    ipps::filter::FIRMR<T,U> filter(
+        ipps::filter::generateLowpassTaps<T>(0.5/2.0, 8, ippWinHamming, ippTrue),
         up, 0, down, 0
     );
 
     // Create some data
-    ippe::vector<U> data(30);
+    ipps::vector<U> data(30);
     for (int i = 0; i < data.size(); i++)
     {
         data[i].re = 10 + i;
@@ -443,7 +443,7 @@ void test_FIRMR_lowpass_cplx()
     }
 
     // Apply the filter
-    ippe::vector<U> result(data.size() * up / down);
+    ipps::vector<U> result(data.size() * up / down);
     filter.filter(data.data(), result.data(), data.size(), result.size());
 
     // Check results
@@ -463,7 +463,7 @@ void test_FIRMR_lowpass_cplx()
     }
 
     // Check that the delay is set correctly
-    const ippe::vector<U> &delay = filter.getDelayVector();
+    const ipps::vector<U> &delay = filter.getDelayVector();
     for (int i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
@@ -479,14 +479,14 @@ void test_FIRMR_lowpass_cplx()
     }
 
     // Check that it will throw if the output is not long enough
-    ippe::vector<U> tooshortresult(data.size());
+    ipps::vector<U> tooshortresult(data.size());
     REQUIRE_THROWS_AS(
         filter.filter(data.data(), tooshortresult.data(), data.size(), tooshortresult.size()),
         std::invalid_argument
     );
 
     // Make a vector of filter objects
-    std::vector<ippe::filter::FIRMR<T,U>> filters(1);
+    std::vector<ipps::filter::FIRMR<T,U>> filters(1);
     // First show that it will throw if not constructed directly
     REQUIRE_THROWS_AS(
         filters.at(0).filter(data.data(), result.data(), data.size(), result.size()), 

@@ -1,10 +1,10 @@
 #pragma once
 #include "ipp.h"
-#include "ipp_ext_errors.h"
+#include "../ipp_ext_errors.h"
 #include <stdexcept>
 #include <string>
 
-namespace ippe{
+namespace ipps{
 
     template <typename T>
     void Copy(const T* src, T* dst, int len);
