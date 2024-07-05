@@ -82,6 +82,12 @@ public:
         const size_t height,
         const IppSizeL stepBytes
     ){
+        // Check that the stepBytes can at least accommodate the width
+        if (stepBytes < static_cast<IppSizeL>(sizeof(T) * width))
+        {
+            throw std::invalid_argument("stepBytes insufficient for width");
+        }
+
         // Play it safe for now, as long as either width or height is bigger than before
         // then we re-allocate new memory
         if (width > m_widthPix || height > m_heightPix)

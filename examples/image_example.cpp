@@ -20,6 +20,15 @@ int main()
     printf("Image height: %zd\n", img2.height());
     printf("Image step bytes: %lld\n", img2.stepBytes());
 
+    // Too few stepbytes?
+    try{
+        ippi::image<Ipp32s, ippi::channels::C1> img3(64, 64, 64);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+
 
     return 0;
 }
