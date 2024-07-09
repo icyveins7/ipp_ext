@@ -11,24 +11,27 @@ int main()
   printf("Image height: %zd\n", img.height());
   printf("Image step bytes: %lld\n", img.stepBytes());
 
-  // Make one specifying the step bytes
-  ippi::image<Ipp32s, ippi::channels::C1> img2(64, 64, 512);
-  printf("Image step bytes: %lld\n", img2.stepBytes());
+  // Set some values for a small img (width, height)
+  ippi::image<Ipp32f, ippi::channels::C1> small_img(3, 4);
+  printf("Small image dims: %zd x %zd\n", small_img.width(), small_img.height());
+  printf("Small image step bytes: %lld\n", small_img.stepBytes());
 
-  // Check again
-  printf("Image width: %zd\n", img2.width());
-  printf("Image height: %zd\n", img2.height());
-  printf("Image step bytes: %lld\n", img2.stepBytes());
+  for (size_t i = 0; i < small_img.height(); ++i)
+    for (size_t j = 0; j < small_img.width(); ++j)
+      small_img.at(i, j) = i * small_img.width() + j;
 
-  // Too few stepbytes?
-  try{
-    printf("========== This should throw.\n");
-    ippi::image<Ipp32s, ippi::channels::C1> img3(64, 64, 64);
-  }
-  catch(std::exception &e)
+  // Print the small image
+  for (size_t i = 0; i < small_img.height(); ++i)
   {
-    std::cout << e.what() << std::endl;
+    for (size_t j = 0; j < small_img.width(); ++j)
+      printf("%4.1f ", small_img.at(i, j));
+    printf("\n");
   }
+
+  // You can also have a single row image easily
+  ippi::image<Ipp32f, ippi::channels::C1> row_img(3);
+  printf("Single row image dims: %zd x %zd\n", row_img.width(), row_img.height());
+  printf("Single row image step bytes: %lld\n", row_img.stepBytes());
 
 
   return 0;
