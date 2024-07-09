@@ -3,32 +3,33 @@
 
 int main()
 {
-    // Instantiate simple image
-    ippi::image<Ipp32s, ippi::channels::C1> img(64, 64);
+  // Instantiate simple image
+  ippi::image<Ipp32s, ippi::channels::C1> img(64, 64);
 
-    // Check some simple things
-    printf("Image width: %zd\n", img.width());
-    printf("Image height: %zd\n", img.height());
-    printf("Image step bytes: %lld\n", img.stepBytes());
+  // Check some simple things
+  printf("Image width: %zd\n", img.width());
+  printf("Image height: %zd\n", img.height());
+  printf("Image step bytes: %lld\n", img.stepBytes());
 
-    // Make one specifying the step bytes
-    ippi::image<Ipp32s, ippi::channels::C1> img2(64, 64, 512);
-    printf("Image step bytes: %lld\n", img2.stepBytes());
+  // Make one specifying the step bytes
+  ippi::image<Ipp32s, ippi::channels::C1> img2(64, 64, 512);
+  printf("Image step bytes: %lld\n", img2.stepBytes());
 
-    // Check again
-    printf("Image width: %zd\n", img2.width());
-    printf("Image height: %zd\n", img2.height());
-    printf("Image step bytes: %lld\n", img2.stepBytes());
+  // Check again
+  printf("Image width: %zd\n", img2.width());
+  printf("Image height: %zd\n", img2.height());
+  printf("Image step bytes: %lld\n", img2.stepBytes());
 
-    // Too few stepbytes?
-    try{
-        ippi::image<Ipp32s, ippi::channels::C1> img3(64, 64, 64);
-    }
-    catch(std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
+  // Too few stepbytes?
+  try{
+    printf("========== This should throw.\n");
+    ippi::image<Ipp32s, ippi::channels::C1> img3(64, 64, 64);
+  }
+  catch(std::exception &e)
+  {
+    std::cout << e.what() << std::endl;
+  }
 
 
-    return 0;
+  return 0;
 }

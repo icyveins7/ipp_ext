@@ -2,6 +2,7 @@
 
 #include "ippi.h"
 #include "../ipp_ext_errors.h"
+#include "channels.h"
 
 #ifndef NDEBUG
 #define DEBUG(x) printf(x);
@@ -11,22 +12,12 @@
 
 namespace ippi{
 
-// Define possible types for malloc
-enum class channels{
-    C1, // 1 channel
-    C2, // 2 channels
-    C3, // 3 channels
-    C4, // 4 channels
-    AC4 // 4 channels with alpha at end
-};
 
-/*
-
-*/
 template <typename T, channels U>
 class image
 {
 protected:
+    size_t cap = 0;
     size_t m_widthPix = 0;
     size_t m_heightPix = 0;
     IppSizeL m_stepBytes = 0;
@@ -40,6 +31,16 @@ public:
     image()
     {
         DEBUG("image()\n");
+    }
+
+    // Construct with the IPP struct that contains both width and height
+    explicit image(const IppiSize size)
+      : m_widthPix(size.width),
+      m_heightPix(size.height),
+      m_stepBytes(static_cast<IppSizeL>(size.width*sizeof(T)))
+    {
+      DEBUG("image(IppiSize)\n");
+      reserve(m_widthPix, m_heightPix, m_stepBytes);
     }
 
     // Construct with width, height; stepBytes is assumed equal to the width bytes
@@ -88,10 +89,13 @@ public:
             throw std::invalid_argument("stepBytes insufficient for width");
         }
 
+        DEBUG("reserve(width, height, stepBytes)\n");
+
         // Play it safe for now, as long as either width or height is bigger than before
         // then we re-allocate new memory
-        if (width > m_widthPix || height > m_heightPix)
+        if (width * height > cap)
         {
+            DEBUG("Attempting internal_malloc()\n");
             T* newdata = internal_malloc(
                 static_cast<IppSizeL>(width),
                 static_cast<IppSizeL>(height),
@@ -101,8 +105,10 @@ public:
             // Check not null
             if (newdata == nullptr)
             {
-                throw std::bad_alloc();
+                DEBUG("internal_malloc() failed, throwing..\n");
+                throw std::runtime_error("internal_malloc() failed");
             }
+            DEBUG("internal_malloc() succeeded\n");
 
             // TODO: copy properly somehow if possible?
 
@@ -114,7 +120,9 @@ public:
             m_heightPix = height;
             m_stepBytes = stepBytes;
             m_data = newdata;
+            cap = width * height;
         }
+        DEBUG("reserve() done\n");
     }
 
     /*
@@ -127,8 +135,22 @@ public:
     size_t height() const { return m_heightPix; }
     // Distance between lines in bytes
     IppSizeL stepBytes() const { return m_stepBytes; }
+    // IPP-specific 'size' struct, useful when calling IPP functions
+    IppiSize size() const { return { static_cast<int>(m_widthPix), static_cast<int>(m_heightPix) }; }
     // Data pointer
     T* data() { return m_data; }
+    // Capacity
+    size_t capacity() const { return cap; }
+    // 0 height & width
+    bool empty() const { return m_widthPix == 0 && m_heightPix == 0; }
+
+    /*
+    Setters
+    */
+
+    void clear(){ m_widthPix = 0; m_heightPix = 0; m_stepBytes = 0; }
+
+
 
 };
 
