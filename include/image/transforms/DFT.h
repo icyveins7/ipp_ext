@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ippi.h"
+#include "ipp.h"
 #include <stdexcept>
 #include <string>
 #include "../../signal/ipp_ext_vec.h"

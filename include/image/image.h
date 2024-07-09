@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ippi.h"
+#include "ipp.h"
 #include "../ipp_ext_errors.h"
 #include "channels.h"
 
