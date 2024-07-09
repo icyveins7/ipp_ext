@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ippi.h"
+#include "ipp.h"
 
 namespace ippi{
 
