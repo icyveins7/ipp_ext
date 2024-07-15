@@ -132,10 +132,11 @@ public:
   // Throws std::out_of_range if row or col is out of bounds
   T& at(const size_t row, const size_t col) {
     if (row >= m_heightPix || col >= m_widthPix)
-    {
       throw std::out_of_range("row or col out of bounds");
-    }
-    return m_data[row * m_stepBytes + col];
+
+    // we need to move in byte steps
+    Ipp8u *bytePtr = reinterpret_cast<Ipp8u*>(m_data);
+    return *reinterpret_cast<T*>(bytePtr + row * m_stepBytes + col * sizeof(T));
   }
 
 };

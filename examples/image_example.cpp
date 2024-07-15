@@ -13,7 +13,7 @@ int main()
 
   // Set some values for a small img (width, height)
   ippi::image<Ipp32f, ippi::channels::C1> small_img(3, 4);
-  printf("Small image dims: %zd x %zd\n", small_img.width(), small_img.height());
+  printf("Small image dims: rows %zd x cols %zd\n", small_img.height(), small_img.width());
   printf("Small image step bytes: %lld\n", small_img.stepBytes());
 
   for (size_t i = 0; i < small_img.height(); ++i)
