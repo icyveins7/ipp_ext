@@ -214,7 +214,7 @@ public:
 
     const T& at(size_t pos) const
     {
-        if (pos < numel && pos >= 0)
+        if (pos < numel) // size_t is automatically unsigned
             return m_data[pos];
         else
             throw std::out_of_range(std::string("ippe::vector::range_check: Size is ") + std::to_string(numel));
