@@ -29,7 +29,7 @@ void test_Xor()
     }
 }
 
-TEST_CASE("ippe logical Xor", "[logical], [Xor]")
+TEST_CASE("ipps logical Xor", "[logical], [Xor]")
 {
     SECTION("Ipp8u"){
         test_Xor<Ipp8u>();
@@ -69,7 +69,7 @@ void test_Xor_I()
     }
 }
 
-TEST_CASE("ippe logical Xor_I", "[logical], [Xor_I]")
+TEST_CASE("ipps logical Xor_I", "[logical], [Xor_I]")
 {
     SECTION("Ipp8u"){
         test_Xor_I<Ipp8u>();

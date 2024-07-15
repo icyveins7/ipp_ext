@@ -5,7 +5,7 @@
 
 // test simple instantiation and cleanup for all supported templates of DFTCToC:
 // Ipp32f, Ipp64f, Ipp32fc, Ipp64fc
-TEST_CASE("ippe dft instantiation", "[dft],[instantiation]")
+TEST_CASE("ipps dft instantiation", "[dft],[instantiation]")
 {
     SECTION("Ipp32f"){
         {
@@ -107,7 +107,7 @@ void test_dft_copy_assign_use(bool test_run)
     }
 }
 
-TEST_CASE("ippe dft copy and assignment", "[dft], [copy],[assignment]")
+TEST_CASE("ipps dft copy and assignment", "[dft], [copy],[assignment]")
 {
     SECTION("Ipp32f"){
         test_dft_copy_assign_use<Ipp32f>(false);
@@ -124,7 +124,7 @@ TEST_CASE("ippe dft copy and assignment", "[dft], [copy],[assignment]")
 }
 
 // test execution for all supported templates of DFTCToC:
-TEST_CASE("ippe dft execution", "[dft],[execution]")
+TEST_CASE("ipps dft execution", "[dft],[execution]")
 {
     int length = 100;
     double tolerance = 1e-4; // tolerance for floating point comparison

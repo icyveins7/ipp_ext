@@ -4,7 +4,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
+TEST_CASE("ipps matrix instantiation", "[matrix],[instantiation]")
 {
     SECTION("instantiate 8u")
     {
@@ -67,7 +67,7 @@ TEST_CASE("ippe matrix instantiation", "[matrix],[instantiation]")
     }
 }
 
-TEST_CASE("ippe matrix access", "[matrix],[access]")
+TEST_CASE("ipps matrix access", "[matrix],[access]")
 {
     SECTION("access 8u")
     {
@@ -90,7 +90,7 @@ TEST_CASE("ippe matrix access", "[matrix],[access]")
     }
 }
 
-TEST_CASE("ippe matrix resize", "[matrix],[resize]")
+TEST_CASE("ipps matrix resize", "[matrix],[resize]")
 {
     SECTION("Ipp8u")
     {
@@ -118,7 +118,7 @@ TEST_CASE("ippe matrix resize", "[matrix],[resize]")
     }
 }
 
-TEST_CASE("ippe matrix math", "[matrix],[math]")
+TEST_CASE("ipps matrix math", "[matrix],[math]")
 {
     SECTION("16u operator+")
     {

@@ -5,7 +5,7 @@
 
 #include "test_vectors_encapsulation.h"
 
-TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
+TEST_CASE("ipps vector instantiation", "[vector],[instantiation]")
 {
     SECTION("instantiate 8u"){
         ipps::vector<Ipp8u> v8u;
@@ -398,7 +398,7 @@ TEST_CASE("ippe vector instantiation", "[vector],[instantiation]")
 
 }
 
-TEST_CASE("ippe vector capacity and resizes", "[vector],[resize]"){
+TEST_CASE("ipps vector capacity and resizes", "[vector],[resize]"){
     ipps::vector<Ipp64fc> data;
 
     SECTION("resize once"){
@@ -425,7 +425,7 @@ TEST_CASE("ippe vector capacity and resizes", "[vector],[resize]"){
     }
 }
 
-TEST_CASE("ippe vector writes", "[vector],[write]"){
+TEST_CASE("ipps vector writes", "[vector],[write]"){
 
     SECTION("pushback and access from empty constructor"){
         ipps::vector<Ipp64fc> data;
@@ -447,7 +447,7 @@ TEST_CASE("ippe vector writes", "[vector],[write]"){
     }
 }
 
-TEST_CASE("ippe vector throws on non-IPP types", "[vector],[exceptions]"){
+TEST_CASE("ipps vector throws on non-IPP types", "[vector],[exceptions]"){
     SECTION("double"){
         try{
             ipps::vector<double> data(128);
@@ -467,7 +467,7 @@ TEST_CASE("ippe vector throws on non-IPP types", "[vector],[exceptions]"){
     }
 }
 
-TEST_CASE("ippe vector exceptions", "[vector],[exceptions]"){
+TEST_CASE("ipps vector exceptions", "[vector],[exceptions]"){
     ipps::vector<Ipp64fc> data(128);
 
     SECTION("access out of range"){
@@ -488,12 +488,12 @@ TEST_CASE("ippe vector exceptions", "[vector],[exceptions]"){
 
 // this test is mainly here to ensure that compilation still works
 // when the header is included and used in several cpp files
-TEST_CASE("ippe vector encapsulation compile test", "[vector],[compile]"){
+TEST_CASE("ipps vector encapsulation compile test", "[vector],[compile]"){
     EncapsulateVector ev;
 }
 
 // Test copy constructors
-TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
+TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
     SECTION("ipp8u copy constructor"){
         // reference vector
         ipps::vector<Ipp8u> a(100, 1);
@@ -513,7 +513,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
     SECTION("ipp8u assignment operator"){
         std::vector<ipps::vector<Ipp8u>> v(4);
 
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp8u>(100, 1);
 
@@ -542,7 +542,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp16u assignment operator"){
         std::vector<ipps::vector<Ipp16u>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp16u>(100, 1);
             // should be same size
@@ -570,7 +570,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp32u assignment operator"){
         std::vector<ipps::vector<Ipp32u>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32u>(100, 1);
             // should be same size
@@ -598,7 +598,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp64u assignment operator"){
         std::vector<ipps::vector<Ipp64u>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64u>(100, 1);
             // should be same size
@@ -626,7 +626,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp32f assignment operator"){
         std::vector<ipps::vector<Ipp32f>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32f>(100, 1);
             // should be same size
@@ -654,7 +654,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp64f assignment operator"){
         std::vector<ipps::vector<Ipp64f>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64f>(100, 1);
             // should be same size
@@ -682,7 +682,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp8s assignment operator"){
         std::vector<ipps::vector<Ipp8s>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp8s>(100, 1);
             // should be same size
@@ -725,7 +725,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp32s assignment operator"){
         std::vector<ipps::vector<Ipp32s>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32s>(100, 1);
             // should be same size
@@ -753,7 +753,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp64s assignment operator"){
         std::vector<ipps::vector<Ipp64s>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64s>(100, 1);
             // should be same size
@@ -785,7 +785,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp8sc assignment operator"){
         std::vector<ipps::vector<Ipp8sc>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         Ipp8sc c = {1, 1};
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp8sc>(100, c);
@@ -821,7 +821,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp16sc assignment operator"){
         std::vector<ipps::vector<Ipp16sc>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         Ipp16sc c = {1, 1};
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp16sc>(100, c);
@@ -857,7 +857,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp32sc assignment operator"){
         std::vector<ipps::vector<Ipp32sc>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         Ipp32sc c = {1, 1};
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32sc>(100, c);
@@ -893,7 +893,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp64sc assignment operator"){
         std::vector<ipps::vector<Ipp64sc>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         Ipp64sc c = {1, 1};
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64sc>(100, c);
@@ -929,7 +929,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp32fc assignment operator"){
         std::vector<ipps::vector<Ipp32fc>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         Ipp32fc c = {1.0, 1.0};
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32fc>(100, c);
@@ -965,7 +965,7 @@ TEST_CASE("ippe vector copy/assignment", "[vector],[copy],[assignment]"){
 
     SECTION("ipp64fc assignment operator"){
         std::vector<ipps::vector<Ipp64fc>> v(4);
-        // assign to the std vector of ippe vectors
+        // assign to the std vector of ipps vectors
         Ipp64fc c = {1.0, 1.0};
         for (int i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64fc>(100, c);
@@ -1025,7 +1025,7 @@ void test_vector_iterators_cplx()
     }
 }
 
-TEST_CASE("ippe vector iterators", "[vector],[iterator]")
+TEST_CASE("ipps vector iterators", "[vector],[iterator]")
 {
     // Real types
     SECTION("Ipp8u"){

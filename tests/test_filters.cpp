@@ -49,7 +49,7 @@ void test_gen_lowpass_taps_cplx()
     }
 }
 
-TEST_CASE("ippe filter taps generation", "[filter],[taps]")
+TEST_CASE("ipps filter taps generation", "[filter],[taps]")
 {
     SECTION("Ipp32f lowpass"){
         test_gen_lowpass_taps<Ipp32f>();
@@ -230,7 +230,7 @@ void test_FIRSR_lowpass_cplx()
 
 }
 
-TEST_CASE("ippe filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
+TEST_CASE("ipps filter FIRSR lowpass", "[filter],[firsr],[lowpass]")
 {
     SECTION("Ipp32f taps, Ipp32f data"){
         test_FIRSR_lowpass<Ipp32f, Ipp32f>();
@@ -514,7 +514,7 @@ void test_FIRMR_lowpass_cplx()
     }
 }
 
-TEST_CASE("ippe filter FIRMR lowpass", "[filter],[firmr],[lowpass]")
+TEST_CASE("ipps filter FIRMR lowpass", "[filter],[firmr],[lowpass]")
 {
     SECTION("Ipp32f taps, Ipp32f data"){
         test_FIRMR_lowpass<Ipp32f, Ipp32f>();

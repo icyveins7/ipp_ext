@@ -38,7 +38,7 @@ void test_PolarToCart()
     }
 }
 
-TEST_CASE("ippe convert PolarToCart", "[convert], [PolarToCart]")
+TEST_CASE("ipps convert PolarToCart", "[convert], [PolarToCart]")
 {
     SECTION("Ipp32fc"){
         test_PolarToCart<Ipp32f, Ipp32fc>();
@@ -71,7 +71,7 @@ void test_CartToPolar()
     }
 }
 
-TEST_CASE("ippe convert CartToPolar", "[convert], [CartToPolar]")
+TEST_CASE("ipps convert CartToPolar", "[convert], [CartToPolar]")
 {
     SECTION("Ipp32fc"){
         test_CartToPolar<Ipp32fc, Ipp32f>();
@@ -117,7 +117,7 @@ void test_RealToCplx()
     }
 }
 
-TEST_CASE("ippe convert RealToCplx", "[convert], [RealToCplx]")
+TEST_CASE("ipps convert RealToCplx", "[convert], [RealToCplx]")
 {
     SECTION("Ipp16sc"){
         test_RealToCplx<Ipp16s, Ipp16sc>();
@@ -151,7 +151,7 @@ void test_CplxToReal()
     }
 }
 
-TEST_CASE("ippe convert CplxToReal", "[convert], [CplxToReal]")
+TEST_CASE("ipps convert CplxToReal", "[convert], [CplxToReal]")
 {
     SECTION("Ipp16sc"){
         test_CplxToReal<Ipp16sc, Ipp16s>();
@@ -188,7 +188,7 @@ void test_Convert()
     }
 }
 
-TEST_CASE("ippe convert Convert", "[convert], [Convert]")
+TEST_CASE("ipps convert Convert", "[convert], [Convert]")
 {
     // 8s to 16s
     SECTION("Ipp8s to Ipp16s"){
@@ -267,7 +267,7 @@ void test_Convert_Sfs()
     }
 }
 
-TEST_CASE("ippe convert Convert_Sfs", "[convert], [Convert_Sfs]")
+TEST_CASE("ipps convert Convert_Sfs", "[convert], [Convert_Sfs]")
 {
     // 8u to 8s
     SECTION("Ipp8u to Ipp8s"){
@@ -388,7 +388,7 @@ void test_Conj()
     }
 }
 
-TEST_CASE("ippe convert Conj", "[convert], [Conj]"){
+TEST_CASE("ipps convert Conj", "[convert], [Conj]"){
     SECTION("Ipp16sc"){
         test_Conj<Ipp16sc>();
     }
@@ -423,7 +423,7 @@ void test_Conj_I()
     }
 }
 
-TEST_CASE("ippe convert Conj_I", "[convert], [Conj_I]"){
+TEST_CASE("ipps convert Conj_I", "[convert], [Conj_I]"){
     SECTION("Ipp16sc"){
         test_Conj_I<Ipp16sc>();
     }
@@ -477,7 +477,7 @@ void test_PowerSpectr_complex()
     }
 }
 
-TEST_CASE("ippe convert PowerSpectr", "[convert], [PowerSpectr]"){
+TEST_CASE("ipps convert PowerSpectr", "[convert], [PowerSpectr]"){
     SECTION("Ipp16s to Ipp32f"){
         test_PowerSpectr<Ipp16s, Ipp32f>();
     }

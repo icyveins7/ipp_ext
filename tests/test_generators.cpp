@@ -24,7 +24,7 @@ void test_slope_sample_generator()
     }
 }
 
-TEST_CASE("ippe Slope sample generator", "[generator],[slope]")
+TEST_CASE("ipps Slope sample generator", "[generator],[slope]")
 {
     /*
     Flavours are:
@@ -106,7 +106,7 @@ void test_tone_sample_generator_complex()
     }
 }
 
-TEST_CASE("ippe Tone sample generator", "[generator],[tone]")
+TEST_CASE("ipps Tone sample generator", "[generator],[tone]")
 {
     // Comparing integer output is a bit weird and i'm lazy to write special test for this
     // SECTION("Ipp16sc output"){

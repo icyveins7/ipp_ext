@@ -109,7 +109,7 @@ void test_sampleUp_cplx()
 }
 
 
-TEST_CASE("ippe sampling SampleUp", "[sampling], [SampleUp]")
+TEST_CASE("ipps sampling SampleUp", "[sampling], [SampleUp]")
 {
     SECTION("Ipp16s"){
         test_sampleUp<Ipp16s>();
@@ -245,7 +245,7 @@ void test_sampleDown_cplx()
     );
 }
 
-TEST_CASE("ippe sampling SampleDown", "[sampling], [SampleDown]")
+TEST_CASE("ipps sampling SampleDown", "[sampling], [SampleDown]")
 {
     SECTION("Ipp16s"){
         test_sampleDown<Ipp16s>();

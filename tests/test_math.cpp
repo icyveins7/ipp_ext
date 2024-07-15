@@ -44,7 +44,7 @@ T evaluate_integer_scaling(T x, int scaleFactor)
     return x;
 }
 
-TEST_CASE("ippe math Add", "[math, Add]")
+TEST_CASE("ipps math Add", "[math, Add]")
 {
     SECTION("Errors")
     {
@@ -256,7 +256,7 @@ TEST_CASE("ippe math Add", "[math, Add]")
    }
 }
 
-TEST_CASE("ippe math Add_Sfs", "[math, Add_Sfs]")
+TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
 {
     /*
     Flavours are:
@@ -627,7 +627,7 @@ void test_Add_I_complex()
     }
 }
 
-TEST_CASE("ippe math Add_I", "[math, Add_I]")
+TEST_CASE("ipps math Add_I", "[math, Add_I]")
 {
     /*
     Flavours are:
@@ -781,7 +781,7 @@ void test_Add_ISfs_complex()
     }
 }
 
-TEST_CASE("ippe math Add_ISfs", "[math, Add_ISfs]")
+TEST_CASE("ipps math Add_ISfs", "[math, Add_ISfs]")
 {
     /*
     Flavours are:
@@ -878,7 +878,7 @@ void test_AddC_complex()
     }
 }
 
-TEST_CASE("ippe math AddC", "[math], [AddC]")
+TEST_CASE("ipps math AddC", "[math], [AddC]")
 {
     SECTION("Ipp32f"){
         test_AddC<Ipp32f>();
@@ -952,7 +952,7 @@ void test_AddC_Sfs_complex()
     }
 }
 
-TEST_CASE("ippe math AddC_Sfs", "[math], [AddC_Sfs]")
+TEST_CASE("ipps math AddC_Sfs", "[math], [AddC_Sfs]")
 {
     SECTION("Ipp8u"){
         test_AddC_Sfs<Ipp8u, int>();
@@ -1041,7 +1041,7 @@ void test_AddC_I_complex()
     }
 }
 
-TEST_CASE("ippe math AddC_I", "[math], [AddC_I]")
+TEST_CASE("ipps math AddC_I", "[math], [AddC_I]")
 {
     SECTION("Ipp16s"){
         test_AddC_I<Ipp16s>();
@@ -1120,7 +1120,7 @@ void test_AddC_ISfs_complex()
     }
 }
 
-TEST_CASE("ippe math AddC_ISfs", "[math], [AddC_ISfs]")
+TEST_CASE("ipps math AddC_ISfs", "[math], [AddC_ISfs]")
 {
     SECTION("Ipp8u"){
         test_AddC_ISfs<Ipp8u>();
@@ -1206,7 +1206,7 @@ void test_AddProduct_complex()
     }
 }
 
-TEST_CASE("ippe math AddProduct", "[math], [AddProduct]")
+TEST_CASE("ipps math AddProduct", "[math], [AddProduct]")
 {
     SECTION("Ipp32f"){
         test_AddProduct<Ipp32f>();
@@ -1255,7 +1255,7 @@ void test_AddProduct_Sfs()
     }
 }
 
-TEST_CASE("ippe math AddProduct_Sfs", "[math], [AddProduct_Sfs]")
+TEST_CASE("ipps math AddProduct_Sfs", "[math], [AddProduct_Sfs]")
 {
     SECTION("Ipp16s"){
         test_AddProduct_Sfs<Ipp16s, Ipp16s>();
@@ -1340,7 +1340,7 @@ void test_Mul_complex()
     }
 }
 
-TEST_CASE("ippe math Mul", "[math, Mul]")
+TEST_CASE("ipps math Mul", "[math, Mul]")
 {
     /*
     Flavours are:
@@ -1533,7 +1533,7 @@ void test_Mul_Sfs_complex()
 
 }
 
-TEST_CASE("ippe math Mul_Sfs", "[math, Mul_Sfs]")
+TEST_CASE("ipps math Mul_Sfs", "[math, Mul_Sfs]")
 {
     /*
     Flavours are:
@@ -1643,7 +1643,7 @@ void test_Mul_I_complex()
     }
 }
 
-TEST_CASE("ippe math Mul_I", "[math, Mul_I]")
+TEST_CASE("ipps math Mul_I", "[math, Mul_I]")
 {
     /*
     Flavours are:
@@ -1829,7 +1829,7 @@ void test_Mul_ISfs_complex()
     }
 }
 
-TEST_CASE("ippe math Mul_ISfs", "[math],[Mul_ISfs]")
+TEST_CASE("ipps math Mul_ISfs", "[math],[Mul_ISfs]")
 {
     /*
     Flavours are:
@@ -1934,7 +1934,7 @@ void test_Sub_complex()
     }
 }
 
-TEST_CASE("ippe math Sub", "[math, Sub]")
+TEST_CASE("ipps math Sub", "[math, Sub]")
 {
     /*
     Flavours are:
@@ -2033,7 +2033,7 @@ void test_Sub_I_complex()
     }
 }
 
-TEST_CASE("ippe math Sub_I", "[math, Sub_I]")
+TEST_CASE("ipps math Sub_I", "[math, Sub_I]")
 {
     /*
     Flavours are:
@@ -2139,7 +2139,7 @@ void test_Ln_Sfs()
     }
 }
 
-TEST_CASE("ippe math Ln", "[math, Ln]")
+TEST_CASE("ipps math Ln", "[math, Ln]")
 {
     /*
     Flavours are:
@@ -2199,7 +2199,7 @@ void test_AddProductC()
     }
 }
 
-TEST_CASE("ippe math AddProductC", "[math], [AddProductC]")
+TEST_CASE("ipps math AddProductC", "[math], [AddProductC]")
 {
     SECTION("Ipp32f"){
         test_AddProductC<Ipp32f>();

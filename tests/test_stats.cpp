@@ -49,7 +49,7 @@ void test_Norm_L2_complex()
     REQUIRE(std::abs(norm - checkNorm) < 1e-10);
 }
 
-TEST_CASE("ippe stats Norm_L2", "[stats], [Norm_L2]")
+TEST_CASE("ipps stats Norm_L2", "[stats], [Norm_L2]")
 {
     SECTION("Ipp32f"){
         test_Norm_L2<Ipp32f, Ipp32f>();
@@ -113,7 +113,7 @@ void test_Sum_complex()
     REQUIRE(std::abs(sum.im - checkSum.im) < 1e-10);
 }
 
-TEST_CASE("ippe stats Sum", "[stats], [Sum]")
+TEST_CASE("ipps stats Sum", "[stats], [Sum]")
 {
     SECTION("Ipp32f"){
         test_Sum<Ipp32f>();
@@ -150,7 +150,7 @@ void test_Max()
     REQUIRE(std::abs(max - checkMax) < 1e-10);
 }
 
-TEST_CASE("ippe stats Max", "[stats], [Max]")
+TEST_CASE("ipps stats Max", "[stats], [Max]")
 {
     SECTION("Ipp16s"){
         test_Max<Ipp16s>();
@@ -194,7 +194,7 @@ void test_MaxIndx()
     REQUIRE(idx == checkIdx);
 }
 
-TEST_CASE("ippe stats MaxIndx", "[stats], [MaxIndx]")
+TEST_CASE("ipps stats MaxIndx", "[stats], [MaxIndx]")
 {
     SECTION("Ipp16s"){
         test_MaxIndx<Ipp16s>();
@@ -231,7 +231,7 @@ void test_Min()
     REQUIRE(std::abs(min - checkMin) < 1e-10);
 }
 
-TEST_CASE("ippe stats Min", "[stats], [Min]")
+TEST_CASE("ipps stats Min", "[stats], [Min]")
 {
     SECTION("Ipp16s"){
         test_Min<Ipp16s>();
@@ -274,7 +274,7 @@ void test_MinIndx()
     REQUIRE(idx == checkIdx);
 }
 
-TEST_CASE("ippe stats MinIndx", "[stats], [MinIndx]")
+TEST_CASE("ipps stats MinIndx", "[stats], [MinIndx]")
 {
     SECTION("Ipp16s"){
         test_MinIndx<Ipp16s>();
@@ -367,7 +367,7 @@ void test_DotProd_complexcomplex_complex()
     REQUIRE(std::abs(z.im - checkZ.im) < 1e-7);
 }
 
-TEST_CASE("ippe stats DotProd", "[stats], [DotProd]")
+TEST_CASE("ipps stats DotProd", "[stats], [DotProd]")
 {
     SECTION("Ipp32f, Ipp32f -> Ipp32f"){
         test_DotProd_realreal_real<Ipp32f, Ipp32f, Ipp32f>();
@@ -439,7 +439,7 @@ void test_DotProdSfs()
     REQUIRE(std::abs(z - checkZ) < 1e-7);
 }
 
-TEST_CASE("ippe stats DotProd_Sfs", "[stats], [DotProd_Sfs]")
+TEST_CASE("ipps stats DotProd_Sfs", "[stats], [DotProd_Sfs]")
 {
     SECTION("Ipp16s, Ipp16s -> Ipp32s"){
         test_DotProdSfs<Ipp16s, Ipp16s, Ipp32s>();

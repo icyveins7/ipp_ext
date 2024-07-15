@@ -65,7 +65,7 @@ void randUniform_test()
     }
 }
 
-TEST_CASE("ippe RandUniform", "[random], [uniform]")
+TEST_CASE("ipps RandUniform", "[random], [uniform]")
 {
     SECTION("Ipp8u")
     {
@@ -156,7 +156,7 @@ void randGauss_test()
     REQUIRE(estMean2 == estMean3);
 }
 
-TEST_CASE("ippe RandGauss", "[random], [gauss]")
+TEST_CASE("ipps RandGauss", "[random], [gauss]")
 {
     SECTION("Ipp8u")
     {

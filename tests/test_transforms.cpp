@@ -59,7 +59,7 @@ void test_Goertz_complex()
     REQUIRE(std::abs(sum.im - val.im) < 1e-6);
 }
 
-TEST_CASE("ippe transform Goertz", "[transform], [Goertz]")
+TEST_CASE("ipps transform Goertz", "[transform], [Goertz]")
 {
     SECTION("Ipp32f"){
         test_Goertz_real<Ipp32f, Ipp32fc, Ipp32f>();
