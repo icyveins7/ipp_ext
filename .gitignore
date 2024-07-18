@@ -434,3 +434,6 @@ FodyWeavers.xsd
 
 # MacOS
 .DS_Store
+
+# CMake build folder
+build/
