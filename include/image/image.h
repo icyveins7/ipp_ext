@@ -17,7 +17,6 @@ template <typename T, channels U>
 class image
 {
 protected:
-  size_t cap = 0;
   size_t m_widthPix = 0;
   size_t m_heightPix = 0;
   IppSizeL m_stepBytes = 0; // This is returned during ippiMalloc functions
@@ -35,32 +34,25 @@ public:
 
   // Construct with the IPP struct that contains both width and height
   explicit image(const IppiSize size)
-    : m_widthPix(size.width),
-    m_heightPix(size.height)
   {
     DEBUG("image(IppiSize)\n");
-    reserve(m_widthPix, m_heightPix);
+    reserve(size.width, size.height); // this will set internal member sizes
   }
 
   // Construct with width, height; stepBytes is assumed equal to the width bytes
   explicit image(
     const size_t width,
     const size_t height = 1
-  )
-    : m_widthPix(width)
-    , m_heightPix(height)
-  {
+  ){
     DEBUG("image(width, height)\n");
-    reserve(m_widthPix, m_heightPix);
+    reserve(width, height); // this will set internal member sizes
   }
 
   // Copy constructor
   image(const image& other)
-    : m_widthPix(other.m_widthPix)
-    , m_heightPix(other.m_heightPix)
   {
     DEBUG("image(const image&)\n");
-    reserve(m_widthPix, m_heightPix);
+    reserve(other.m_widthPix, other.m_heightPix); // this will set internal member sizes
     // copy data
     // TODO: use ippiCopy?
     for (size_t i = 0; i < m_heightPix; ++i)
@@ -72,9 +64,7 @@ public:
   image& operator=(const image& other)
   {
     DEBUG("image& operator=(const image&)\n");
-    m_widthPix = other.m_widthPix;
-    m_heightPix = other.m_heightPix;
-    reserve(m_widthPix, m_heightPix);
+    reserve(other.m_widthPix, other.m_heightPix); // this will set internal member sizes
     // copy data
     // TODO: use ippiCopy?
     for (size_t i = 0; i < m_heightPix; ++i)
@@ -89,15 +79,13 @@ public:
     : m_widthPix(other.m_widthPix),
     m_heightPix(other.m_heightPix),
     m_stepBytes(other.m_stepBytes),
-    m_data(other.m_data),
-    cap(other.cap)
+    m_data(other.m_data)
   {
     DEBUG("image(image&&)\n");
     other.m_data = nullptr;
     other.m_widthPix = 0;
     other.m_heightPix = 0;
     other.m_stepBytes = 0;
-    other.cap = 0;
   }
 
   // Move assignment operator
@@ -114,14 +102,12 @@ public:
       m_heightPix = other.m_heightPix;
       m_stepBytes = other.m_stepBytes;
       m_data = other.m_data;
-      cap = other.cap;
 
       // Reset other
       other.m_data = nullptr;
       other.m_widthPix = 0;
       other.m_heightPix = 0;
       other.m_stepBytes = 0;
-      other.cap = 0;
     }
 
     return *this;
@@ -136,17 +122,19 @@ public:
   }
 
   // Vector-like reserve, to be template specialized
+
   void reserve(
     const size_t width,
     const size_t height
   ){
     DEBUG("reserve(width, height)\n");
 
-    // Play it safe for now, as long as either width or height is bigger than before
+    // Play it safe for now, as long as either width or height has changed
     // then we re-allocate new memory
-    if (width * height > cap)
+    if (width != m_widthPix || height != m_heightPix)
     {
-      DEBUG("Attempting internal_malloc()\n");
+      DEBUG("Attempting internal_malloc\n");
+      printf("%zd, %zd\n", width, height);
       T* newdata = internal_malloc(
         static_cast<IppSizeL>(width),
         static_cast<IppSizeL>(height)
@@ -169,7 +157,6 @@ public:
       m_widthPix = width;
       m_heightPix = height;
       m_data = newdata;
-      cap = width * height;
     }
     DEBUG("reserve() done\n");
   }
@@ -188,13 +175,14 @@ public:
 
   // Data pointer
   T* data() { return m_data; }
-  // Capacity
-  size_t capacity() const { return cap; }
+  // Capacity TODO: maybe don't use this, ceases to have same meaning as vector?
+  size_t capacity() const { return m_widthPix * m_heightPix; }
   // 0 height & width
   bool empty() const { return m_widthPix == 0 && m_heightPix == 0; }
 
   /* Setters */
 
+  // TODO: do we really want this? loses its meaning now
   void clear(){ m_widthPix = 0; m_heightPix = 0; m_stepBytes = 0; }
 
   /* Accessors */
@@ -667,11 +655,13 @@ template <>
 inline Ipp32fc* image<Ipp32fc, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
+    printf("in malloc_32fc_AC4 with %lld, %lld\n", width, height);
     Ipp32fc* newdata = ippiMalloc_32fc_AC4_L(
         static_cast<IppSizeL>(m_widthPix),
         static_cast<IppSizeL>(m_heightPix),
         &m_stepBytes
     );
+    if(newdata == nullptr) printf("ippiMalloc_32fc_AC4_L failed\n");
     return newdata;
 }
 

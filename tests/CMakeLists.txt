@@ -47,9 +47,7 @@ if (WIN32)
     find_library(ippcorelib NAMES ippcore ENV LIBRARY_PATH)
     find_library(ippslib NAMES ipps ENV LIBRARY_PATH) # Did i actually need HINTS here too?
     find_library(ippvmlib NAMES ippvm ENV LIBRARY_PATH)
-    message("Libpath: " ${ippcorelib})
-    message("Libpath: " ${ippslib})
-    message("Libpath: " ${ippvmlib})
+    find_library(ippilib NAMES ippi ENV LIBRARY_PATH)
 elseif (APPLE)
     # For Apple Silicon builds, the linker seems to dislike
     # dynamic linking, but static linking seems to work
@@ -58,9 +56,7 @@ elseif (APPLE)
     find_library(ippcorelib NAMES libippcore.a HINTS ENV DYLD_LIBRARY_PATH) # on mac it seems like it's here, even though it's linux based
     find_library(ippslib NAMES libipps.a HINTS ENV DYLD_LIBRARY_PATH)
     find_library(ippvmlib NAMES libippvm.a HINTS ENV DYLD_LIBRARY_PATH)
-    message("Libpath: " ${ippcorelib})
-    message("Libpath: " ${ippslib})
-    message("Libpath: " ${ippvmlib})
+    find_library(ippilib NAMES libippi.a HINTS ENV DYLD_LIBRARY_PATH)
     # I don't need rpath any more because it's static?
     # I will leave this below as a reminder that you don't need to use RPATH
     # For mac we must also find the library directory and set rpath. The linux method doesn't seem to compile properly
@@ -72,11 +68,14 @@ else ()
     message("Finding IPP libraries for Linux...")
     find_library(ippcorelib NAMES libippcore ippcore HINTS ENV LD_LIBRARY_PATH)
     find_library(ippslib NAMES libipps ipps HINTS ENV LD_LIBRARY_PATH)
-    find_library(ippvmlib NAMES libvmlib ipps HINTS ENV LD_LIBRARY_PATH)
-    message("Libpath: " ${ippcorelib})
-    message("Libpath: " ${ippslib})
-    message("Libpath: " ${ippvmlib})
+    find_library(ippvmlib NAMES libippvm ippvm HINTS ENV LD_LIBRARY_PATH)
+    find_library(ippilib NAMES libippi ippi HINTS ENV LD_LIBRARY_PATH)
 endif()
+
+message("Libpath: " ${ippcorelib})
+message("Libpath: " ${ippslib})
+message("Libpath: " ${ippvmlib})
+message("Libpath: " ${ippilib})
 
 # Define test executable for vectors
 add_executable(test_vecs test_vectors.cpp test_vectors_encapsulation.cpp)
@@ -126,6 +125,10 @@ target_link_libraries(test_logical PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} C
 add_executable(test_sampling test_sampling.cpp)
 target_link_libraries(test_sampling PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} Catch2::Catch2WithMain)
 
+# Define test executable for image
+add_executable(test_image test_image.cpp)
+target_link_libraries(test_image PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 catch_discover_tests(test_vecs)
@@ -140,3 +143,4 @@ catch_discover_tests(test_transforms)
 catch_discover_tests(test_stats)
 catch_discover_tests(test_logical)
 catch_discover_tests(test_sampling)
+catch_discover_tests(test_image)
