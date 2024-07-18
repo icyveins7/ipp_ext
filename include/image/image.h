@@ -122,7 +122,6 @@ public:
   }
 
   // Vector-like reserve, to be template specialized
-
   void reserve(
     const size_t width,
     const size_t height
@@ -134,11 +133,10 @@ public:
     if (width != m_widthPix || height != m_heightPix)
     {
       DEBUG("Attempting internal_malloc\n");
-      printf("%zd, %zd\n", width, height);
       T* newdata = internal_malloc(
         static_cast<IppSizeL>(width),
         static_cast<IppSizeL>(height)
-      );
+      ); // note that this sets m_stepBytes internally
 
       // Check not null
       if (newdata == nullptr)
@@ -214,8 +212,8 @@ inline Ipp8u* image<Ipp8u, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp8u* newdata = ippiMalloc_8u_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -227,8 +225,8 @@ inline Ipp8u* image<Ipp8u, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp8u* newdata = ippiMalloc_8u_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -240,8 +238,8 @@ inline Ipp8u* image<Ipp8u, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp8u* newdata = ippiMalloc_8u_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -253,8 +251,8 @@ inline Ipp8u* image<Ipp8u, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp8u* newdata = ippiMalloc_8u_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -266,8 +264,8 @@ inline Ipp8u* image<Ipp8u, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp8u* newdata = ippiMalloc_8u_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -279,8 +277,8 @@ inline Ipp16u* image<Ipp16u, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16u* newdata = ippiMalloc_16u_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -292,8 +290,8 @@ inline Ipp16u* image<Ipp16u, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16u* newdata = ippiMalloc_16u_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -305,8 +303,8 @@ inline Ipp16u* image<Ipp16u, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16u* newdata = ippiMalloc_16u_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -318,8 +316,8 @@ inline Ipp16u* image<Ipp16u, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16u* newdata = ippiMalloc_16u_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -331,8 +329,8 @@ inline Ipp16u* image<Ipp16u, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16u* newdata = ippiMalloc_16u_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -344,8 +342,8 @@ inline Ipp16s* image<Ipp16s, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16s* newdata = ippiMalloc_16s_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -357,8 +355,8 @@ inline Ipp16s* image<Ipp16s, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16s* newdata = ippiMalloc_16s_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -370,8 +368,8 @@ inline Ipp16s* image<Ipp16s, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16s* newdata = ippiMalloc_16s_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -383,8 +381,8 @@ inline Ipp16s* image<Ipp16s, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16s* newdata = ippiMalloc_16s_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -396,8 +394,8 @@ inline Ipp16s* image<Ipp16s, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp16s* newdata = ippiMalloc_16s_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -408,9 +406,10 @@ template <>
 inline Ipp32s* image<Ipp32s, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
+    printf("%lld, %lld\n", width, height);
     Ipp32s* newdata = ippiMalloc_32s_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -422,8 +421,8 @@ inline Ipp32s* image<Ipp32s, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32s* newdata = ippiMalloc_32s_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -435,8 +434,8 @@ inline Ipp32s* image<Ipp32s, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32s* newdata = ippiMalloc_32s_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -448,8 +447,8 @@ inline Ipp32s* image<Ipp32s, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32s* newdata = ippiMalloc_32s_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -461,8 +460,8 @@ inline Ipp32s* image<Ipp32s, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32s* newdata = ippiMalloc_32s_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -474,8 +473,8 @@ inline Ipp32f* image<Ipp32f, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32f* newdata = ippiMalloc_32f_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -487,8 +486,8 @@ inline Ipp32f* image<Ipp32f, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32f* newdata = ippiMalloc_32f_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -500,8 +499,8 @@ inline Ipp32f* image<Ipp32f, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32f* newdata = ippiMalloc_32f_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -513,8 +512,8 @@ inline Ipp32f* image<Ipp32f, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32f* newdata = ippiMalloc_32f_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -526,8 +525,8 @@ inline Ipp32f* image<Ipp32f, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32f* newdata = ippiMalloc_32f_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -539,8 +538,8 @@ inline Ipp32sc* image<Ipp32sc, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32sc* newdata = ippiMalloc_32sc_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -552,8 +551,8 @@ inline Ipp32sc* image<Ipp32sc, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32sc* newdata = ippiMalloc_32sc_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -565,8 +564,8 @@ inline Ipp32sc* image<Ipp32sc, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32sc* newdata = ippiMalloc_32sc_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -578,8 +577,8 @@ inline Ipp32sc* image<Ipp32sc, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32sc* newdata = ippiMalloc_32sc_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -591,8 +590,8 @@ inline Ipp32sc* image<Ipp32sc, channels::AC4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32sc* newdata = ippiMalloc_32sc_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -604,8 +603,8 @@ inline Ipp32fc* image<Ipp32fc, channels::C1>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32fc* newdata = ippiMalloc_32fc_C1_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -617,8 +616,8 @@ inline Ipp32fc* image<Ipp32fc, channels::C2>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32fc* newdata = ippiMalloc_32fc_C2_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -630,8 +629,8 @@ inline Ipp32fc* image<Ipp32fc, channels::C3>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32fc* newdata = ippiMalloc_32fc_C3_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -643,8 +642,8 @@ inline Ipp32fc* image<Ipp32fc, channels::C4>::internal_malloc(
     const IppSizeL width, const IppSizeL height)
 {
     Ipp32fc* newdata = ippiMalloc_32fc_C4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     return newdata;
@@ -657,8 +656,8 @@ inline Ipp32fc* image<Ipp32fc, channels::AC4>::internal_malloc(
 {
     printf("in malloc_32fc_AC4 with %lld, %lld\n", width, height);
     Ipp32fc* newdata = ippiMalloc_32fc_AC4_L(
-        static_cast<IppSizeL>(m_widthPix),
-        static_cast<IppSizeL>(m_heightPix),
+        static_cast<IppSizeL>(width),
+        static_cast<IppSizeL>(height),
         &m_stepBytes
     );
     if(newdata == nullptr) printf("ippiMalloc_32fc_AC4_L failed\n");
