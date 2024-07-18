@@ -54,6 +54,79 @@ public:
     reserve(m_widthPix, m_heightPix);
   }
 
+  // Copy constructor
+  image(const image& other)
+    : m_widthPix(other.m_widthPix)
+    , m_heightPix(other.m_heightPix)
+  {
+    DEBUG("image(const image&)\n");
+    reserve(m_widthPix, m_heightPix);
+    // copy data
+    // TODO: use ippiCopy?
+    for (size_t i = 0; i < m_heightPix; ++i)
+      for (size_t j = 0; j < m_widthPix; ++j)
+        this->at(i, j) = other.at(i,j);
+  }
+
+  // Assignment operator
+  image& operator=(const image& other)
+  {
+    DEBUG("image& operator=(const image&)\n");
+    m_widthPix = other.m_widthPix;
+    m_heightPix = other.m_heightPix;
+    reserve(m_widthPix, m_heightPix);
+    // copy data
+    // TODO: use ippiCopy?
+    for (size_t i = 0; i < m_heightPix; ++i)
+      for (size_t j = 0; j < m_widthPix; ++j)
+        this->at(i, j) = other.at(i,j);
+
+    return *this;
+  }
+
+  // Move constructor
+  image(image&& other)
+    : m_widthPix(other.m_widthPix),
+    m_heightPix(other.m_heightPix),
+    m_stepBytes(other.m_stepBytes),
+    m_data(other.m_data),
+    cap(other.cap)
+  {
+    DEBUG("image(image&&)\n");
+    other.m_data = nullptr;
+    other.m_widthPix = 0;
+    other.m_heightPix = 0;
+    other.m_stepBytes = 0;
+    other.cap = 0;
+  }
+
+  // Move assignment operator
+  image& operator=(image&& other)
+  {
+    DEBUG("image& operator=(image&&)\n");
+    if (this!= &other)
+    {
+      // Free old data
+      ippiFree(m_data);
+
+      // Copy data from other
+      m_widthPix = other.m_widthPix;
+      m_heightPix = other.m_heightPix;
+      m_stepBytes = other.m_stepBytes;
+      m_data = other.m_data;
+      cap = other.cap;
+
+      // Reset other
+      other.m_data = nullptr;
+      other.m_widthPix = 0;
+      other.m_heightPix = 0;
+      other.m_stepBytes = 0;
+      other.cap = 0;
+    }
+
+    return *this;
+  }
+
 
   // Destructor
   ~image()
