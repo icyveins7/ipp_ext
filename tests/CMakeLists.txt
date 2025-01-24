@@ -129,6 +129,10 @@ target_link_libraries(test_sampling PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} 
 add_executable(test_image test_image.cpp)
 target_link_libraries(test_image PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib} Catch2::Catch2WithMain)
 
+# Define test executable for remap
+add_executable(test_remap test_remap.cpp)
+target_link_libraries(test_remap PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib} Catch2::Catch2WithMain)
+
 include(CTest)
 include(Catch)
 catch_discover_tests(test_vecs)
@@ -144,3 +148,4 @@ catch_discover_tests(test_stats)
 catch_discover_tests(test_logical)
 catch_discover_tests(test_sampling)
 catch_discover_tests(test_image)
+catch_discover_tests(test_remap)
