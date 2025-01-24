@@ -16,7 +16,7 @@ void FIRSR_example()
 
     printf("Checking filter coefficients...\n");
     for (int i = 0; i < filter.getTaps().size(); i++)
-        printf("%f ", filter.getTaps()[i]);
+        printf("%f %f", filter.getTaps()[i].re, filter.getTaps()[i].im);
 
     printf("\nCreating some data...\n");
     ipps::vector<Ipp32fc> data(10);
