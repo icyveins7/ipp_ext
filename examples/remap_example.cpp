@@ -1,6 +1,7 @@
 #include "ipp_ext.h"
 
 #include <iostream>
+#include <array>
 
 int main()
 {
@@ -28,9 +29,10 @@ int main()
     // call the remap
     ippi::image<Ipp32f, ippi::channels::C1> dst(xmap.size());
     // initialize all destination to a larger number so we can see the effect
+    const Ipp32f fixedInit = 9.9f;
     for (int i = 0; i < dst.height(); ++i)
       for (int j = 0; j < dst.width(); ++j)
-        dst.at(i, j) = 9.9f;
+        dst.at(i, j) = fixedInit;
 
     IppiRect srcRoi = { 0, 0, static_cast<int>(src.width()), static_cast<int>(src.height()) };
 
@@ -39,15 +41,55 @@ int main()
       dst.data(), dst.stepBytes(), dst.size(), IPPI_INTER_LINEAR);
 
     // print the result
+    std::array<int, 4> cornersX;
+    std::array<int, 4> cornersY;
+    int k = 0;
     for (int i = 0; i < dst.height(); ++i)
     {
       for (int j = 0; j < dst.width(); ++j)
       {
         printf("%.1f ", dst.at(i, j));
+        // Top left
+        if (i > 0 && j > 0 && dst.at(i, j) != 9.9f && dst.at(i, j-1) == 9.9f && dst.at(i-1, j) == 9.9f)
+        {
+          cornersX.at(k) = j;
+          cornersY.at(k) = i;
+          k++;
+        }
+        // Btm left
+        if (i > 0 && j > 0 && dst.at(i, j) != 9.9f && dst.at(i, j-1) == 9.9f && dst.at(i+1, j) == 9.9f)
+        {
+          cornersX.at(k) = j;
+          cornersY.at(k) = i;
+          k++;
+
+        }
+        // Top right
+        if (i > 0 && j > 0 && dst.at(i, j-1) != 9.9f && dst.at(i, j) == 9.9f && dst.at(i-1, j-1) == 9.9f)
+        {
+          cornersX.at(k) = j-1;
+          cornersY.at(k) = i;
+          k++;
+        }
+        // Btm right
+        if (i > 0 && j > 0 && dst.at(i, j-1) != 9.9f && dst.at(i, j) == 9.9f && dst.at(i+1, j-1) == 9.9f)
+        {
+          cornersX.at(k) = j-1;
+          cornersY.at(k) = i;
+          k++;
+        }
+
       }
       printf("\n");
     }
 
+    // Check corners
+    for (int i = 0; i < k; ++i)
+      printf(
+        "(%d, %d) => %.1f, %.1f\n",
+        cornersX.at(i), cornersY.at(i),
+        xmap.at(cornersY.at(i), cornersX.at(i)), ymap.at(cornersY.at(i), cornersX.at(i))
+      );
 
   }
   catch (std::exception& e){
