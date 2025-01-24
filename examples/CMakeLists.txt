@@ -70,11 +70,13 @@ target_link_libraries(sample_updown_example PUBLIC ${ippcorelib} ${ippslib} ${ip
 add_executable(heap_overflow_example heap_overflow_example.cpp)
 target_link_libraries(heap_overflow_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib})
 target_compile_options(heap_overflow_example PUBLIC -fsanitize=address)
+target_link_options(heap_overflow_example PUBLIC -fsanitize=address)
 
 ###########################################################
 add_executable(image_example image_example.cpp)
 target_link_libraries(image_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib})
 target_compile_options(image_example PUBLIC -fsanitize=address)
+target_link_options(image_example PUBLIC -fsanitize=address)
 
 ###########################################################
 add_executable(image_dft_example image_dft_example.cpp)
@@ -84,6 +86,7 @@ target_link_libraries(image_dft_example PUBLIC ${ippcorelib} ${ippslib} ${ippvml
 add_executable(heap_overflow_image_example heap_overflow_image_example.cpp)
 target_link_libraries(heap_overflow_image_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib})
 target_compile_options(heap_overflow_image_example PUBLIC -fsanitize=address)
+target_link_options(heap_overflow_image_example PUBLIC -fsanitize=address)
 
 ###########################################################
 add_executable(remap_example remap_example.cpp)
