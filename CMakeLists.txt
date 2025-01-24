@@ -7,6 +7,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 11)
 
+if (UNIX)
+  add_compile_options(-fdiagnostics-color)
+endif()
+
 # Add the separate parts
 add_subdirectory(benchmarks)
 add_subdirectory(examples)
