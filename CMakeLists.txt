@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 11)
 
 if (UNIX)
-  add_compile_options(-fdiagnostics-color)
+  add_compile_options(-fdiagnostics-color -Wall)
 endif()
 
 # Add the separate parts

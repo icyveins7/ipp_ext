@@ -35,10 +35,10 @@ TEST_CASE("Benchmark upfirdn implementations", "[upfirdn],[naive],[FIRMR]")
         BENCHMARK("upfirdn naive")
         {
             auto& taps = filter.getTaps();
-            for (int i = 0; i < result.size(); i++)
+            for (int i = 0; i < (int)result.size(); i++)
             {
                 Ipp32fc value = {0, 0};
-                for (int j = 0; j < taps.size(); j++)
+                for (int j = 0; j < (int)taps.size(); j++)
                 {
                     if ((i * down - j) >= 0 && (i * down - j) % up == 0 )
                     {

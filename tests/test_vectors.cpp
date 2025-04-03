@@ -506,7 +506,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
@@ -514,7 +514,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp8u>> v(4);
 
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp8u>(100, 1);
 
             // should be same size
@@ -536,14 +536,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp16u assignment operator"){
         std::vector<ipps::vector<Ipp16u>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp16u>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -564,14 +564,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp32u assignment operator"){
         std::vector<ipps::vector<Ipp32u>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32u>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -592,14 +592,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp64u assignment operator"){
         std::vector<ipps::vector<Ipp64u>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64u>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -620,14 +620,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp32f assignment operator"){
         std::vector<ipps::vector<Ipp32f>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32f>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -648,14 +648,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp64f assignment operator"){
         std::vector<ipps::vector<Ipp64f>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64f>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -676,14 +676,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp8s assignment operator"){
         std::vector<ipps::vector<Ipp8s>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp8s>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -704,7 +704,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
@@ -719,14 +719,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp32s assignment operator"){
         std::vector<ipps::vector<Ipp32s>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32s>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -747,14 +747,14 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
             REQUIRE(a.at(i) == v.at(0).at(i));
     }
 
     SECTION("ipp64s assignment operator"){
         std::vector<ipps::vector<Ipp64s>> v(4);
         // assign to the std vector of ipps vectors
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64s>(100, 1);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -776,7 +776,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
         {
             REQUIRE(a.at(i).re == v.at(0).at(i).re);
             REQUIRE(a.at(i).im == v.at(0).at(i).im);
@@ -787,7 +787,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp8sc>> v(4);
         // assign to the std vector of ipps vectors
         Ipp8sc c = {1, 1};
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp8sc>(100, c);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -812,7 +812,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
         {
             REQUIRE(a.at(i).re == v.at(0).at(i).re);
             REQUIRE(a.at(i).im == v.at(0).at(i).im);
@@ -823,7 +823,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp16sc>> v(4);
         // assign to the std vector of ipps vectors
         Ipp16sc c = {1, 1};
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp16sc>(100, c);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -848,7 +848,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
         {
             REQUIRE(a.at(i).re == v.at(0).at(i).re);
             REQUIRE(a.at(i).im == v.at(0).at(i).im);
@@ -859,7 +859,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp32sc>> v(4);
         // assign to the std vector of ipps vectors
         Ipp32sc c = {1, 1};
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32sc>(100, c);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -884,7 +884,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
         {
             REQUIRE(a.at(i).re == v.at(0).at(i).re);
             REQUIRE(a.at(i).im == v.at(0).at(i).im);
@@ -895,7 +895,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp64sc>> v(4);
         // assign to the std vector of ipps vectors
         Ipp64sc c = {1, 1};
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64sc>(100, c);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -920,7 +920,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
         {
             REQUIRE(a.at(i).re == v.at(0).at(i).re);
             REQUIRE(a.at(i).im == v.at(0).at(i).im);
@@ -931,7 +931,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp32fc>> v(4);
         // assign to the std vector of ipps vectors
         Ipp32fc c = {1.0, 1.0};
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp32fc>(100, c);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -956,7 +956,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         // should be same size
         REQUIRE(a.size() == v.at(0).size());
         // should be same data
-        for (int i = 0; i < a.size(); i++)
+        for (size_t i = 0; i < a.size(); i++)
         {
             REQUIRE(a.at(i).re == v.at(0).at(i).re);
             REQUIRE(a.at(i).im == v.at(0).at(i).im);
@@ -967,7 +967,7 @@ TEST_CASE("ipps vector copy/assignment", "[vector],[copy],[assignment]"){
         std::vector<ipps::vector<Ipp64fc>> v(4);
         // assign to the std vector of ipps vectors
         Ipp64fc c = {1.0, 1.0};
-        for (int i = 0; i < v.size(); i++){
+        for (size_t i = 0; i < v.size(); i++){
             v.at(i) = ipps::vector<Ipp64fc>(100, c);
             // should be same size
             REQUIRE(100 == v.at(i).size());
@@ -991,14 +991,14 @@ void test_vector_iterators()
     int i = 0;
     for (auto& v : a)
     {
-        v = i;
+        v = (T)i;
         i++;
     }
     // Read with the const iterators specifically
     i = 0;
     for (const auto& v : a)
     {
-        REQUIRE(v == i);
+        REQUIRE(v == (T)i);
         i++;
     }
 }

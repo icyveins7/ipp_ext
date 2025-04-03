@@ -350,7 +350,7 @@ void test_FIRMR_lowpass()
 
     // Create some data
     ipps::vector<U> data(30);
-    for (int i = 0; i < data.size(); i++)
+    for (int i = 0; i < (int)data.size(); i++)
     {
         data[i] = 10 + i;
     }
@@ -360,10 +360,10 @@ void test_FIRMR_lowpass()
     filter.filter(data.data(), result.data(), data.size(), result.size());
 
     // Check results
-    for (int i = 0; i < result.size(); i++)
+    for (int i = 0; i < (int)result.size(); i++)
     {
         U value = 0;
-        for (int j = 0; j < filter.getTaps().size(); j++)
+        for (int j = 0; j < (int)filter.getTaps().size(); j++)
         {
             if ((i * down - j) >= 0 && (i * down - j) % up == 0 )
             {
@@ -375,14 +375,14 @@ void test_FIRMR_lowpass()
 
     // Check that the delay is set correctly
     const ipps::vector<U> &delay = filter.getDelayVector();
-    for (int i = 0; i < delay.size(); i++)
+    for (size_t i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i] == data[data.size()-delay.size()+i]);
     }
 
     // Reset the delay and check again
     filter.reset();
-    for (int i = 0; i < delay.size(); i++)
+    for (size_t i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i] == 0);
     }
@@ -406,13 +406,13 @@ void test_FIRMR_lowpass()
     filters.push_back(filter); // copy
 
     // Check that the delays are the same as the original
-    for (int i = 0; i < filters.size(); i++)
+    for (int i = 0; i < (int)filters.size(); i++)
     {
-        for (int j = 0; j < filters.at(i).getDelayVector().size(); j++)
+        for (int j = 0; j < (int)filters.at(i).getDelayVector().size(); j++)
         {
             REQUIRE(filters.at(i).getDelayVector()[j] == filter.getDelayVector()[j]);
         }
-        for (int j = 0; j < filters.at(i).getTaps().size(); j++)
+        for (int j = 0; j < (int)filters.at(i).getTaps().size(); j++)
         {
             REQUIRE(filters.at(i).getTaps()[j] == filter.getTaps()[j]);
         }
@@ -436,7 +436,7 @@ void test_FIRMR_lowpass_cplx()
 
     // Create some data
     ipps::vector<U> data(30);
-    for (int i = 0; i < data.size(); i++)
+    for (size_t i = 0; i < data.size(); i++)
     {
         data[i].re = 10 + i;
         data[i].im = 20 + i;
@@ -447,10 +447,10 @@ void test_FIRMR_lowpass_cplx()
     filter.filter(data.data(), result.data(), data.size(), result.size());
 
     // Check results
-    for (int i = 0; i < result.size(); i++)
+    for (int i = 0; i < (int)result.size(); i++)
     {
         U value = {0, 0};
-        for (int j = 0; j < filter.getTaps().size(); j++)
+        for (int j = 0; j < (int)filter.getTaps().size(); j++)
         {
             if ((i * down - j) >= 0 && (i * down - j) % up == 0 )
             {
@@ -464,7 +464,7 @@ void test_FIRMR_lowpass_cplx()
 
     // Check that the delay is set correctly
     const ipps::vector<U> &delay = filter.getDelayVector();
-    for (int i = 0; i < delay.size(); i++)
+    for (size_t i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i].re == data[data.size()-delay.size()+i].re);
         REQUIRE(delay[i].im == data[data.size()-delay.size()+i].im);
@@ -472,7 +472,7 @@ void test_FIRMR_lowpass_cplx()
 
     // Reset the delay and check again
     filter.reset();
-    for (int i = 0; i < delay.size(); i++)
+    for (size_t i = 0; i < delay.size(); i++)
     {
         REQUIRE(delay[i].re == 0);
         REQUIRE(delay[i].im == 0);
@@ -497,14 +497,14 @@ void test_FIRMR_lowpass_cplx()
     filters.push_back(filter); // copy
 
     // Check that the delays are the same as the original
-    for (int i = 0; i < filters.size(); i++)
+    for (int i = 0; i < (int)filters.size(); i++)
     {
-        for (int j = 0; j < filters.at(i).getDelayVector().size(); j++)
+        for (int j = 0; j < (int)filters.at(i).getDelayVector().size(); j++)
         {
             REQUIRE(filters.at(i).getDelayVector()[j].re == filter.getDelayVector()[j].re);
             REQUIRE(filters.at(i).getDelayVector()[j].im == filter.getDelayVector()[j].im);
         }
-        for (int j = 0; j < filters.at(i).getTaps().size(); j++)
+        for (int j = 0; j < (int)filters.at(i).getTaps().size(); j++)
         {
             REQUIRE(filters.at(i).getTaps()[j].re == filter.getTaps()[j].re);
         }
