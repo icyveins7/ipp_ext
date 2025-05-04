@@ -145,7 +145,7 @@ namespace ipps
 
                 // Perform add using the ippe math functions
                 matrix result(this->rows(), this->columns());
-                math::Add(this->data(), other.data(), result.data(), result.size());
+                math::Add(this->data(), other.data(), result.data(), (int)result.size());
 
                 return result;
             }
@@ -153,7 +153,7 @@ namespace ipps
             matrix operator+(const T& value)
             {
                 matrix result(this->rows(), this->columns());
-                math::AddC(this->data(), value, result.data(), result.size());
+                math::AddC(this->data(), value, result.data(), (int)result.size());
 
                 return result;
             }
@@ -170,7 +170,7 @@ namespace ipps
 
                 // Perform sub using the ippe math functions
                 matrix result(this->rows(), this->columns());
-                math::Sub(other.data(), this->data(), result.data(), result.size());
+                math::Sub(other.data(), this->data(), result.data(), (int)result.size());
 
                 return result;
             }
@@ -185,7 +185,7 @@ namespace ipps
                     throw std::out_of_range("Dimension mismatch for operator+");
 
                 // Perform add using the ippe math functions
-                math::Add_I(other.data(), this->data(), this->size());
+                math::Add_I(other.data(), this->data(), (int)this->size());
 
                 return *this;
             }
@@ -200,7 +200,7 @@ namespace ipps
                     throw std::out_of_range("Dimension mismatch for operator+");
 
                 // Perform sub using the ippe math functions
-                math::Sub_I(other.data(), this->data(), this->size());
+                math::Sub_I(other.data(), this->data(), (int)this->size());
 
                 return *this;
             }
@@ -262,8 +262,8 @@ namespace ipps
                     for (size_t colIdx = 0; colIdx < other.columns(); colIdx++)
                     {
                         // Use SampleDown to extract the 2nd matrix's column
-                        int dstLen = otherCol.size();
-                        int phase = colIdx;
+                        int dstLen = (int)otherCol.size();
+                        int phase = (int)colIdx;
                         sampling::SampleDown(
                             other.data(), static_cast<int>(other.size()),
                             otherCol.data(), &dstLen,

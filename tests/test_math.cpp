@@ -24,7 +24,7 @@ T evaluate_integer_scaling(T x, int scaleFactor)
     int f = 1 << scaleFactor;
     if (x % 2 == 1 || x % 2 == -1)
     {
-        x = x / f;
+        x = (T)(x / f);
         // If the resulting division was clipped down to an odd number then add 1 to make it even
         if (x % 2 == 1 || x % 2 == -1){
             if (x > 0) // for negative numbers we should already hit the even value
@@ -34,12 +34,12 @@ T evaluate_integer_scaling(T x, int scaleFactor)
             else
             {
                 x -= 1;
-            }      
+            }
         }
     }
     else
     {
-        x = x / f;
+        x = (T)(x / f);
     }
     return x;
 }
@@ -54,7 +54,7 @@ TEST_CASE("ipps math Add", "[math, Add]")
         // Throw when null pointer
         Ipp16s *nptr = nullptr;
         REQUIRE_THROWS_AS(
-            ipps::math::Add(nptr, x.data(), z.data(), x.size()), std::runtime_error);
+            ipps::math::Add(nptr, x.data(), z.data(), (int)x.size()), std::runtime_error);
 
         // Throw when 0 length
         REQUIRE_THROWS_AS(
@@ -81,11 +81,11 @@ TEST_CASE("ipps math Add", "[math, Add]")
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
-           x[i] = i;
-           y[i] = i * 2;
+           x[i] = (Ipp16s)i;
+           y[i] = (Ipp16s)(i * 2);
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -101,11 +101,11 @@ TEST_CASE("ipps math Add", "[math, Add]")
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
-           x[i] = i;
-           y[i] = i * 2;
+           x[i] = (Ipp32f)i;
+           y[i] = (Ipp32f)(i * 2);
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -125,7 +125,7 @@ TEST_CASE("ipps math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -145,7 +145,7 @@ TEST_CASE("ipps math Add", "[math, Add]")
            y[i] = {(Ipp32f)(i*2), (Ipp32f)(i*2+1)};
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -166,7 +166,7 @@ TEST_CASE("ipps math Add", "[math, Add]")
            y[i] = {(Ipp64f)(i*2), (Ipp64f)(i*2+1)};
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -183,11 +183,11 @@ TEST_CASE("ipps math Add", "[math, Add]")
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
-           x[i] = i;
-           y[i] = i * 2;
+           x[i] = (Ipp8u)i;
+           y[i] = (Ipp8u)(i * 2);
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -203,11 +203,11 @@ TEST_CASE("ipps math Add", "[math, Add]")
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
-           x[i] = i;
-           y[i] = i * 2;
+           x[i] = (Ipp16u)i;
+           y[i] = (Ipp16u)(i * 2);
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -227,7 +227,7 @@ TEST_CASE("ipps math Add", "[math, Add]")
            y[i] = i * 2;
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -243,11 +243,11 @@ TEST_CASE("ipps math Add", "[math, Add]")
        // Set some values
        for (int i = 0; i < x.size(); ++i)
        {
-           x[i] = i;
-           y[i] = i * 2;
+           x[i] = (Ipp16s)i;
+           y[i] = (Ipp16s)(i * 2);
        }
        // Perform the operation
-       ipps::math::Add(x.data(), y.data(), result.data(), x.size());
+       ipps::math::Add(x.data(), y.data(), result.data(), (int)x.size());
        // Check the result
        for (int i = 0; i < x.size(); ++i)
        {
@@ -278,12 +278,12 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         // Set some values
         for (int i = 0; i < x.size(); ++i)
         {
-            x[i] = i + 64;
-            y[i] = i * 2 + 64;
+            x[i] = (Ipp8u)(i + 64);
+            y[i] = (Ipp8u)(i * 2 + 64);
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp8u z;
@@ -315,12 +315,12 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         // Set some values
         for (int i = 0; i < x.size(); ++i)
         {
-            x[i] = i + 64;
-            y[i] = i * 2 + 64;
+            x[i] = (Ipp16u)(i + 64);
+            y[i] = (Ipp16u)(i * 2 + 64);
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp16u z;
@@ -352,12 +352,12 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         // Set some values
         for (int i = 0; i < x.size(); ++i)
         {
-            x[i] = i + 64;
-            y[i] = i * 2 + 64;
+            x[i] = (Ipp16s)(i + 64);
+            y[i] = (Ipp16s)(i * 2 + 64);
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp16s z;
@@ -394,7 +394,7 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp32s z;
@@ -431,7 +431,7 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp16sc z;
@@ -483,7 +483,7 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp32sc z;
@@ -536,7 +536,7 @@ TEST_CASE("ipps math Add_Sfs", "[math, Add_Sfs]")
         }
 
         // Perform the operation, with a single scaling factor of half
-        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+        ipps::math::Add_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
         // Check the result
         Ipp64s z;
@@ -583,8 +583,8 @@ void test_Add_I()
     }
 
     // Perform the operation
-    ipps::math::Add_I(x.data(), result.data(), x.size());
-    
+    ipps::math::Add_I(x.data(), result.data(), (int)x.size());
+
     // Check the result
     for (int i = 0; i < x.size(); ++i)
     {
@@ -605,19 +605,21 @@ void test_Add_I_complex()
     // Set some values
     T valT;
     U valU;
+    using realTypeT = decltype(std::declval<T>().re);
+    using realTypeU = decltype(std::declval<U>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        valT.re = i + 64;
-        valT.im = i + 65;
-        valU.re = 2*i + 64;
-        valU.im = 2*i + 65;
+        valT.re = (realTypeT)(i + 64);
+        valT.im = (realTypeT)(i + 65);
+        valU.re = (realTypeU)(2*i + 64);
+        valU.im = (realTypeU)(2*i + 65);
         x[i] = valT;
         result[i] = valU;
         check[i] = result[i];
     }
 
     // Perform the operation
-    ipps::math::Add_I(x.data(), result.data(), x.size());
+    ipps::math::Add_I(x.data(), result.data(), (int)x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -690,7 +692,7 @@ void test_Add_ISfs()
     }
 
     // Perform the operation, scaling by half
-    ipps::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
+    ipps::math::Add_ISfs(x.data(), result.data(), (int)x.size(), 1);
     
     // Check the result
     T z;
@@ -726,12 +728,13 @@ void test_Add_ISfs_complex()
     // Set some values
     T val1, val2;
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        val1.re = i + 64;
-        val1.im = i + 65;
-        val2.re = 2*i + 64;
-        val2.im = 2*i + 65;
+        val1.re = (realType)(i + 64);
+        val1.im = (realType)(i + 65);
+        val2.re = (realType)(2*i + 64);
+        val2.im = (realType)(2*i + 65);
 
         x[i] = val1;
         result[i] = val2;
@@ -739,7 +742,7 @@ void test_Add_ISfs_complex()
     }
 
     // Perform the operation, scaling by half
-    ipps::math::Add_ISfs(x.data(), result.data(), x.size(), 1);
+    ipps::math::Add_ISfs(x.data(), result.data(), (int)x.size(), 1);
     
     // Check the result
     T z;
@@ -839,7 +842,7 @@ void test_AddC()
     T c = (T)(11);
 
     // Perform the operation
-    ipps::math::AddC(x.data(), c, result.data(), x.size());
+    ipps::math::AddC(x.data(), c, result.data(), (int)x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -856,10 +859,11 @@ void test_AddC_complex()
     ipps::vector<T> result(10);
 
     // Set values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i].re = (i + 64);
-        x[i].im = (i + 65);
+        x[i].re = (realType)(i + 64);
+        x[i].im = (realType)(i + 65);
     }
 
     // Define constant
@@ -868,7 +872,7 @@ void test_AddC_complex()
     c.im = (12);
 
     // Perform the operation
-    ipps::math::AddC(x.data(), c, result.data(), x.size());
+    ipps::math::AddC(x.data(), c, result.data(), (int)x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -930,10 +934,11 @@ void test_AddC_Sfs_complex()
     ipps::vector<T> result(10);
 
     // Set values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i].re = (i + 64);
-        x[i].im = (i + 65);
+        x[i].re = (realType)(i + 64);
+        x[i].im = (realType)(i + 65);
     }
 
     // Define constant
@@ -1002,7 +1007,7 @@ void test_AddC_I()
     T c = (T)(11);
 
     // Perform the operation
-    ipps::math::AddC_I(c, result.data(), result.size());
+    ipps::math::AddC_I(c, result.data(), (int)result.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1018,10 +1023,11 @@ void test_AddC_I_complex()
     ipps::vector<T> result(10);
 
     // Set values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i].re = (i + 64);
-        x[i].im = (i + 65);
+        x[i].re = (realType)(i + 64);
+        x[i].im = (realType)(i + 65);
         result[i] = x[i];
     }
 
@@ -1031,7 +1037,7 @@ void test_AddC_I_complex()
     c.im = (12);
 
     // Perform the operation
-    ipps::math::AddC_I(c, result.data(), result.size());
+    ipps::math::AddC_I(c, result.data(), (int)result.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1097,10 +1103,11 @@ void test_AddC_ISfs_complex()
     ipps::vector<T> result(10);
 
     // Set values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i].re = (i + 64);
-        x[i].im = (i + 65);
+        x[i].re = (realType)(i + 64);
+        x[i].im = (realType)(i + 65);
         result[i] = x[i];
     }
 
@@ -1164,7 +1171,7 @@ void test_AddProduct()
     }
 
     // Perform the operation
-    ipps::math::AddProduct(x.data(), y.data(), result.data(), x.size());
+    ipps::math::AddProduct(x.data(), y.data(), result.data(), (int)x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1183,20 +1190,21 @@ void test_AddProduct_complex()
     ipps::vector<T> check(10);
 
     // Set some values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i].re = (i + 64);
-        x[i].im = (i + 65);
-        y[i].re = (i + 66);
-        y[i].im = (i + 67);
-        result[i].re = (i + 68);
-        result[i].im = (i + 69);
+        x[i].re = (realType)(i + 64);
+        x[i].im = (realType)(i + 65);
+        y[i].re = (realType)(i + 66);
+        y[i].im = (realType)(i + 67);
+        result[i].re = (realType)(i + 68);
+        result[i].im = (realType)(i + 69);
         check[i].re = result[i].re;
         check[i].im = result[i].im;
     }
 
     // Perform the operation
-    ipps::math::AddProduct(x.data(), y.data(), result.data(), x.size());
+    ipps::math::AddProduct(x.data(), y.data(), result.data(), (int)x.size());
     
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1250,7 +1258,7 @@ void test_AddProduct_Sfs()
     U val;
     for (int i = 0; i < x.size(); ++i)
     {
-        val = evaluate_integer_scaling(check[i] + (U)x[i] * (U)y[i], 1);
+        val = evaluate_integer_scaling((U)(check[i] + x[i] * y[i]), 1);
         REQUIRE(result[i] == val);
     }
 }
@@ -1294,13 +1302,13 @@ void test_Mul()
     // ipps::math::Mul(x.data(), y.data(), const_result, x.size());
 
     // correct usage
-    ipps::math::Mul(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Mul(x.data(), y.data(), result.data(), (int)x.size());
 
     // Check the result
     V z;
     for (int i = 0; i < x.size(); ++i)
     {
-        z = x[i] * y[i];
+        z = (V)(x[i] * y[i]);
         REQUIRE(result[i] == z);
     }
 }
@@ -1316,18 +1324,20 @@ void test_Mul_complex()
     // Set some values
     T valT;
     U valU;
+    using realTypeT = decltype(std::declval<T>().re);
+    using realTypeU = decltype(std::declval<U>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        valT.re = i + 64;
-        valT.im = i + 65;
-        valU.re = 2*i + 64;
-        valU.im = 2*i + 65;
+        valT.re = (realTypeT)(i + 64);
+        valT.im = (realTypeT)(i + 65);
+        valU.re = (realTypeU)(2*i + 64);
+        valU.im = (realTypeU)(2*i + 65);
         x[i] = valT;
         y[i] = valU;
     }
 
     // Perform the operation
-    ipps::math::Mul(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Mul(x.data(), y.data(), result.data(), (int)x.size());
 
     // Check the result
     V z;
@@ -1389,14 +1399,14 @@ TEST_CASE("ipps math Mul", "[math, Mul]")
         Ipp32fc valU;
         for (int i = 0; i < x.size(); ++i)
         {
-            valU.re = 2*i + 64;
-            valU.im = 2*i + 65;
-            x[i] = i + 64;
+            valU.re = (Ipp32f)(2*i + 64);
+            valU.im = (Ipp32f)(2*i + 65);
+            x[i] = (Ipp32f)(i + 64);
             y[i] = valU;
         }
 
         // Perform the operation
-        ipps::math::Mul(x.data(), y.data(), result.data(), x.size());
+        ipps::math::Mul(x.data(), y.data(), result.data(), (int)x.size());
 
         // Check the result
         Ipp32fc z;
@@ -1433,7 +1443,7 @@ void test_Mul_Sfs()
     }
 
     // Perform the operation
-    ipps::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+    ipps::math::Mul_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
      // Check the result
     V z;
@@ -1468,18 +1478,20 @@ void test_Mul_Sfs_complex()
     // Set some values
     T valT;
     U valU;
+    using realTypeT = decltype(std::declval<T>().re);
+    using realTypeU = decltype(std::declval<U>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        valT.re = i + 1;
-        valT.im = i + 2;
-        valU.re = 2*i + 3;
-        valU.im = 2*i + 4;
+        valT.re = (realTypeT)(i + 1);
+        valT.im = (realTypeT)(i + 2);
+        valU.re = (realTypeU)(2*i + 3);
+        valU.im = (realTypeU)(2*i + 4);
         x[i] = valT;
         y[i] = valU;
     }
 
     // Perform the operation
-    ipps::math::Mul_Sfs(x.data(), y.data(), result.data(), x.size(), 1);
+    ipps::math::Mul_Sfs(x.data(), y.data(), result.data(), (int)x.size(), 1);
 
      // Check the result
     V z;
@@ -1601,7 +1613,7 @@ void test_Mul_I()
     }
 
     // Perform the operation
-    ipps::math::Mul_I(x.data(), result.data(), x.size());
+    ipps::math::Mul_I(x.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1621,19 +1633,21 @@ void test_Mul_I_complex()
     // Set some values
     T valT;
     U valU;
+    using realTypeT = decltype(std::declval<T>().re);
+    using realTypeU = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        valT.re = i + 1;
-        valT.im = i + 2;
-        valU.re = 2*i + 3;
-        valU.im = 2*i + 4;
+        valT.re = (realTypeT)(i + 1);
+        valT.im = (realTypeT)(i + 2);
+        valU.re = (realTypeU)(2*i + 3);
+        valU.im = (realTypeU)(2*i + 4);
         x[i] = valT;
         check[i] = valU;
         result[i] = check[i];
     }
 
     // Perform the operation
-    ipps::math::Mul_I(x.data(), result.data(), x.size());
+    ipps::math::Mul_I(x.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1687,16 +1701,16 @@ TEST_CASE("ipps math Mul_I", "[math, Mul_I]")
         Ipp32fc valU;
         for (int i = 0; i < x.size(); ++i)
         {
-            valT = i;
-            valU.re = 2*i + 3;
-            valU.im = 2*i + 4;
+            valT = (Ipp32f)i;
+            valU.re = (Ipp32f)(2*i + 3);
+            valU.im = (Ipp32f)(2*i + 4);
             x[i] = valT;
             check[i] = valU;
             result[i] = check[i];
         }
 
         // Perform the operation
-        ipps::math::Mul_I(x.data(), result.data(), x.size());
+        ipps::math::Mul_I(x.data(), result.data(), (int)x.size());
 
         // Check the result
         for (int i = 0; i < x.size(); ++i)
@@ -1729,7 +1743,7 @@ void test_Mul_ISfs()
     }
 
     // Perform the operation
-    ipps::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
+    ipps::math::Mul_ISfs(x.data(), y.data(), (int)x.size(), 1);
 
     // Check the result
     T z;
@@ -1764,19 +1778,20 @@ void test_Mul_ISfs_complex()
     // Set some values
     T valT;
     T valU;
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
-        valT.re = i + 1;
-        valT.im = i + 2;
-        valU.re = 2*i + 3;
-        valU.im = 2*i + 4;
+        valT.re = (realType)(i + 1);
+        valT.im = (realType)(i + 2);
+        valU.re = (realType)(2*i + 3);
+        valU.im = (realType)(2*i + 4);
         x[i] = valT;
         y[i] = valU;
         check[i] = y[i];
     }
 
     // Perform the operation
-    ipps::math::Mul_ISfs(x.data(), y.data(), x.size(), 1);
+    ipps::math::Mul_ISfs(x.data(), y.data(), (int)x.size(), 1);
 
      // Check the result
     T z;
@@ -1887,11 +1902,11 @@ void test_Sub()
     for (int i = 0; i < x.size(); ++i)
     {
         x[i] = (T)(i + 1);
-        y[i] = (U)(i + 2);
+        y[i] = (T)(i + 2);
     }
 
     // Perform the operation
-    ipps::math::Sub(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Sub(x.data(), y.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1909,22 +1924,23 @@ void test_Sub_complex()
     ipps::vector<T> result(10);
 
     // Set some values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
         T valT;
-        valT.re = i + 1;
-        valT.im = i + 2;
+        valT.re = (realType)(i + 1);
+        valT.im = (realType)(i + 2);
 
         x[i] = valT;
 
-        valT.re = 2*i + 3;
-        valT.im = 2*i + 4;
+        valT.re = (realType)(2*i + 3);
+        valT.im = (realType)(2*i + 4);
 
         y[i] = valT;
     }
 
     // Perform the operation
-    ipps::math::Sub(x.data(), y.data(), result.data(), x.size());
+    ipps::math::Sub(x.data(), y.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -1985,13 +2001,13 @@ void test_Sub_I()
     // Set some values
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i] = (i + 1);
-        result[i] = (i + 2);
+        x[i] = (T)(i + 1);
+        result[i] = (T)(i + 2);
         check[i] = result[i];
     }
 
     // Perform the operation
-    ipps::math::Sub_I(x.data(), result.data(), x.size());
+    ipps::math::Sub_I(x.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2009,21 +2025,22 @@ void test_Sub_I_complex()
     ipps::vector<T> check(10);
 
     // Set some values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < x.size(); ++i)
     {
         T valT;
-        valT.re = i + 1;
-        valT.im = i + 2;
+        valT.re = (realType)(i + 1);
+        valT.im = (realType)(i + 2);
         x[i] = valT;
 
-        valT.re = 2*i + 3;
-        valT.im = 2*i + 4;
+        valT.re = (realType)(2*i + 3);
+        valT.im = (realType)(2*i + 4);
         result[i] = valT;
         check[i] = result[i];
     }
 
     // Perform the operation
-    ipps::math::Sub_I(x.data(), result.data(), x.size());
+    ipps::math::Sub_I(x.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2083,7 +2100,7 @@ void test_Ln()
     }
 
     // Perform the operation
-    ipps::math::Ln(x.data(), result.data(), x.size());
+    ipps::math::Ln(x.data(), result.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2092,7 +2109,7 @@ void test_Ln()
     }
 
     // Perform in place version as well
-    ipps::math::Ln_I(x.data(), x.size());
+    ipps::math::Ln_I(x.data(), (int)x.size());
 
     // Check the result
     for (int i = 0; i < x.size(); ++i)
@@ -2116,7 +2133,7 @@ void test_Ln_Sfs()
 
     // Perform the operation
     int scaleFactor = 1;
-    ipps::math::Ln_Sfs(x.data(), result.data(), x.size(), scaleFactor);
+    ipps::math::Ln_Sfs(x.data(), result.data(), (int)x.size(), scaleFactor);
 
     // Check the result (skip this because the integer scaling not as we coded) 
     // TODO: fix integer scaling for this
@@ -2129,8 +2146,8 @@ void test_Ln_Sfs()
     // }
 
     // Perform in place version as well
-    ipps::math::Ln_ISfs(x.data(), x.size(), scaleFactor);
-    
+    ipps::math::Ln_ISfs(x.data(), (int)x.size(), scaleFactor);
+
     // Check the result
     for (int i = 0; i < x.size(); ++i)
     {

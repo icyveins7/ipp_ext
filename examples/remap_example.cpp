@@ -12,7 +12,7 @@ int main()
     // set the points incrementally
     for (int i = 0; i < src.height(); ++i)
       for (int j = 0; j < src.width(); ++j)
-        src.at(i, j) = i * src.width() + j + 1;
+        src.at(i, j) = (Ipp32f)(i * src.width() + j + 1);
 
     // set some request values
     ippi::image<Ipp32f, ippi::channels::C1> xmap(31, 31);
@@ -39,8 +39,9 @@ int main()
     {
       printf("Without smooth edge\n");
       ippi::Remap<ippi::channels::C1>(
-        src.data(), src.size(), src.stepBytes(), srcRoi, xmap.data(), xmap.stepBytes(), ymap.data(), ymap.stepBytes(),
-        dst.data(), dst.stepBytes(), dst.size(), IPPI_INTER_LINEAR);
+        src.data(), src.size(), (int)src.stepBytes(), srcRoi,
+        xmap.data(), (int)xmap.stepBytes(), ymap.data(), (int)ymap.stepBytes(),
+        dst.data(), (int)dst.stepBytes(), dst.size(), IPPI_INTER_LINEAR);
 
       // print the result
       std::array<int, 4> cornersX;
@@ -97,8 +98,9 @@ int main()
     {
       printf("With smooth edge\n");
       ippi::Remap<ippi::channels::C1>(
-        src.data(), src.size(), src.stepBytes(), srcRoi, xmap.data(), xmap.stepBytes(), ymap.data(), ymap.stepBytes(),
-        dst.data(), dst.stepBytes(), dst.size(), IPPI_INTER_LINEAR | IPPI_SMOOTH_EDGE);
+        src.data(), src.size(), (int)src.stepBytes(), srcRoi,
+        xmap.data(), (int)xmap.stepBytes(), ymap.data(), (int)ymap.stepBytes(),
+        dst.data(), (int)dst.stepBytes(), dst.size(), IPPI_INTER_LINEAR | IPPI_SMOOTH_EDGE);
 
       // print the result
       std::array<int, 4> cornersX;

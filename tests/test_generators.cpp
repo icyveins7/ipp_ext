@@ -20,7 +20,7 @@ void test_slope_sample_generator()
     // check if the samples are correct
     for (int i = 0; i < vec.size(); ++i)
     {
-        REQUIRE(vec[i] == 1 + i);
+        REQUIRE(vec[i] == (T)(1 + i));
     }
 }
 
@@ -85,14 +85,14 @@ void test_tone_sample_generator_complex()
 
     // Define magn and freq
     U magn = 1;
-    V freq = 0.1;
+    V freq = (V)0.1;
 
     // Define phase
     V phase = 0;
 
     // Generate tone samples into it
     ipps::generator::Tone(
-        out.data(), out.size(),
+        out.data(), (int)out.size(),
         magn, freq, &phase
     );
 

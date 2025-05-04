@@ -56,7 +56,7 @@ void test_remap(int interpolation)
     // Fill with sequence
     for (int i = 0; i < src.height(); i++)
         for (int j = 0; j < src.width(); j++)
-            src.at(i, j) = j;
+            src.at(i, j) = (T)j;
 
     // Create x and y map requests, 5x5
     // We want the border to be outside the image to test validity
@@ -87,10 +87,10 @@ void test_remap(int interpolation)
 
     // Call the IPP remap
     ippi::Remap<C>(
-        src.data(), src.size(), src.stepBytes(), srcRoi,
-        xmap.data(), xmap.stepBytes(),
-        ymap.data(), ymap.stepBytes(),
-        dst.data(), dst.stepBytes(), dst.size(), interpolation
+        src.data(), src.size(), (int)src.stepBytes(), srcRoi,
+        xmap.data(), (int)xmap.stepBytes(),
+        ymap.data(), (int)ymap.stepBytes(),
+        dst.data(), (int)dst.stepBytes(), dst.size(), interpolation
     );
 
     // do the same with a manual check
@@ -133,10 +133,10 @@ void test_remap(int interpolation)
 
     // Call IPP remap again
     ippi::Remap<C>(
-        src.data(), src.size(), src.stepBytes(), srcRoi,
-        xmap.data(), xmap.stepBytes(),
-        ymap.data(), ymap.stepBytes(),
-        dst.data(), dst.stepBytes(), dst.size(), interpolation
+        src.data(), src.size(), (int)src.stepBytes(), srcRoi,
+        xmap.data(), (int)xmap.stepBytes(),
+        ymap.data(), (int)ymap.stepBytes(),
+        dst.data(), (int)dst.stepBytes(), dst.size(), interpolation
     );
     // calculate check again
     for (int i = 0; i < check.height(); i++)

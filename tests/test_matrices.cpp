@@ -125,9 +125,9 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
         ipps::matrix<Ipp16u> x(3,5);
         ipps::matrix<Ipp16u> y(3,5);
         for (int i = 0; i < x.size(); ++i)
-            x.at(i) = i;
+            x.at(i) = (Ipp16u)i;
         for (int i = 0; i < y.size(); ++i)
-            y.at(i) = i + 1;
+            y.at(i) = (Ipp16u)(i + 1);
 
         ipps::matrix<Ipp16u> z = x + y;
         for (int i = 0; i < z.size(); ++i)
@@ -144,9 +144,9 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
         ipps::matrix<Ipp16s> x(3,5);
         ipps::matrix<Ipp16s> y(3,5);
         for (int i = 0; i < x.size(); ++i)
-            x.at(i) = i;
+            x.at(i) = (Ipp16s)i;
         for (int i = 0; i < y.size(); ++i)
-            y.at(i) = i + 1;
+            y.at(i) = (Ipp16s)(i + 1);
 
         ipps::matrix<Ipp16s> z = y - x;
         for (int i = 0; i < z.size(); ++i)
@@ -165,8 +165,8 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
         ipps::matrix<Ipp16s> check(3,5);
         for (int i = 0; i < x.size(); ++i)
         {
-            x.at(i) = i;
-            y.at(i) = i+1;
+            x.at(i) = (Ipp16s)i;
+            y.at(i) = (Ipp16s)(i+1);
             check.at(i) = x.at(i);
         }
 
@@ -188,8 +188,8 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
         ipps::matrix<Ipp16s> check(3,5);
         for (int i = 0; i < x.size(); ++i)
         {
-            x.at(i) = i;
-            y.at(i) = 2*(i+1);
+            x.at(i) = (Ipp16s)i;
+            y.at(i) = (Ipp16s)(2*(i+1));
             check.at(i) = y.at(i);
         }
 
@@ -210,7 +210,7 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
 
         for (int i = 0; i < x.size(); ++i)
         {
-            x.at(i) = i;            
+            x.at(i) = (Ipp32f)i;
         }
 
         // Perform operation
@@ -230,17 +230,17 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
 
         for (int i = 0; i < x.size(); ++i)
         {
-            x.at(i) = i;
+            x.at(i) = (Ipp32f)i;
         }
         for (int i = 0; i < y.size(); ++i)
         {
-            y.at(i) = i + 1;
+            y.at(i) = (Ipp32f)(i + 1);
         }
         
         // Perform matmul
         ipps::matrix<Ipp32f> result = x * y;
 
-        int L = x.columns();
+        int L = (int)x.columns();
 
         for (int i = 0; i < result.rows(); ++i)
         {
@@ -260,7 +260,7 @@ TEST_CASE("ipps matrix math", "[matrix],[math]")
 
         for (int i = 0; i < c.size(); ++i)
         {
-            c.at(i) = i + 2;
+            c.at(i) = (Ipp32f)(i + 2);
         }
 
         ipps::matrix<Ipp32f> matvecresult = x * c;

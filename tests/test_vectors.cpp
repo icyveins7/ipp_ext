@@ -447,25 +447,22 @@ TEST_CASE("ipps vector writes", "[vector],[write]"){
     }
 }
 
-TEST_CASE("ipps vector throws on non-IPP types", "[vector],[exceptions]"){
-    SECTION("double"){
-        try{
-            ipps::vector<double> data(128);
-        }
-        catch(const std::exception& e){
-            REQUIRE_THROWS_AS(throw e, std::domain_error);
-        }
-    }
+// NOTE: double and float automatically alias to Ipp64f and Ipp32f, so this test
+// actually never throws. I'm leaving this here to remind myself/others in the future
 
-    SECTION("float"){
-        try{
-            ipps::vector<float> data(128);
-        }
-        catch(const std::exception& e){
-            REQUIRE_THROWS_AS(throw e, std::domain_error);
-        }
-    }
-}
+// TEST_CASE("ipps vector throws on non-IPP types", "[vector],[exceptions]"){
+//     SECTION("double"){
+//         REQUIRE_THROWS_AS(
+//             ipps::vector<double>(128),
+//             std::domain_error);
+//     }
+//
+//     SECTION("float"){
+//         REQUIRE_THROWS_AS(
+//             ipps::vector<float>(128),
+//             std::domain_error);
+//     }
+// }
 
 TEST_CASE("ipps vector exceptions", "[vector],[exceptions]"){
     ipps::vector<Ipp64fc> data(128);
@@ -1009,10 +1006,11 @@ void test_vector_iterators_cplx()
     ipps::vector<T> a(100);
     // Set with the iterators
     int i = 0;
+    using realType = decltype(std::declval<T>().re);
     for (auto& v : a)
     {
-        v.re = i;
-        v.im = i;
+        v.re = (realType)i;
+        v.im = (realType)i;
         i++;
     }
     // Read with the const iterators specifically

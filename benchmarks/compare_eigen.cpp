@@ -49,17 +49,17 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
         ipps::vector<Ipp32f> i_out(100000);
 
         // Set some values
-        for (int i = 0; i < i_a.size(); i++) {
+        for (int i = 0; i < (int)i_a.size(); i++) {
             i_a[i] = (float)i;
             i_b[i] = (float)(i*2 + 0.1);
         }
 
         BENCHMARK("IPP Vector Add") {
-            return ippsAdd_32f(i_a.data(), i_b.data(), i_out.data(), i_out.size());
+            return ippsAdd_32f(i_a.data(), i_b.data(), i_out.data(), (int)i_out.size());
         };
 
         BENCHMARK("Raw Loop"){
-            for (int i = 0; i < i_a.size(); i++) {
+            for (int i = 0; i < (int)i_a.size(); i++) {
                 i_out[i] = i_a[i] + i_b[i];
             }
             return i_out.data();
@@ -88,17 +88,17 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
         ipps::vector<Ipp32f> i_out(1000000);
 
         // Set some values
-        for (int i = 0; i < i_a.size(); i++) {
+        for (int i = 0; i < (int)i_a.size(); i++) {
             i_a[i] = (float)i;
             i_b[i] = (float)(i*2 + 0.1);
         }
         
         BENCHMARK("IPP Vector Add") {
-            return ippsAdd_32f(i_a.data(), i_b.data(), i_out.data(), i_out.size());
+            return ippsAdd_32f(i_a.data(), i_b.data(), i_out.data(), (int)i_out.size());
         };
 
         BENCHMARK("Raw Loop"){
-            for (int i = 0; i < i_a.size(); i++) {
+            for (int i = 0; i < (int)i_a.size(); i++) {
                 i_out[i] = i_a[i] + i_b[i];
             }
             return i_out.data();
@@ -109,7 +109,7 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
             Ipp32f* i_out_ptr = (Ipp32f*) i_out.data();
             Ipp32f* i_a_ptr  = (Ipp32f*) i_a.data();
             Ipp32f* i_b_ptr  = (Ipp32f*) i_b.data();
-            for (int i = 0; i < i_a.size(); i++) {
+            for (int i = 0; i < (int)i_a.size(); i++) {
                 i_out_ptr[i] = i_a_ptr[i] + i_b_ptr[i];
             }
             return i_out.data();
@@ -120,7 +120,7 @@ TEST_CASE("Benchmark with Eigen Vector", "[Vector]") {
             Ipp32f* i_a_ptr  = (Ipp32f*) i_a.data();
             Ipp32f* i_b_ptr  = (Ipp32f*) i_b.data();
 
-            for (int i = 0; i < i_a.size() / 4; ++i){
+            for (int i = 0; i < (int)i_a.size() / 4; ++i){
                 i_out_ptr[i*4 + 0] = i_a_ptr[i*4 + 0] + i_b_ptr[i*4 + 0];
                 i_out_ptr[i*4 + 1] = i_a_ptr[i*4 + 1] + i_b_ptr[i*4 + 1];
                 i_out_ptr[i*4 + 2] = i_a_ptr[i*4 + 1] + i_b_ptr[i*4 + 2];
@@ -153,7 +153,7 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         Eigen::ArrayXf e_out(len);
         
         // Set some values
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < (int)len; i++) {
             e_a[i] = (float)i;
             e_b[i] = (float)(i*2 + 0.1);
         }
@@ -168,17 +168,17 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         ipps::vector<Ipp32f> i_out(len);
 
         // Set some values
-        for (int i = 0; i < i_a.size(); i++) {
+        for (int i = 0; i < (int)i_a.size(); i++) {
             i_a[i] = (float)i;
             i_b[i] = (float)(i*2 + 0.1);
         }
 
         BENCHMARK("IPP Array Multiply") {
-            return ippsMul_32f(i_a.data(), i_b.data(), i_out.data(), i_out.size());
+            return ippsMul_32f(i_a.data(), i_b.data(), i_out.data(), (int)i_out.size());
         };
 
         BENCHMARK("Raw Loop"){
-            for (int i = 0; i < i_a.size(); i++) {
+            for (int i = 0; i < (int)i_a.size(); i++) {
                 i_out[i] = i_a[i] * i_b[i];
             }
             return i_out.data();
@@ -195,7 +195,7 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         Eigen::ArrayXf e_out(len);
         
         // Set some values
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < (int)len; i++) {
             e_a[i] = (float)i;
             e_b[i] = (float)(i*2 + 0.1);
         }
@@ -210,17 +210,17 @@ TEST_CASE("Benchmark with Eigen Array", "[Array]") {
         ipps::vector<Ipp32f> i_out(len);
 
         // Set some values
-        for (int i = 0; i < i_a.size(); i++) {
+        for (int i = 0; i < (int)i_a.size(); i++) {
             i_a[i] = (float)i;
             i_b[i] = (float)(i*2 + 0.1);
         }
 
         BENCHMARK("IPP Array Multiply") {
-            return ippsMul_32f(i_a.data(), i_b.data(), i_out.data(), i_out.size());
+            return ippsMul_32f(i_a.data(), i_b.data(), i_out.data(), (int)i_out.size());
         };
 
         BENCHMARK("Raw Loop"){
-            for (int i = 0; i < i_a.size(); i++) {
+            for (int i = 0; i < (int)i_a.size(); i++) {
                 i_out[i] = i_a[i] * i_b[i];
             }
             return i_out.data();
@@ -257,9 +257,9 @@ void bench_matmul_32f(int ii, int jj, int kk)
     };
 
     // Create ipp matrix
-    ipps::matrix<Ipp32f> i_a(ii, jj);
-    ipps::matrix<Ipp32f> i_b(jj, kk);
-    ipps::matrix<Ipp32f> i_out(ii, kk);
+    ipps::matrix<Ipp32f> i_a((size_t)ii, (size_t)jj);
+    ipps::matrix<Ipp32f> i_b((size_t)jj, (size_t)kk);
+    ipps::matrix<Ipp32f> i_out((size_t)ii, (size_t)kk);
 
     // Set some values
     for (int i = 0; i < ii; i++) {
@@ -281,11 +281,11 @@ void bench_matmul_32f(int ii, int jj, int kk)
 
     BENCHMARK("Raw loop")
     {
-        for (int i = 0; i < i_out.rows(); i++) {
+        for (int i = 0; i < (int)i_out.rows(); i++) {
             
-            for (int j = 0; j < i_out.columns(); j++) {
+            for (int j = 0; j < (int)i_out.columns(); j++) {
                 Ipp32f sum = 0.0f;
-                for (int k = 0; k < i_a.columns(); k++) {
+                for (int k = 0; k < (int)i_a.columns(); k++) {
                     sum += i_a.index(i, k) * i_b.index(k, j);
                 }
                 i_out.index(i, j) = sum;

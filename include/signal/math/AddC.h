@@ -73,42 +73,42 @@ namespace ipps{
 
         // Ipp8u
         template <>
-        inline void AddC_Sfs(const Ipp8u* src, Ipp8u val, Ipp8u* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp8u* src, Ipp8u val, Ipp8u* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsAddC_8u_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_8u_Sfs");
         }
 
         // Ipp16s
         template <>
-        inline void AddC_Sfs(const Ipp16s* src, Ipp16s val, Ipp16s* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp16s* src, Ipp16s val, Ipp16s* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsAddC_16s_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_16s_Sfs");
         }
 
         // Ipp16u
         template <>
-        inline void AddC_Sfs(const Ipp16u* src, Ipp16u val, Ipp16u* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp16u* src, Ipp16u val, Ipp16u* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsAddC_16u_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_16u_Sfs");
         }
 
         // Ipp32s
         template <>
-        inline void AddC_Sfs(const Ipp32s* src, Ipp32s val, Ipp32s* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp32s* src, Ipp32s val, Ipp32s* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsAddC_32s_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_32s_Sfs");
         }
 
         // Ipp16sc
         template <>
-        inline void AddC_Sfs(const Ipp16sc* src, Ipp16sc val, Ipp16sc* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp16sc* src, Ipp16sc val, Ipp16sc* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsAddC_16sc_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_16sc_Sfs");
         }
 
         // Ipp32sc
         template <>
-        inline void AddC_Sfs(const Ipp32sc* src, Ipp32sc val, Ipp32sc* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void AddC_Sfs(const Ipp32sc* src, Ipp32sc val, Ipp32sc* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsAddC_32sc_Sfs(src, val, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsAddC_32sc_Sfs");
         }

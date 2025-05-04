@@ -12,9 +12,9 @@ int main()
     int phase = 0;
     ipps::vector<Ipp16s> y(x.size()*factor);
 
-    int ylen = y.size();
+    int ylen = (int)y.size();
     ipps::sampling::SampleUp(
-        x.data(), x.size(), 
+        x.data(), (int)x.size(), 
         y.data(), &ylen, 
         factor, &phase);
 
@@ -27,9 +27,9 @@ int main()
     // Note that the dstLen variable is completely ignored and overwritten.
     // This means that if the destination is not large enough, there will be leaks
     y.zero(); // zero it out again first
-    ylen = y.size()/2;
+    ylen = (int)y.size()/2;
     ipps::sampling::SampleUp(
-        x.data(), x.size(), 
+        x.data(), (int)x.size(), 
         y.data(), &ylen, 
         factor, &phase);
 
@@ -59,9 +59,9 @@ int main()
 
     // Sample up to a longer length
     ipps::vector<Ipp16s> w(x.size()*factor*2 - 1);
-    int wlen = w.size();
+    int wlen = (int)w.size();
     ipps::sampling::SampleUp(
-        x.data(), x.size(), 
+        x.data(), (int)x.size(), 
         w.data(), &wlen, 
         factor, &phase);
     for (int i = 0; i < w.size(); i++)

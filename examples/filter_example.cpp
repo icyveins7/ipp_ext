@@ -21,7 +21,7 @@ void FIRSR_example()
     printf("\nCreating some data...\n");
     ipps::vector<Ipp32fc> data(10);
     ipps::generator::Slope<Ipp32f>(
-        (Ipp32f*)data.data(), data.size()*2, 0.0f, 1.0f
+        (Ipp32f*)data.data(), (int)data.size()*2, 0.0f, 1.0f
     );
     for (int i = 0; i < data.size(); i++)
         printf("%f %f\n", data[i].re, data[i].im);
@@ -32,7 +32,7 @@ void FIRSR_example()
 
     printf("\nRunning the filter...\n");
     ipps::vector<Ipp32fc> out(data.size());
-    filter.filter(data.data(), out.data(), data.size());
+    filter.filter(data.data(), out.data(), (int)data.size());
 
     printf("\nChecking the output...\n");
     for (int i = 0; i < out.size(); i++)
@@ -59,12 +59,12 @@ void FIRMR_example()
     printf("Creating some data...\n");
     ipps::vector<Ipp32fc> data(30);
     ipps::generator::Slope<Ipp32f>(
-        (Ipp32f*)data.data(), data.size()*2, 10.0f, 1.0f
+        (Ipp32f*)data.data(), (int)data.size()*2, 10.0f, 1.0f
     );
 
     printf("\nRunning the filter...\n");
     ipps::vector<Ipp32fc> out(data.size()*up/down);
-    filter.filter(data.data(), out.data(), data.size(), out.size());
+    filter.filter(data.data(), out.data(), (int)data.size(), (int)out.size());
 
     printf("\nChecking the output...\n");
     for (int i = 0; i < out.size(); i++)

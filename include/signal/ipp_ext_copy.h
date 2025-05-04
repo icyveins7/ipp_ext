@@ -12,7 +12,7 @@ namespace ipps{
     // Specializations
 
     template <typename T>
-    inline void Copy(const T* src, T* dst, int len)
+    inline void Copy(const T* /*src*/, T* /*dst*/, int /*len*/)
     {
         throw std::runtime_error("ippsCopy only implemented for specific types.");
     }

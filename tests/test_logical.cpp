@@ -15,8 +15,8 @@ void test_Xor()
     // Fill first 2 vectors
     for (int i = 0; i < a.size(); i++)
     {
-        a[i] = i;
-        b[i] = i + 1;
+        a[i] = (T)i;
+        b[i] = (T)(i + 1);
     }
 
     // XOR with IPPE
@@ -53,8 +53,8 @@ void test_Xor_I()
     // Fill first 2 vectors
     for (int i = 0; i < a.size(); i++)
     {
-        a[i] = i;
-        b[i] = i + 1;
+        a[i] = (T)i;
+        b[i] = (T)(i + 1);
         // Copy to c
         c[i] = b[i];
     }

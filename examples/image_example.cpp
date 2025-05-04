@@ -18,7 +18,7 @@ int main()
 
   for (size_t i = 0; i < small_img.height(); ++i)
     for (size_t j = 0; j < small_img.width(); ++j)
-      small_img.at(i, j) = i * small_img.width() + j;
+      small_img.at(i, j) = (Ipp32f)(i * small_img.width() + j);
 
   // Print the small image
   for (size_t i = 0; i < small_img.height(); ++i)

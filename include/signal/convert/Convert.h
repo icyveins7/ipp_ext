@@ -19,7 +19,7 @@ namespace ipps{
         // ============================
 
         template <typename T, typename U>
-        inline void Convert(const T* src, U* dst, int len){
+        inline void Convert(const T* /*src*/, U* /*dst*/, int /*len*/){
             throw std::runtime_error("ippsConvert not implemented for generic types");
         }
 
@@ -146,35 +146,35 @@ namespace ipps{
 
         // 16s to 32f (round mode is not used)
         template <>
-        inline void Convert_Sfs(const Ipp16s* src, Ipp32f* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void Convert_Sfs(const Ipp16s* src, Ipp32f* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsConvert_16s32f_Sfs(src, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsConvert_16s32f_Sfs");
         }
 
         // 16s to 64f (round mode is not used)
         template <>
-        inline void Convert_Sfs(const Ipp16s* src, Ipp64f* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void Convert_Sfs(const Ipp16s* src, Ipp64f* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsConvert_16s64f_Sfs(src, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsConvert_16s64f_Sfs");
         }
 
         // 32s to 16s (round mode is not used)
         template <>
-        inline void Convert_Sfs(const Ipp32s* src, Ipp16s* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void Convert_Sfs(const Ipp32s* src, Ipp16s* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsConvert_32s16s_Sfs(src, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsConvert_32s16s_Sfs");
         }
 
         // 32s to 32f (round mode is not used)
         template <>
-        inline void Convert_Sfs(const Ipp32s* src, Ipp32f* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void Convert_Sfs(const Ipp32s* src, Ipp32f* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsConvert_32s32f_Sfs(src, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsConvert_32s32f_Sfs");
         }
 
         // 32s to 64f (round mode is not used)
         template <>
-        inline void Convert_Sfs(const Ipp32s* src, Ipp64f* dst, int len, int scaleFactor, IppRoundMode rndMode){
+        inline void Convert_Sfs(const Ipp32s* src, Ipp64f* dst, int len, int scaleFactor, IppRoundMode /*rndMode*/){
             IppStatus sts = ippsConvert_32s64f_Sfs(src, dst, len, scaleFactor);
             IPP_NO_ERROR(sts, "ippsConvert_32s64f_Sfs");
         }

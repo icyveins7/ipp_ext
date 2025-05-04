@@ -93,7 +93,7 @@ void test_FIRSR_lowpass()
     ipps::vector<U> data(16);
     for (int i = 0; i < data.size(); i++)
     {
-        data[i] = i;
+        data[i] = (U)i;
     }
 
     // Apply the filter
@@ -168,10 +168,11 @@ void test_FIRSR_lowpass_cplx()
 
     // Create some data
     ipps::vector<U> data(16);
+    using realType = decltype(std::declval<U>().re);
     for (int i = 0; i < data.size(); i++)
     {
-        data[i].re = i;
-        data[i].im = i + 1;
+        data[i].re = (realType)i;
+        data[i].im = (realType)(i + 1);
     }
 
     // Apply the filter
@@ -352,12 +353,12 @@ void test_FIRMR_lowpass()
     ipps::vector<U> data(30);
     for (int i = 0; i < (int)data.size(); i++)
     {
-        data[i] = 10 + i;
+        data[i] = (U)(10 + i);
     }
 
     // Apply the filter
-    ipps::vector<U> result(data.size() * up / down);
-    filter.filter(data.data(), result.data(), data.size(), result.size());
+    ipps::vector<U> result((size_t)(data.size() * up / down));
+    filter.filter(data.data(), result.data(), (int)data.size(), (int)result.size());
 
     // Check results
     for (int i = 0; i < (int)result.size(); i++)
@@ -390,7 +391,7 @@ void test_FIRMR_lowpass()
     // Check that it will throw if the output is not long enough
     ipps::vector<U> tooshortresult(data.size());
     REQUIRE_THROWS_AS(
-        filter.filter(data.data(), tooshortresult.data(), data.size(), tooshortresult.size()),
+        filter.filter(data.data(), tooshortresult.data(), (int)data.size(), (int)tooshortresult.size()),
         std::invalid_argument
     );
 
@@ -398,7 +399,7 @@ void test_FIRMR_lowpass()
     std::vector<ipps::filter::FIRMR<T,U>> filters(1);
     // First show that it will throw if not constructed directly
     REQUIRE_THROWS_AS(
-        filters.at(0).filter(data.data(), result.data(), data.size(), result.size()), 
+        filters.at(0).filter(data.data(), result.data(), (int)data.size(), (int)result.size()), 
         std::runtime_error
     );
 
@@ -436,15 +437,16 @@ void test_FIRMR_lowpass_cplx()
 
     // Create some data
     ipps::vector<U> data(30);
+    using realType = decltype(std::declval<U>().re);
     for (size_t i = 0; i < data.size(); i++)
     {
-        data[i].re = 10 + i;
-        data[i].im = 20 + i;
+        data[i].re = (realType)(10 + i);
+        data[i].im = (realType)(20 + i);
     }
 
     // Apply the filter
-    ipps::vector<U> result(data.size() * up / down);
-    filter.filter(data.data(), result.data(), data.size(), result.size());
+    ipps::vector<U> result((size_t)(data.size() * up / down));
+    filter.filter(data.data(), result.data(), (int)data.size(), (int)result.size());
 
     // Check results
     for (int i = 0; i < (int)result.size(); i++)
@@ -481,7 +483,7 @@ void test_FIRMR_lowpass_cplx()
     // Check that it will throw if the output is not long enough
     ipps::vector<U> tooshortresult(data.size());
     REQUIRE_THROWS_AS(
-        filter.filter(data.data(), tooshortresult.data(), data.size(), tooshortresult.size()),
+        filter.filter(data.data(), tooshortresult.data(), (int)data.size(), (int)tooshortresult.size()),
         std::invalid_argument
     );
 
@@ -489,7 +491,7 @@ void test_FIRMR_lowpass_cplx()
     std::vector<ipps::filter::FIRMR<T,U>> filters(1);
     // First show that it will throw if not constructed directly
     REQUIRE_THROWS_AS(
-        filters.at(0).filter(data.data(), result.data(), data.size(), result.size()), 
+        filters.at(0).filter(data.data(), result.data(), (int)data.size(), (int)result.size()), 
         std::runtime_error
     );
 

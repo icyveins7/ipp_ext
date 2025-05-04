@@ -122,14 +122,14 @@ TEST_CASE("Benchmark generators, length 100000", "[generators]")
     {
         Ipp32f phase = 0.0f;
         return ipps::generator::Tone(
-            complex1.data(), complex1.size(), 1.0f, 0.1f, &phase
+            complex1.data(), (int)complex1.size(), 1.0f, 0.1f, &phase
         );
     };
 
     BENCHMARK("ippsSlope_32f")
     {
         return ipps::generator::Slope(
-            real1.data(), real1.size(), 0.0f, 1.0f
+            real1.data(), (int)real1.size(), 0.0f, 1.0f
         );
     };
 }

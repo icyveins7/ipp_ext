@@ -19,7 +19,11 @@ multiply defined symbols errors do not occur.
 
 namespace ipps
 {
-const size_t INITIAL_CAP = 128;
+// const size_t INITIAL_CAP = 128;
+
+// TODO: there are some issues with using a size_t as numel and cap,
+// since all the IPP functions use ints for lengths, so we make a cast for those calls.
+// Inevitably, this will cause issues if the actual length is larger than INT_MAX.
 
 template <typename T>
 class vector
@@ -156,9 +160,9 @@ public:
         if (numel > oldsize)
         {
             if (isZero(value))
-                zero(oldsize, numel-oldsize); // zero up to the new count
+                zero((int)oldsize, (int)numel-(int)oldsize); // zero up to the new count
             else
-                set(oldsize, numel-oldsize, value); // set the value up to the new count
+                set((int)oldsize, (int)numel-(int)oldsize, value); // set the value up to the new count
 
         }
     }
@@ -168,13 +172,13 @@ public:
     void zero(int start, int length);
     void zero()
     {
-        zero(0, numel); // simply call the other one to fill the whole vector with 0
+        zero(0, (int)numel); // simply call the other one to fill the whole vector with 0
     }
 
     void set(int start, int length, const T& value);
     void set(const T& value)
     {
-        set(0, numel, value); // simply call the other one to fill the whole vector
+        set(0, (int)numel, value); // simply call the other one to fill the whole vector
     }
     // end of specializations
 
@@ -316,7 +320,7 @@ public:
     ============================================== */
 // default reserve
 template <typename T>
-inline void vector<T>::reserve(size_t new_cap)
+inline void vector<T>::reserve(size_t /*new_cap*/)
 {
     throw std::domain_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
 }
@@ -790,7 +794,7 @@ inline void vector<Ipp64fc>::reserve(size_t new_cap)
     GOAL IS TO USE ippsZero_..() ==================
     ============================================== */
 template <typename T>
-inline void vector<T>::zero(int start, int length)
+inline void vector<T>::zero(int /*start*/, int /*length*/)
 {
     throw std::runtime_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
 }
@@ -944,7 +948,7 @@ template <> inline bool vector<Ipp64fc>::isZero(const Ipp64fc& value){ return (v
     8u, 16s, 16sc, 32s, 32f, 32sc, 32fc, 64s, 64f, 64sc, 64fc
     ============================================== */
 template <typename T>
-inline void vector<T>::set(int start, int length, const T& value)
+inline void vector<T>::set(int /*start*/, int /*length*/, const T& /*value*/)
 {
     throw std::runtime_error("There is no default template for IPP vectors. Please specify a valid IPP type.");
 }

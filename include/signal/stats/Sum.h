@@ -20,7 +20,7 @@ namespace ipps{
         // ============================
 
         template <typename T>
-        inline void Sum(const T* src, int len, T* sum, IppHintAlgorithm hint){
+        inline void Sum(const T* /*src*/, int /*len*/, T* /*sum*/, IppHintAlgorithm /*hint*/){
             throw std::runtime_error("Sum not implemented for generic types");
         }
 
@@ -40,14 +40,14 @@ namespace ipps{
 
         // 64f, hint ignored
         template <>
-        inline void Sum(const Ipp64f* src, int len, Ipp64f* sum, IppHintAlgorithm hint){
+        inline void Sum(const Ipp64f* src, int len, Ipp64f* sum, IppHintAlgorithm /*hint*/){
             IppStatus sts = ippsSum_64f(src, len, sum);
             IPP_NO_ERROR(sts, "ippsSum_64f");
         }
 
         // 64fc, hint ignored
         template <>
-        inline void Sum(const Ipp64fc* src, int len, Ipp64fc* sum, IppHintAlgorithm hint){
+        inline void Sum(const Ipp64fc* src, int len, Ipp64fc* sum, IppHintAlgorithm /*hint*/){
             IppStatus sts = ippsSum_64fc(src, len, sum);
             IPP_NO_ERROR(sts, "ippsSum_64fc");
         }

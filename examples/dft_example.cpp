@@ -10,8 +10,8 @@ int main()
     ipps::vector<Ipp32fc> in(20);
     for (int i = 0; i < in.size(); i++)
     {
-        in[i].re = i;
-        in[i].im = i;
+        in[i].re = (Ipp32f)i;
+        in[i].im = (Ipp32f)i;
     }
     ipps::vector<Ipp32fc> out(in.size(), {0.0f, 0.0f});
 

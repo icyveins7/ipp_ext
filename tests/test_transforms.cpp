@@ -9,51 +9,54 @@ void test_Goertz_real()
 {
     ipps::vector<T> x(10);
     U val;
-    V rFreq = 0.1;
+    V rFreq = (V)0.1;
 
     for (int i = 0; i < 10; i++)
     {
-        x[i] = i;
+        x[i] = (T)i;
     }
 
     U sum = {0.0, 0.0};
-    
+
     // invoke the function
-    ipps::transform::Goertz(x.data(), x.size(), &val, rFreq);
+    ipps::transform::Goertz(x.data(), (int)x.size(), &val, rFreq);
 
     // calculate manually
+    using realType = decltype(std::declval<U>().re);
     for (int i = 0; i < x.size(); i++)
     {
-        sum.re += x[i] * std::cos(-IPP_2PI * i * rFreq);
-        sum.im += x[i] * std::sin(-IPP_2PI * i * rFreq);
+        sum.re += x[i] * (realType)std::cos(-IPP_2PI * i * rFreq);
+        sum.im += x[i] * (realType)std::sin(-IPP_2PI * i * rFreq);
     }
     REQUIRE(std::abs(sum.re - val.re) < 1e-6);
     REQUIRE(std::abs(sum.im - val.im) < 1e-6);
 }
 
-template <typename T, typename U, typename V>
+template <typename T, typename V>
 void test_Goertz_complex()
 {
+    // NOTE: for complex, both inputs are the same type so don't need a second template type
     ipps::vector<T> x(10);
-    U val;
-    V rFreq = 0.1;
+    T val;
+    V rFreq = (V)0.1;
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < 10; i++)
     {
-        x[i].re = i;
-        x[i].im = 0; // just make it real so the checking is easier
+        x[i].re = (realType)i;
+        x[i].im = (realType)0; // just make it real so the checking is easier
     }
 
-    U sum = {0.0, 0.0};
-    
+    T sum = {0.0, 0.0};
+
     // invoke the function
-    ipps::transform::Goertz(x.data(), x.size(), &val, rFreq);
+    ipps::transform::Goertz(x.data(), (int)x.size(), &val, rFreq);
 
     // calculate manually
     for (int i = 0; i < x.size(); i++)
     {
-        sum.re += x[i].re * std::cos(-IPP_2PI * i * rFreq);
-        sum.im += x[i].re * std::sin(-IPP_2PI * i * rFreq);
+        sum.re += x[i].re * (realType)std::cos(-IPP_2PI * i * rFreq);
+        sum.im += x[i].re * (realType)std::sin(-IPP_2PI * i * rFreq);
     }
     REQUIRE(std::abs(sum.re - val.re) < 1e-6);
     REQUIRE(std::abs(sum.im - val.im) < 1e-6);
@@ -68,10 +71,10 @@ TEST_CASE("ipps transform Goertz", "[transform], [Goertz]")
         test_Goertz_real<Ipp64f, Ipp64fc, Ipp64f>();
     }
     SECTION("Ipp32fc"){
-        test_Goertz_complex<Ipp32fc, Ipp32fc, Ipp32f>();
+        test_Goertz_complex<Ipp32fc, Ipp32f>();
     }
     SECTION("Ipp64fc"){
-        test_Goertz_complex<Ipp64fc, Ipp64fc, Ipp64f>();
+        test_Goertz_complex<Ipp64fc, Ipp64f>();
     }
 }
 

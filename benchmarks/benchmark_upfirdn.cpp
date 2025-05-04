@@ -26,7 +26,7 @@ TEST_CASE("Benchmark upfirdn implementations", "[upfirdn],[naive],[FIRMR]")
         {
             filter.filter(
                 data.data(), result.data(),
-                data.size(), result.size()
+                (int)data.size(), (int)result.size()
             );
 
             return 0;

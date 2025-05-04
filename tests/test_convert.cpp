@@ -15,11 +15,11 @@ void test_PolarToCart()
 
     for (int i = 0; i < 10; i++)
     {
-        srcMag[i] = 1 + i;
-        srcPhase[i] = i*0.1;
+        srcMag[i] = (T)(1 + i);
+        srcPhase[i] = (T)(i*0.1);
     }
 
-    ipps::convert::PolarToCart(srcMag.data(), srcPhase.data(), dst.data(), dst.size());
+    ipps::convert::PolarToCart(srcMag.data(), srcPhase.data(), dst.data(), (int)dst.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -29,7 +29,7 @@ void test_PolarToCart()
 
     // Also check that the deinterleaved version is equal
     ipps::convert::PolarToCartDeinterleaved(
-        srcMag.data(), srcPhase.data(), dstRe.data(), dstIm.data(), dstRe.size()
+        srcMag.data(), srcPhase.data(), dstRe.data(), dstIm.data(), (int)dstRe.size()
     );
     for (int i = 0; i < 10; i++)
     {
@@ -55,12 +55,13 @@ void test_CartToPolar()
     ipps::vector<U> dstMag(10);
     ipps::vector<U> dstPhase(10);
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < 10; i++)
     {
-        src[i].re = i;
-        src[i].im = 1 + i;
+        src[i].re = (realType)i;
+        src[i].im = (realType)(1 + i);
     }
-    ipps::convert::CartToPolar(src.data(), dstMag.data(), dstPhase.data(), dstMag.size());
+    ipps::convert::CartToPolar(src.data(), dstMag.data(), dstPhase.data(), (int)dstMag.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -90,10 +91,10 @@ void test_RealToCplx()
 
     for (int i = 0; i < 10; i++)
     {
-        srcRe[i] = 1 + i;
-        srcIm[i] = i*0.1;
+        srcRe[i] = (T)(1 + i);
+        srcIm[i] = (T)(i*0.1);
     }
-    ipps::convert::RealToCplx(srcRe.data(), srcIm.data(), dst.data(), dst.size());
+    ipps::convert::RealToCplx(srcRe.data(), srcIm.data(), dst.data(), (int)dst.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dst[i].re == srcRe[i]);
@@ -102,14 +103,14 @@ void test_RealToCplx()
 
     // Also test zero conversions with null pointers
     // note that the static_cast is required as we didn't handle nullptrs in the template
-    ipps::convert::RealToCplx(static_cast<T*>(nullptr), srcIm.data(), dst.data(), dst.size());
+    ipps::convert::RealToCplx(static_cast<T*>(nullptr), srcIm.data(), dst.data(), (int)dst.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dst[i].re == 0);
         REQUIRE(dst[i].im == srcIm[i]);
     }
 
-    ipps::convert::RealToCplx(srcRe.data(), static_cast<T*>(nullptr), dst.data(), dst.size());
+    ipps::convert::RealToCplx(srcRe.data(), static_cast<T*>(nullptr), dst.data(), (int)dst.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dst[i].re == srcRe[i]);
@@ -137,13 +138,14 @@ void test_CplxToReal()
     ipps::vector<U> dstRe(10);
     ipps::vector<U> dstIm(10);
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < 10; i++)
     {
-        src[i].re = 1 + i;
-        src[i].im = i*0.1;
+        src[i].re = (realType)(1 + i);
+        src[i].im = (realType)(i*0.1);
     }
 
-    ipps::convert::CplxToReal(src.data(), dstRe.data(), dstIm.data(), src.size());
+    ipps::convert::CplxToReal(src.data(), dstRe.data(), dstIm.data(), (int)src.size());
     for (int i = 0; i < 10; i++)
     {
         REQUIRE(dstRe[i] == src[i].re);
@@ -175,11 +177,11 @@ void test_Convert()
     // Write values for src
     for (int i = 0; i < 10; i++)
     {
-        src[i] = 1 + i;
+        src[i] = (T)(1 + i);
     }
 
     // Run conversion
-    ipps::convert::Convert<T, U>(src.data(), dst.data(), src.size());
+    ipps::convert::Convert<T, U>(src.data(), dst.data(), (int)src.size());
 
     // Check
     for (int i = 0; i < 10; i++)
@@ -254,11 +256,11 @@ void test_Convert_Sfs()
     // Write values for src
     for (int i = 0; i < 10; i++)
     {
-        src[i] = 1 + i;
+        src[i] = (T)(1 + i);
     }
 
     // Run conversion
-    ipps::convert::Convert_Sfs<T, U>(src.data(), dst.data(), src.size(), 0); // ignore scalefactor and rndmode
+    ipps::convert::Convert_Sfs<T, U>(src.data(), dst.data(), (int)src.size(), 0); // ignore scalefactor and rndmode
 
     // Check
     for (int i = 0; i < 10; i++)
@@ -373,13 +375,14 @@ void test_Conj()
     ipps::vector<T> x(10);
     ipps::vector<T> y(10);
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < 10; i++)
     {
-        x[i].re = i;
-        x[i].im = i;
+        x[i].re = (realType)i;
+        x[i].im = (realType)i;
     }
 
-    ipps::convert::Conj(x.data(), y.data(), x.size());
+    ipps::convert::Conj(x.data(), y.data(), (int)x.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -406,15 +409,16 @@ void test_Conj_I()
     ipps::vector<T> x(10);
     ipps::vector<T> y(10);
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < 10; i++)
     {
-        x[i].re = i;
-        x[i].im = i;
-        y[i].re = i;
-        y[i].im = i;
+        x[i].re = (realType)i;
+        x[i].im = (realType)i;
+        y[i].re = (realType)i;
+        y[i].im = (realType)i;
     }
 
-    ipps::convert::Conj_I(y.data(), y.size());
+    ipps::convert::Conj_I(y.data(), (int)y.size());
 
     for (int i = 0; i < 10; i++)
     {
@@ -445,11 +449,11 @@ void test_PowerSpectr()
 
     for (int i = 0; i < 10; ++i)
     {
-        xRe[i] = i;
-        xIm[i] = i + 1;
+        xRe[i] = (T)i;
+        xIm[i] = (T)(i + 1);
     }
 
-    ipps::convert::PowerSpectr(xRe.data(), xIm.data(), y.data(), xRe.size());
+    ipps::convert::PowerSpectr(xRe.data(), xIm.data(), y.data(), (int)xRe.size());
 
     for (int i = 0; i < 10; ++i)
     {
@@ -463,13 +467,14 @@ void test_PowerSpectr_complex()
     ipps::vector<T> x(10);
     ipps::vector<U> y(10);
 
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < 10; ++i)
     {
-        x[i].re = i;
-        x[i].im = i + 1;
+        x[i].re = (realType)i;
+        x[i].im = (realType)(i + 1);
     }
 
-    ipps::convert::PowerSpectr(x.data(), y.data(), x.size());
+    ipps::convert::PowerSpectr(x.data(), y.data(), (int)x.size());
 
     for (int i = 0; i < 10; ++i)
     {

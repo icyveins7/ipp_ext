@@ -74,14 +74,14 @@ void test_dft_copy_assign_use(bool test_run)
         REQUIRE(dfts.at(i).getDFTBuf().data() != dft.getDFTBuf().data());
         REQUIRE(dfts.at(i).getMemInit().data() != dft.getMemInit().data());
 
-        for (size_t i = 0; i < dft.getDFTSpec().size(); ++i)
-            REQUIRE(dft.getDFTSpec().at(i) == dfts.at(0).getDFTSpec().at(i));
+        for (size_t j = 0; j < dft.getDFTSpec().size(); ++j)
+            REQUIRE(dft.getDFTSpec().at(j) == dfts.at(0).getDFTSpec().at(j));
 
-        for (size_t i = 0; i < dft.getDFTBuf().size(); ++i)
-            REQUIRE(dft.getDFTBuf().at(i) == dfts.at(0).getDFTBuf().at(i));
+        for (size_t j = 0; j < dft.getDFTBuf().size(); ++j)
+            REQUIRE(dft.getDFTBuf().at(j) == dfts.at(0).getDFTBuf().at(j));
 
-        for (size_t i = 0; i < dft.getMemInit().size(); ++i)
-            REQUIRE(dft.getMemInit().at(i) == dfts.at(0).getMemInit().at(i));
+        for (size_t j = 0; j < dft.getMemInit().size(); ++j)
+            REQUIRE(dft.getMemInit().at(j) == dfts.at(0).getMemInit().at(j));
     }
 
     // Change after assignment

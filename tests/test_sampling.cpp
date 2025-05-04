@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <utility>
 #include <vector>
 #include "ipp_ext.h"
 
@@ -16,12 +17,12 @@ void test_sampleUp()
 
     // Set some values
     for (int i = 0; i < src.size(); i++)
-        src[i] = i;
+        src[i] = (T)i;
 
     // Sample up
-    int dstlen = dst.size();
+    int dstlen = (int)(dst.size());
     ipps::sampling::SampleUp(
-        src.data(), src.size(),
+        src.data(), (int)src.size(),
         dst.data(), &dstlen,
         factor, &phase
     );
@@ -43,10 +44,10 @@ void test_sampleUp()
     REQUIRE(phase == inputPhase); 
 
     // Check error thrown when insufficient length
-    int dstLen = src.size()/(factor+1);
+    int dstLen = (int)(src.size()/(factor+1));
     REQUIRE_THROWS_AS(
         ipps::sampling::SampleDown(
-            src.data(), src.size(),
+            src.data(), (int)src.size(),
             dst.data(), &dstLen,
             factor, &phase
         ),
@@ -63,17 +64,18 @@ void test_sampleUp_cplx()
     ipps::vector<T> src(10);
     ipps::vector<T> dst(src.size()*factor); 
 
+    using realType = decltype(std::declval<T>().re);
     // Set some values
     for (int i = 0; i < src.size(); i++)
     {
-        src[i].re = i;
-        src[i].im = i;
+        src[i].re = (realType)i;
+        src[i].im = (realType)i;
     }
         
     // Sample up
-    int dstlen = dst.size();
+    int dstlen = (int)(dst.size());
     ipps::sampling::SampleUp(
-        src.data(), src.size(),
+        src.data(), (int)src.size(),
         dst.data(), &dstlen,
         factor, &phase
     );
@@ -97,10 +99,10 @@ void test_sampleUp_cplx()
     REQUIRE(phase == inputPhase); 
 
     // Check error thrown when insufficient length
-    int dstLen = src.size()/(factor+1);
+    int dstLen = (int)(src.size()/(factor+1));
     REQUIRE_THROWS_AS(
         ipps::sampling::SampleDown(
-            src.data(), src.size(),
+            src.data(), (int)src.size(),
             dst.data(), &dstLen,
             factor, &phase
         ),
@@ -141,17 +143,17 @@ void test_sampleDown()
     ipps::vector<T> dst(src.size()/factor + 1); 
     // Set some values
     for (int i = 0; i < src.size(); i++)
-        src[i] = i;
+        src[i] = (T)i;
 
 
     for (int initialPhase = 0; initialPhase < factor; initialPhase++)
     {
         int phase = initialPhase;
-        
+
         // Sample down
-        int dstlen = dst.size();
+        int dstlen = (int)dst.size();
         ipps::sampling::SampleDown(
-            src.data(), src.size(),
+            src.data(), (int)src.size(),
             dst.data(), &dstlen,
             factor, &phase
         );
@@ -175,10 +177,10 @@ void test_sampleDown()
 
     // Demonstrate custom error throwing if too short dst length
     int phase = 0;
-    int dstLen = src.size()/(factor+1);
+    int dstLen = (int)(src.size()/(factor+1));
     REQUIRE_THROWS_AS(
         ipps::sampling::SampleDown(
-            src.data(), src.size(),
+            src.data(), (int)src.size(),
             dst.data(), &dstLen,
             factor, &phase
         ),
@@ -195,10 +197,11 @@ void test_sampleDown_cplx()
     ipps::vector<T> src(31);
     ipps::vector<T> dst(src.size()/factor + 1); 
     // Set some values
+    using realType = decltype(std::declval<T>().re);
     for (int i = 0; i < src.size(); i++)
     {
-        src[i].re = i;
-        src[i].im = i;
+        src[i].re = (realType)i;
+        src[i].im = (realType)i;
     }
 
 
@@ -207,9 +210,9 @@ void test_sampleDown_cplx()
         int phase = initialPhase;
         
         // Sample down
-        int dstlen = dst.size();
+        int dstlen = (int)dst.size();
         ipps::sampling::SampleDown(
-            src.data(), src.size(),
+            src.data(), (int)src.size(),
             dst.data(), &dstlen,
             factor, &phase
         );
@@ -234,10 +237,10 @@ void test_sampleDown_cplx()
 
     // Demonstrate custom error throwing if too short dst length
     int phase = 0;
-    int dstLen = src.size()/(factor+1);
+    int dstLen = (int)(src.size()/(factor+1));
     REQUIRE_THROWS_AS(
         ipps::sampling::SampleDown(
-            src.data(), src.size(),
+            src.data(), (int)src.size(),
             dst.data(), &dstLen,
             factor, &phase
         ),
