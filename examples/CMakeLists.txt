@@ -91,3 +91,7 @@ target_link_options(heap_overflow_image_example PUBLIC -fsanitize=address)
 ###########################################################
 add_executable(remap_example remap_example.cpp)
 target_link_libraries(remap_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib})
+
+###########################################################
+add_executable(image_filtermedian_example image_filtermedian_example.cpp)
+target_link_libraries(image_filtermedian_example PUBLIC ${ippcorelib} ${ippslib} ${ippvmlib} ${ippilib})
