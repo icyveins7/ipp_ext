@@ -22,16 +22,28 @@ int main()
     // Make an output image
     ippi::image<Ipp16s, ippi::channels::C1> out(img.size());
 
-    // Run the filter
+    // Run the filter (replicate border)
     filter.filter(img.data(), (int)img.stepBytes(), out.data(), (int)out.stepBytes(), ippBorderRepl, nullptr);
 
     // Print the output
+    printf("Replicated border output\n");
     for (int i = 0; i < out.size().height; i++){
         for (int j = 0; j < out.size().width; j++)
             printf("%3hd ", out.at(i, j));
         printf("\n");
     }
 
+    // Run the filter (constant 0 border)
+    Ipp16s borderConst = 0;
+    filter.filter(img.data(), (int)img.stepBytes(), out.data(), (int)out.stepBytes(), ippBorderConst, &borderConst);
+
+    // Print the outputs
+    printf("Constant border 0 output\n");
+    for (int i = 0; i < out.size().height; i++){
+        for (int j = 0; j < out.size().width; j++)
+            printf("%3hd ", out.at(i, j));
+        printf("\n");
+    }
 
     return 0;
 }
