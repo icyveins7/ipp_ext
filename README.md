@@ -1,7 +1,7 @@
 # ipp_ext
 A bunch of C++ extensions to the Intel Performance Primitives C library. This repository is meant to be compiled directly with your own source code; it requires no separate compilation by itself.
 
-See below for the available extensions. All individual extensions are under the namespace ```ippe```, and can be universally included with
+See below for the available extensions. All individual extensions are under the namespaces ```ipps``` and ```ippi```, which should be familiar to anyone who has used IPP before. Everything can be universally included with
 
 ```cpp
 #include "ipp_ext.h"
