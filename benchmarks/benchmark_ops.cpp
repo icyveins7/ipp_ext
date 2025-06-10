@@ -133,3 +133,80 @@ TEST_CASE("Benchmark generators, length 100000", "[generators]")
         );
     };
 }
+
+TEST_CASE("Benchmark statistics/reductions", "[statistics]")
+{
+    SECTION("32f, length 10000"){
+        const int length = 10000;
+        ipps::vector<Ipp32f> x(length);
+        // Generate random numbers
+        for (int i = 0; i < length; i++)
+        {
+            x[i] = static_cast<Ipp32f>(rand() % 100);
+        }
+        BENCHMARK("std::max_element"){
+            auto max = std::max_element(x.begin(), x.end());
+            return max;
+        };
+
+        BENCHMARK("loop with std::max"){
+            Ipp32f max = x[0];
+            for (int i = 1; i < length; i++)
+                max = std::max(max, x[i]);
+
+            return max;
+        };
+
+        BENCHMARK("ippsMax_32f"){
+            Ipp32f max;
+            ipps::stats::Max(x.data(), (int)x.size(), &max);
+
+            return max;
+        };
+
+        BENCHMARK("ippsMaxIndx_32f"){
+            Ipp32f max;
+            int index;
+            ipps::stats::MaxIndx(x.data(), (int)x.size(), &max, &index);
+
+            return max;
+        };
+    }
+
+    SECTION("32f, length 100000"){
+        const int length = 100000;
+        ipps::vector<Ipp32f> x(length);
+        // Generate random numbers
+        for (int i = 0; i < length; i++)
+        {
+            x[i] = static_cast<Ipp32f>(rand() % 100);
+        }
+        BENCHMARK("std::max_element"){
+            auto max = std::max_element(x.begin(), x.end());
+            return max;
+        };
+
+        BENCHMARK("loop with std::max"){
+            Ipp32f max = x[0];
+            for (int i = 1; i < length; i++)
+                max = std::max(max, x[i]);
+
+            return max;
+        };
+
+        BENCHMARK("ippsMax_32f"){
+            Ipp32f max;
+            ipps::stats::Max(x.data(), (int)x.size(), &max);
+
+            return max;
+        };
+
+        BENCHMARK("ippsMaxIndx_32f"){
+            Ipp32f max;
+            int index;
+            ipps::stats::MaxIndx(x.data(), (int)x.size(), &max, &index);
+
+            return max;
+        };
+    }
+}
