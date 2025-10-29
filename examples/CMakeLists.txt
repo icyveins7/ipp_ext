@@ -30,7 +30,7 @@ elseif (APPLE)
     find_library(ippcorelib NAMES libippcore.a HINTS ENV DYLD_LIBRARY_PATH) # on mac it seems like it's here, even though it's linux based
     find_library(ippslib NAMES libipps.a HINTS ENV DYLD_LIBRARY_PATH)
     find_library(ippvmlib NAMES libippvm.a HINTS ENV DYLD_LIBRARY_PATH)
-    find_library(ippilib NAMES ippi HINTS ENV DYLD_LIBRARY_PATH)
+    find_library(ippilib NAMES libippi.a HINTS ENV DYLD_LIBRARY_PATH)
     message("Libpath: " ${ippcorelib})
     message("Libpath: " ${ippslib})
     message("Libpath: " ${ippvmlib})
